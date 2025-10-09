@@ -1,80 +1,36 @@
 "use client";
+import { ProjectCarousal } from "@/components/ui/ProjectCarousal";
 
-import Image from "next/image";
-import { Tabs } from "@/components/ui/tabs";
-
-export function ProjectData() {
-  const tabs = [
+export function ProjectsData() {
+  const testimonials = [
     {
-      title: "OpenCinema",
-      value: "product",
-      content: (
-        <div
-          className="w-full lg:h-[40rem] overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white gradient3">
-          <p>OpenCinema</p>
-          <OpenCinema />
-        </div>
-      ),
+      quote:
+        "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
+      name: "OpenCinema",
+      link: "https://ik.imagekit.io/xosswhicz/project1.png",
+      src: "https://ik.imagekit.io/xosswhicz/project1.png",
     },
     {
-      title: "Project 2",
-      value: "services",
-      content: (
-        <div
-          className="w-full gradient3 lg:h-[40rem] overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white">
-          <p>Project 2</p>
-          <Project2 />
-        </div>
-      ),
+      quote:
+        "Implementation was seamless and the results exceeded our expectations. The platform's flexibility is remarkable.",
+      name: "Biz-Xpert (Web)",
+      link: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
-      title: "Project 3",
-      value: "playground",
-      content: (
-        <div
-          className="w-full overflow-hidden lg:h-[40rem] relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white gradient3">
-          <p>Project 3</p>
-          <Project3 />
-        </div>
-      ),
+      quote:
+        "This solution has significantly improved our team's productivity. The intuitive interface makes complex tasks simple.",
+      name: "Biz-Xpert (Mobile)",
+      link: "https://images.unsplash.com/photo-1623582854588-d60de57fa33f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      src: "https://images.unsplash.com/photo-1623582854588-d60de57fa33f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
+    {
+      quote:
+        "Outstanding support and robust features. It's rare to find a product that delivers on all its promises.",
+      name: "James Kim",
+      link: "https://images.unsplash.com/photo-1636041293178-808a6762ab39?q=80&w=3464&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      src: "https://images.unsplash.com/photo-1636041293178-808a6762ab39?q=80&w=3464&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    }
   ];
-
-  return (
-    (<div
-      className="h-[30rem] lg:h-[55rem] [perspective:1000px] relative b flex flex-col md:maxw-7xl max-w-5xl mx-auto w-full  items-start justify-start pt-20">
-      <Tabs tabs={tabs} />
-    </div>)
-  );
+  return <ProjectCarousal testimonials={testimonials} />;
 }
-
-const OpenCinema = () => {
-  return (
-    (<img
-      src="https://ik.imagekit.io/xosswhicz/project1.png"
-      alt="opencinema.netlify.app "
-      width="1000"
-      height="1000"
-      className="object-cover object-left-top h-[80%]  md:h-[90%] absolute md:-bottom-10 bottom-5 inset-x-0 w-[90%] rounded-xl mx-auto" />)
-  );
-};
-const Project2 = () => {
-  return (
-    (<img
-      src="https://images.unsplash.com/photo-1725610588150-c4cd8b88affd?q=80&w=3500&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      alt="dummy image"
-      width="1000"
-      height="1000"
-      className="object-cover object-left-top h-[80%]  md:h-[90%] absolute md:-bottom-10 bottom-5 inset-x-0 w-[90%] rounded-xl mx-auto" />)
-  );
-};
-const Project3 = () => {
-  return (
-    (<img
-      src="https://images.unsplash.com/photo-1725615357444-6123528686cf?q=80&w=3569&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      alt="dummy image"
-      width="1000"
-      height="1000"
-      className="object-cover object-left-top h-[80%]  md:h-[90%] absolute md:-bottom-10 bottom-5 inset-x-0 w-[90%] rounded-xl mx-auto" />)
-  );
-};

@@ -1,18 +1,12 @@
-'use client'
-import React from 'react'
-import { SparklesCore } from '@/components/ui/sparkles'
+"use client";
+import React from "react";
+import { SparklesCore } from "@/components/ui/sparkles";
+import HeroText from "./UI/HeroText";
 
-export function SparklesPreview() {
+export function MainText() {
   return (
-    <div className="h-[40rem] w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
-      <div className='flex items-center sm:gap-3 gap-1'>
-        <h1 className="md:text-7xl text-5xl lg:text-9xl font-bold text-center text-white relative z-20">
-          Zubair{' '}
-        </h1>
-        <div className=" bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
-          <span className="text-5xl lg:text-9xl md:text-7xl font-bold">Khan</span>
-        </div>
-      </div>
+    <div className="h-full w-full flex flex-col items-center justify-center overflow-hidden rounded-md">
+      <HeroText variant="desktop" />
       <div className="w-[40rem] h-40 relative">
         {/* Gradients */}
         <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
@@ -34,5 +28,5 @@ export function SparklesPreview() {
         <div className="absolute inset-0 w-full h-full bg-black [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
       </div>
     </div>
-  )
+  );
 }
