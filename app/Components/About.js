@@ -102,15 +102,14 @@ const About = () => {
                 Full Stack Developer
               </h3>
               <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-4">
-                I&apos;m a passionate Full Stack Developer from Lahore,
-                Pakistan. I specialize in crafting fast, responsive web
-                applications using Next.js and TypeScript.
+                I&apos;m a Full Stack Developer from Lahore, Pakistan, focused
+                on building fast and responsive web apps with Next.js and
+                TypeScript.
               </p>
               <p className="text-gray-300 text-base sm:text-lg leading-relaxed">
-                While also building smooth mobile apps with React Native. On the
-                backend, I work with AdonisJS and Node.js to create secure,
-                scalable APIs. My goal is to build clean, maintainable, and
-                modern digital products that make a real impact.
+                I also create mobile apps with React Native and develop secure
+                APIs using AdonisJS and Node.js to deliver clean, scalable
+                digital products.
               </p>
             </div>
           </motion.div>
