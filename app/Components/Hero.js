@@ -4,15 +4,25 @@ import { FloatingDockDemo } from "./floating";
 import { MainText } from "./MainText";
 import DP from "./DP";
 import HeroText from "./UI/HeroText";
+import Image from "next/image";
 
 export function Hero() {
   return (
     <BackgroundBeamsWithCollision>
-      <div className="flex flex-col">
-        <div className="w-screen bottom-0 z-50 sm:top-6 sm:left-0 left-0 h-16 absolute">
+      <div className="flex flex-col bg-black">
+        <div className="w-screen z-50 sm:top-6 left-0 h-16 absolute">
           <FloatingDockDemo />
         </div>
-        <div className="w-screen h-screen flex sm:items-center sm:flex-row flex-col">
+        <div className="pl-7 sm:hidden block">
+          <Image
+            alt="logo"
+            width={500}
+            height={500}
+            src={"/logo.png"}
+            className="w-10 h-10 absolute top-5"
+          />
+        </div>
+        <div className="w-screen h-dvh flex sm:items-center sm:flex-row flex-col">
           <div className="w-[50%] h-full sm:flex hidden">
             <MainText />
           </div>

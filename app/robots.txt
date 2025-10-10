@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://zubairbinshaukat.vercel.app/sitemap.xml

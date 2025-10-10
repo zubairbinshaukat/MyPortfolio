@@ -7,7 +7,7 @@ const HeroText = ({ variant = "desktop" }) => {
       <div className="sm:hidden flex flex-col justify-center w-full h-[50%] pl-8">
         <HelloCard />
         <p className="text-white font-bold text-2xl font-font2 mt-2">{"I'm"}</p>
-        <h1 className="md:text-7xl text-5xl lg:text-[108px] font-font2 font-bold text-white relative z-20 ">
+        <h1 className="md:text-7xl text-5xl lg:text-[108px] font-font2 font-bold dark:text-white text-black relative z-20 ">
           ZUBAIR
         </h1>
         <div className=" bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4 -mt-6">
