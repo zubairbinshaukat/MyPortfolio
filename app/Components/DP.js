@@ -6,10 +6,10 @@ const DP = () => {
   return (
     <div className=" w-full h-full flex items-end justify-center pb-0">
       {/* Container for profile and labels */}
-      <div className="relative w-full max-w-[700px] aspect-square">
+      <div className="relative w-full max-w-[700px] max-h-[600px] aspect-square">
         {/* Background decorative blob */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="sm:w-[90%] sm:h-[90%] w-[80%] h-[80%] bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] opacity-80 animate-pulse" />
+          <div className="sm:max-w-[80%] sm:h-[90%] w-[80%] h-[80%] bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] opacity-80 animate-pulse" />
         </div>
 
         {/* Web Developer Label - Behind image, top left */}
@@ -29,7 +29,7 @@ const DP = () => {
             alt="Zubair Bin Shaukat - Software Developer"
             width={700}
             height={700}
-            className="w-full h-auto object-contain sm:w-[90%] md:w-full"
+            className="w-full h-auto object-contain sm:w-[90%] max-h-[100vh] md:w-full"
             priority
           />
         </div>
