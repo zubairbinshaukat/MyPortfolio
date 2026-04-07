@@ -27,7 +27,7 @@ export const HelloCard = () => {
 
       {/* Centered Text */}
       <h1 className="text-3xl font-yatra font-bold text-gray-900 dark:text-gray-100">
-        Hello!
+        Hi!
       </h1>
     </div>
   );

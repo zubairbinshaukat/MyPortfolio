@@ -9,17 +9,47 @@ import About from "./Components/About";
 import Testimonials from "./Components/Testimonials";
 import Contact from "./Components/Contact";
 
+// Stable constant outside component — prevents unnecessary effect re-runs
+const SECTIONS = ["hero", "about", "projects", "testimonials", "contact"];
+
+// Paper stack animation:
+//   Scroll DOWN (direction=1):  current page shrinks up into the "stack", new page rises from below
+//   Scroll UP   (direction=-1): current page drops back down, previous page expands out of the stack
+const stackVariants = {
+  enter: (direction) => ({
+    y: direction > 0 ? "100%" : "-5%",
+    scale: direction > 0 ? 1 : 0.92,
+    opacity: direction > 0 ? 1 : 0,
+  }),
+  center: {
+    y: "0%",
+    scale: 1,
+    opacity: 1,
+  },
+  exit: (direction) => ({
+    y: direction > 0 ? "-5%" : "100%",
+    scale: direction > 0 ? 0.92 : 1,
+    opacity: direction > 0 ? 0 : 1,
+  }),
+};
+
 const Page = () => {
   const [currentSection, setCurrentSection] = useState("hero");
   const [direction, setDirection] = useState(1);
   const [showTutorial, setShowTutorial] = useState(false);
   const [tutorialDot, setTutorialDot] = useState(0);
-  const sections = ["hero", "about", "projects", "testimonials", "contact"];
   const isScrollingRef = useRef(false);
 
+  // Ref keeps event handlers up-to-date with current section without
+  // requiring the effect to re-register on every render
+  const currentSectionRef = useRef(currentSection);
+  useEffect(() => {
+    currentSectionRef.current = currentSection;
+  }, [currentSection]);
+
   const navigateToSection = (section) => {
-    const currentIndex = sections.indexOf(currentSection);
-    const targetIndex = sections.indexOf(section);
+    const currentIndex = SECTIONS.indexOf(currentSectionRef.current);
+    const targetIndex = SECTIONS.indexOf(section);
     setDirection(targetIndex > currentIndex ? 1 : -1);
     setCurrentSection(section);
   };
@@ -53,44 +83,42 @@ const Page = () => {
     return () => clearTimeout(tutorialStartTimeout);
   }, []);
 
-  // Handle scroll and touch navigation
+  // Scroll / touch navigation — registered once, reads section via ref
   useEffect(() => {
     let touchStartY = 0;
     let touchEndY = 0;
     let touchStartX = 0;
     let hasMoved = false;
 
+    const goToNext = () => {
+      const idx = SECTIONS.indexOf(currentSectionRef.current);
+      if (idx < SECTIONS.length - 1) {
+        setDirection(1);
+        setCurrentSection(SECTIONS[idx + 1]);
+      }
+    };
+
+    const goToPrev = () => {
+      const idx = SECTIONS.indexOf(currentSectionRef.current);
+      if (idx > 0) {
+        setDirection(-1);
+        setCurrentSection(SECTIONS[idx - 1]);
+      }
+    };
+
     const handleWheel = (e) => {
       e.preventDefault();
-
       if (isScrollingRef.current) return;
-      isScrollingRef.current = true;
+      // Ignore micro-scrolls (trackpad inertia tail)
+      if (Math.abs(e.deltaY) < 20) return;
 
+      isScrollingRef.current = true;
       setTimeout(() => {
         isScrollingRef.current = false;
-      }, 1000);
+      }, 900);
 
-      if (e.deltaY > 0) {
-        // Scroll down - go to next
-        setCurrentSection((current) => {
-          const currentIndex = sections.indexOf(current);
-          if (currentIndex < sections.length - 1) {
-            setDirection(1);
-            return sections[currentIndex + 1];
-          }
-          return current;
-        });
-      } else if (e.deltaY < 0) {
-        // Scroll up - go to previous
-        setCurrentSection((current) => {
-          const currentIndex = sections.indexOf(current);
-          if (currentIndex > 0) {
-            setDirection(-1);
-            return sections[currentIndex - 1];
-          }
-          return current;
-        });
-      }
+      if (e.deltaY > 0) goToNext();
+      else goToPrev();
     };
 
     const handleTouchStart = (e) => {
@@ -104,14 +132,12 @@ const Page = () => {
       touchEndY = e.touches[0].clientY;
       const touchCurrentX = e.touches[0].clientX;
 
-      // Check if user has moved vertically more than horizontally
       const verticalDistance = Math.abs(touchEndY - touchStartY);
       const horizontalDistance = Math.abs(touchCurrentX - touchStartX);
 
       if (verticalDistance > horizontalDistance && verticalDistance > 10) {
         hasMoved = true;
-        // Prevent pull-to-refresh when not on first section or swiping down from non-first section
-        const currentIdx = sections.indexOf(currentSection);
+        const currentIdx = SECTIONS.indexOf(currentSectionRef.current);
         const isSwipingDown = touchEndY > touchStartY;
         if (currentIdx > 0 || !isSwipingDown) {
           e.preventDefault();
@@ -123,35 +149,14 @@ const Page = () => {
       if (isScrollingRef.current || !hasMoved) return;
 
       const swipeDistance = touchStartY - touchEndY;
-      const minSwipeDistance = 50;
-
-      if (Math.abs(swipeDistance) > minSwipeDistance) {
+      if (Math.abs(swipeDistance) > 50) {
         isScrollingRef.current = true;
         setTimeout(() => {
           isScrollingRef.current = false;
-        }, 1000);
+        }, 900);
 
-        if (swipeDistance > 0) {
-          // Swiped up - go to next
-          setCurrentSection((current) => {
-            const currentIndex = sections.indexOf(current);
-            if (currentIndex < sections.length - 1) {
-              setDirection(1);
-              return sections[currentIndex + 1];
-            }
-            return current;
-          });
-        } else {
-          // Swiped down - go to previous
-          setCurrentSection((current) => {
-            const currentIndex = sections.indexOf(current);
-            if (currentIndex > 0) {
-              setDirection(-1);
-              return sections[currentIndex - 1];
-            }
-            return current;
-          });
-        }
+        if (swipeDistance > 0) goToNext();
+        else goToPrev();
       }
     };
 
@@ -166,7 +171,7 @@ const Page = () => {
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [currentSection, sections]);
+  }, []); // empty — stable via ref
 
   const getSectionComponent = (section) => {
     switch (section) {
@@ -185,24 +190,8 @@ const Page = () => {
     }
   };
 
-  const currentIndex = sections.indexOf(currentSection);
+  const currentIndex = SECTIONS.indexOf(currentSection);
   const isFirst = currentIndex === 0;
-
-  // Animation variants based on direction
-  const slideVariants = {
-    enter: (direction) => ({
-      y: direction > 0 ? "100%" : "-100%",
-      opacity: 0,
-    }),
-    center: {
-      y: 0,
-      opacity: 1,
-    },
-    exit: (direction) => ({
-      y: direction > 0 ? "-100%" : "100%",
-      opacity: 0,
-    }),
-  };
 
   return (
     <div className="relative w-screen h-dvh overflow-hidden">
@@ -210,11 +199,15 @@ const Page = () => {
         <motion.div
           key={currentSection}
           custom={direction}
-          variants={slideVariants}
+          variants={stackVariants}
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }}
+          transition={{
+            duration: 0.55,
+            ease: [0.32, 0.72, 0, 1],
+          }}
+          style={{ transformOrigin: "top center" }}
           className="absolute inset-0 w-full h-full"
         >
           {getSectionComponent(currentSection)}
@@ -288,7 +281,7 @@ const Page = () => {
 
       {/* Section Indicators with Tutorial Animation */}
       <div className="fixed sm:right-6 right-2 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-4">
-        {sections.map((section, index) => {
+        {SECTIONS.map((section, index) => {
           const isActive = showTutorial
             ? index === tutorialDot
             : currentSection === section;

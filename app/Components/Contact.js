@@ -8,296 +8,224 @@ import {
   IconMapPin,
   IconBrandGithub,
   IconBrandLinkedin,
-  IconBrandTwitter,
-  IconSend,
   IconBrandInstagram,
   IconBrandFacebook,
+  IconBrandTwitter,
+  IconSend,
+  IconTerminal2,
+  IconArrowUpRight,
 } from "@tabler/icons-react";
 
+const CONTACT_INFO = [
+  {
+    icon: IconMail,
+    label: "Email",
+    value: "zubairbinshaukat4455@gmail.com",
+    href: "mailto:zubairbinshaukat4455@gmail.com",
+    accent: "#A78BFA",
+  },
+  {
+    icon: IconPhone,
+    label: "Phone",
+    value: "+92 314 87 97 500",
+    href: "tel:+923148797500",
+    accent: "#EC4899",
+  },
+  {
+    icon: IconMapPin,
+    label: "Location",
+    value: "Lahore, Pakistan",
+    href: "https://www.google.com/maps/place/Lahore,+Pakistan/",
+    accent: "#F97316",
+  },
+];
+
+const SOCIALS = [
+  { icon: IconBrandGithub, label: "GitHub", href: "https://github.com/zubairbinshaukat", accent: "#fff" },
+  { icon: IconBrandLinkedin, label: "LinkedIn", href: "https://linkedin.com/in/zubairbinshaukat", accent: "#0A66C2" },
+  { icon: IconBrandInstagram, label: "Instagram", href: "https://instagram.com/zubairbinshaukat", accent: "#E1306C" },
+  { icon: IconBrandFacebook, label: "Facebook", href: "https://facebook.com/zubairbinshaukat1", accent: "#1877F2" },
+  { icon: IconBrandTwitter, label: "Twitter", href: "https://twitter.com/zubairbinshaukt", accent: "#1DA1F2" },
+];
+
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [sending, setSending] = useState(false);
 
-  const [isFocused, setIsFocused] = useState({
-    name: false,
-    email: false,
-    subject: false,
-    message: false,
-  });
+  const handleChange = (e) =>
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const contactInfo = [
-    {
-      icon: IconMail,
-      label: "Email",
-      value: "zubairbinshaukat4455@gmail.com",
-      link: "mailto:zubairbinshaukat4455@gmail.com",
-      color: "from-purple-500 to-violet-500",
-    },
-    {
-      icon: IconPhone,
-      label: "Phone",
-      value: "+92 314 87 97 500",
-      link: "tel:+923148797500",
-      color: "from-violet-500 to-pink-500",
-    },
-    {
-      icon: IconMapPin,
-      label: "Location",
-      value: "Lahore, Pakistan",
-      link: "https://www.google.com/maps/place/Lahore,+Pakistan/",
-      color: "from-pink-500 to-purple-500",
-    },
-  ];
-
-  const socialLinks = [
-    {
-      icon: IconBrandInstagram,
-      label: "Instagram",
-      link: "https://instagram.com/zubairbinshaukat",
-      color: "hover:text-pink-400",
-    },
-    {
-      icon: IconBrandGithub,
-      label: "GitHub",
-      link: "https://github.com/zubairbinshaukat",
-      color: "hover:text-purple-400",
-    },
-    {
-      icon: IconBrandLinkedin,
-      label: "LinkedIn",
-      link: "https://linkedin.com/in/zubairbinshaukat",
-      color: "hover:text-violet-400",
-    },
-    {
-      icon: IconBrandFacebook,
-      label: "Facebook",
-      link: "https://facebook.com/zubairbinshaukat1",
-      color: "hover:text-pink-400",
-    },
-    {
-      icon: IconBrandTwitter,
-      label: "Twitter",
-      link: "https://twitter.com/zubairbinshaukt",
-      color: "hover:text-pink-400",
-    },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSending(true);
+    await new Promise((r) => setTimeout(r, 1200));
+    setSending(false);
+    setFormData({ name: "", email: "", message: "" });
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+  const fadeUp = {
+    hidden: { y: 16, opacity: 0, filter: "blur(6px)" },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.5 },
+      filter: "blur(0px)",
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
     },
   };
 
+  const inputBase =
+    "w-full rounded-xl px-4 py-3 text-sm text-white/80 placeholder-white/20 outline-none transition-all duration-200 focus:border-purple-500/40 focus:ring-1 focus:ring-purple-500/20";
+
+  const inputBg = {
+    background: "rgba(255,255,255,0.03)",
+    border: "1px solid rgba(255,255,255,0.07)",
+    fontFamily: "'DM Sans', sans-serif",
+  };
+
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated background */}
-      <div className="absolute inset-0 z-10">
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            rotate: [0, 180, 360],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/4 right-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
-        />
-        <motion.div
-          animate={{
-            scale: [1.3, 1, 1.3],
-            rotate: [360, 180, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
-        />
-      </div>
+    <section className="relative w-screen h-dvh flex items-center justify-center overflow-hidden">
+      {/* Grid texture */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.025]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      {/* Ambient glows */}
+      <div
+        className="pointer-events-none absolute -bottom-20 -left-20 w-[500px] h-[500px] z-[2]"
+        style={{ background: "radial-gradient(circle, rgba(168,85,247,0.06) 0%, transparent 70%)" }}
+      />
+      <div
+        className="pointer-events-none absolute -top-20 -right-20 w-[400px] h-[400px] z-[2]"
+        style={{ background: "radial-gradient(circle, rgba(97,218,251,0.04) 0%, transparent 70%)" }}
+      />
 
       <motion.div
-        variants={containerVariants}
         initial="hidden"
-        animate="visible"
-        className="relative z-10 max-w-2xl mx-auto px-6 sm:px-12 py-8 w-full"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.07, delayChildren: 0.15 } },
+        }}
+        className="relative z-10 w-full max-w-5xl flex justify-center px-5 sm:px-8 gap-8 lg:gap-14 items-center"
       >
-        {/* Header */}
-        <motion.div variants={itemVariants} className="text-center mb-8">
-          <h2 className="text-4xl sm:text-6xl font-bold text-white mb-4">
-            Get In{" "}
-            <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">
-              Touch
-            </span>
-          </h2>
-          <p className="text-gray-300 text-lg">
-            {"Let's work together on your next project"}
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 mx-auto rounded-full mt-4" />
-        </motion.div>
-
-        <div className="flex items-center justify-center">
-          {/* Contact Info */}
-          <motion.div variants={itemVariants} className="space-y-6 w-full">
-            {/* Contact Cards */}
-            {contactInfo.map((info, index) => (
-              <motion.a
-                key={index}
-                href={info.link}
-                whileHover={{ scale: 1.02, x: 10 }}
-                whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-4 bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:border-white/40 transition-all duration-300 group"
-              >
-                <div
-                  className={`p-4 bg-gradient-to-r ${info.color} rounded-xl group-hover:scale-110 transition-transform duration-300`}
-                >
-                  <info.icon className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">{info.label}</p>
-                  <p className="text-white font-semibold sm:text-lg text-sm text-wrap">
-                    {info.value}
-                  </p>
-                </div>
-              </motion.a>
-            ))}
-
-            {/* Social Links */}
-            <motion.div
-              variants={itemVariants}
-              className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20"
+        {/* ═══════ Left: Info ═══════ */}
+        <div className="flex flex-col max-w-[420px]">
+          {/* Tag */}
+          <motion.div variants={fadeUp} className="flex items-center gap-2 mb-4">
+            <IconTerminal2 className="w-4 h-4" style={{ color: "#A855F7" }} stroke={2} />
+            <span
+              className="text-[11px] tracking-[0.25em] uppercase font-semibold"
+              style={{ color: "rgba(168,85,247,0.7)", fontFamily: "'JetBrains Mono', 'Fira Code', monospace" }}
             >
-              <h3 className="text-white font-semibold text-xl mb-4">
-                Follow Me
-              </h3>
-              <div className="flex justify-center gap-4">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={index}
-                    href={social.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.2, rotate: 5 }}
-                    whileTap={{ scale: 0.9 }}
-                    className={`p-3 bg-white/10 rounded-xl border border-white/20 hover:border-white/40 transition-all duration-300 ${social.color}`}
-                  >
-                    <social.icon className="w-6 h-6 text-white" />
-                  </motion.a>
-                ))}
-              </div>
-            </motion.div>
+              get in touch
+            </span>
           </motion.div>
 
-          {/* Contact Form */}
-          {/* <motion.div variants={itemVariants}>
-            <form onSubmit={handleSubmit} className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 sm:p-8 border border-white/20 space-y-4">
-              <div className="relative">
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  onFocus={() => setIsFocused({ ...isFocused, name: true })}
-                  onBlur={() => setIsFocused({ ...isFocused, name: false })}
-                  required
-                  className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 transition-all duration-300"
-                  placeholder="Your Name"
-                />
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: isFocused.name ? "100%" : 0 }}
-                  className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 rounded-full"
-                />
-              </div>
+          {/* Heading */}
+          <motion.h2
+            variants={fadeUp}
+            className="text-[clamp(1.8rem,5vw,3.2rem)] font-extrabold leading-[1.1] tracking-tight text-white/90 mb-3"
+            style={{ fontFamily: "'Outfit', 'Sora', sans-serif" }}
+          >
+            Let&apos;s build
+            <br />
+            <span
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: "linear-gradient(135deg, #A855F7 0%, #EC4899 50%, #F97316 100%)" }}
+            >
+              something great
+            </span>
+          </motion.h2>
 
-              <div className="relative">
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  onFocus={() => setIsFocused({ ...isFocused, email: true })}
-                  onBlur={() => setIsFocused({ ...isFocused, email: false })}
-                  required
-                  className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 transition-all duration-300"
-                  placeholder="Your Email"
-                />
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: isFocused.email ? "100%" : 0 }}
-                  className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 rounded-full"
-                />
-              </div>
+          <motion.p
+            variants={fadeUp}
+            className="text-white/30 text-sm leading-[1.7] mb-6 max-w-md"
+            style={{ fontFamily: "'DM Sans', sans-serif" }}
+          >
+            Got a project in mind or want to explore working together? Drop me a
+            message and I&apos;ll get back to you within 24 hours.
+          </motion.p>
 
-              <div className="relative">
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  onFocus={() => setIsFocused({ ...isFocused, subject: true })}
-                  onBlur={() => setIsFocused({ ...isFocused, subject: false })}
-                  required
-                  className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 transition-all duration-300"
-                  placeholder="Subject"
-                />
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: isFocused.subject ? "100%" : 0 }}
-                  className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 rounded-full"
-                />
-              </div>
-
-              <div className="relative">
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  onFocus={() => setIsFocused({ ...isFocused, message: true })}
-                  onBlur={() => setIsFocused({ ...isFocused, message: false })}
-                  required
-                  rows={4}
-                  className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 transition-all duration-300 resize-none"
-                  placeholder="Your Message"
-                />
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: isFocused.message ? "100%" : 0 }}
-                  className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 rounded-full"
-                />
-              </div>
-
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 hover:from-purple-600 hover:via-violet-600 hover:to-pink-600 text-white font-semibold py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
+          {/* ── Contact Info Rows ── */}
+          <motion.div variants={fadeUp} className="flex flex-col gap-2.5 mb-6">
+            {CONTACT_INFO.map((item, i) => (
+              <a
+                key={i}
+                href={item.href}
+                target={item.label === "Location" ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className="group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:translate-x-1"
+                style={{
+                  background: "rgba(255,255,255,0.025)",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                }}
               >
-                <span>Send Message</span>
-                <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                  style={{ background: `${item.accent}12` }}
                 >
-                  <IconSend className="w-5 h-5" />
-                </motion.div>
-              </motion.button>
-            </form>
-          </motion.div> */}
+                  <item.icon className="w-4 h-4" style={{ color: item.accent }} stroke={1.8} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p
+                    className="text-[10px] font-semibold text-white/20 uppercase tracking-wider mb-0.5"
+                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                  >
+                    {item.label}
+                  </p>
+                  <p
+                    className="text-sm text-white/50 group-hover:text-white/70 transition-colors truncate"
+                    style={{ fontFamily: "'DM Sans', sans-serif" }}
+                  >
+                    {item.value}
+                  </p>
+                </div>
+                <IconArrowUpRight
+                  className="w-3.5 h-3.5 text-white/10 group-hover:text-white/30 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0"
+                  stroke={2}
+                />
+              </a>
+            ))}
+          </motion.div>
+
+          {/* ── Social Icons ── */}
+          <motion.div variants={fadeUp} className="flex items-center gap-2">
+            {SOCIALS.map((social, i) => (
+              <motion.a
+                key={i}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -3, scale: 1.1 }}
+                whileTap={{ scale: 0.92 }}
+                className="w-9 h-9 rounded-lg flex items-center justify-center transition-colors duration-200"
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+                title={social.label}
+              >
+                <social.icon
+                  className="w-4 h-4 text-white/30 transition-colors duration-200"
+                  stroke={1.5}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = social.accent)}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.3)")}
+                />
+              </motion.a>
+            ))}
+          </motion.div>
         </div>
+
+        {/* ═══════ Right: Form Card ═══════ */}
+        
       </motion.div>
-    </div>
+    </section>
   );
 };
 
