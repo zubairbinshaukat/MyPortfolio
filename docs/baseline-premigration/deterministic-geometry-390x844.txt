@@ -1,0 +1,65 @@
+DIV||0|0|390|844|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||0|0|390|844|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||0|0|390|844|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0))
+DIV||0|0|390|844|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||0|0|390|64|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||0|0|390|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||322|-20|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+BUTTON||322|-20|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+svg||332|-10|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(163, 163, 163)|none
+path||335|-7|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(163, 163, 163)|none
+path||335|3|13|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(163, 163, 163)|none
+path||340|-3|3|2|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(163, 163, 163)|none
+DIV||0|0|390|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+IMG||28|20|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(0, 0, 0, 0)|none
+DIV||0|0|390|844|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+CANVAS||0|0|0|0
+DIV||0|0|390|422|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||32|108|73|62|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+svg||21|97|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||27|103|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||92|97|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||98|103|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||21|157|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||27|163|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||92|157|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||98|163|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H1|Hi!|49|121|39|36|__Yatra_One_4f563a, __Yatra_One_Fallback|30px|700|rgb(243, 244, 246)|none
+P|I'm|32|178|358|32|Font2, sans-serif|24px|700|rgb(255, 255, 255)|none
+H1|ZUBAIR|32|210|358|48|Font2, sans-serif|48px|700|rgb(255, 255, 255)|none
+DIV||32|234|358|80|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(0, 0, 0, 0)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+SPAN|Bin Shaukat|32|244|226|60|Font0, sans-serif|48px|500|rgba(0, 0, 0, 0)|none
+DIV||39|422|312|422|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||39|422|312|422|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||39|532|312|312|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||39|532|312|312|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||70|563|250|250|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||45|538|146|44|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||45|538|146|44|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV|Web Developer|42|524|152|73|ui-sans-serif, system-ui, sans-serif, "A|14px|600|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||39|532|312|312|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+IMG||39|289|312|555|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(0, 0, 0, 0)|none
+DIV||205|753|161|44|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||205|753|161|44|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV|Mobile Developer|203|745|165|61|ui-sans-serif, system-ui, sans-serif, "A|14px|600|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||339|672|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||339|672|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||321|610|8|8|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||321|610|8|8|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||0|844|390|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||372|365|10|114|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+BUTTON||372|365|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||371|364|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV|hero|310|356|50|28|ui-sans-serif, system-ui, sans-serif, "A|12px|400|rgb(255, 255, 255)|none
+BUTTON||372|391|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||371|390|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV|about|303|382|57|28|ui-sans-serif, system-ui, sans-serif, "A|12px|400|rgb(255, 255, 255)|none
+BUTTON||372|417|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||371|416|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV|projects|294|408|66|28|ui-sans-serif, system-ui, sans-serif, "A|12px|400|rgb(255, 255, 255)|none
+BUTTON||372|443|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||372|443|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV|testimonials|271|434|89|28|ui-sans-serif, system-ui, sans-serif, "A|12px|400|rgb(255, 255, 255)|none
+BUTTON||372|469|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||371|468|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV|contact|295|460|65|28|ui-sans-serif, system-ui, sans-serif, "A|12px|400|rgb(255, 255, 255)|none
