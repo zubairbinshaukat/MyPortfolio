@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import dp from "/public/dp.png";
+import dp from "@/public/dp.png";
 
 const DP = () => {
   return (
