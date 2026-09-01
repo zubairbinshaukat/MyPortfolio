@@ -276,15 +276,49 @@ components/ui/hello-card.js
 
 **Nothing was suppressed and no rule was relaxed.** These are left as-is because fixing them means refactoring live, hero-critical components, which the brief forbids during migration. **They block nothing:** Next 16's `next build` no longer runs linting, so build and deploy are unaffected. See [§7](#7-deferred).
 
-### 5.4 `next dev` writes `AGENTS.md` and `CLAUDE.md`
+### 5.4 Invalid `<p>` nesting in `app/page.js` — fixed
+
+React 19 reported, in dev mode only:
+
+```
+<p> cannot contain a nested <p>.
+In HTML, <p> cannot be a descendant of <p>. This will cause a hydration error.
+  at Page (app/page.js:264)
+```
+
+The "Scroll to explore" tutorial hint wrapped a styled `<p>` inside a `motion.p`:
+
+```diff
+-              <motion.p
++              <motion.div
+                 animate={({ opacity: [0.7, 1, 0.7] }, { y: [0, -8, 0] })}
+                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                 className=""
+               >
+                 <p className="text-white/70 text-sm font-medium tracking-wide text-nowrap">
+                   Scroll to explore
+                 </p>
+-              </motion.p>
++              </motion.div>
+```
+
+**Pre-existing, not caused by the migration.** `<p>` inside `<p>` has always been invalid HTML — the browser's parser closes the outer `<p>` early, so the server and client trees disagree. React 18 flagged it too via `validateDOMNesting`; React 19 simply states the hydration consequence more plainly.
+
+The outer element carried `className=""` and existed purely as an animation wrapper, so `motion.div` is the minimal fix: the inner `<p>` keeps its classes, and Tailwind's preflight already zeroes `<p>` margins, so nothing moves. **Verified: 0.0000% pixel difference at all four viewports** against the pre-fix Next 16 build.
+
+**Why the earlier verification missed it — a real gap.** [§6](#6-verification-results) reported "zero hydration warnings", measured on the **production** build. React strips `validateDOMNesting` warnings from production builds, so a production console capture *cannot* surface this class of bug. Dev-mode checking was added afterwards and now sweeps all five sections at mobile and desktop. The detector was validated by reverting the fix and confirming it reproduces both errors, then re-applying it.
+
+Note the errors appear at **desktop** as well as mobile: the hint is `sm:hidden`, which only hides it with CSS — the node is still mounted, so React still validates it.
+
+### 5.5 `next dev` writes `AGENTS.md` and `CLAUDE.md`
 
 Next 16 generates both on `next dev` and re-creates them if deleted. Committed so the working tree stays clean. Disable with `agentRules: false` in `next.config.mjs` if unwanted.
 
-### 5.5 `npm ls` reports `@img/sharp-wasm32` as extraneous
+### 5.6 `npm ls` reports `@img/sharp-wasm32` as extraneous
 
 Persists after a clean `npm ci`. It is one of `sharp`'s optional platform packages, `sharp` is an optional dependency of `next@16.3.4`, and the package **is** present in `package-lock.json`. Cosmetic npm accounting for optional platform binaries; it does not affect the build.
 
-### 5.6 What to watch in production
+### 5.7 What to watch in production
 
 1. **First paint of the hero fonts.** The custom `@font-face` faces in `app/globals.css:5-24` still declare no `font-display`, so the FOIT window is unchanged — but Turbopack emits CSS differently from webpack, which can shift *when* those faces resolve. Deliberately not fixed here (`PLAN.md` C14). Watch the hero on a cold, throttled load.
 2. **Total Blocking Time.** Consistently ~330 ms worse (see [§6](#lighthouse)). Real, and expected from React 19 + framer-motion 13.
@@ -300,7 +334,7 @@ Persists after a clean `npm ci`. It is one of `sharp`'s optional platform packag
 | Every route still `○ Static` | ✅ All four — `/`, `/_not-found`, `/robots.txt`, `/sitemap.xml`. **No route flipped to `ƒ`.** |
 | Route sizes vs baseline | ⚠️ Comparable for 14 → 15 only; Next 16 removed the columns. `/` grew **202 kB → 221 kB** First Load JS (+9.4%) from React 19 + framer-motion 13. |
 | `npm run start` — all routes load | ✅ `/` 200, `/robots.txt` 200, `/sitemap.xml` 200, unknown path 404 — identical to baseline. `robots.txt` byte-identical; `sitemap.xml` differs only in its `new Date()` build timestamp; content types unchanged. |
-| **Zero hydration warnings** | ✅ Zero console output of any kind, in the production build, at all four viewports, across all five section transitions. |
+| **Zero hydration warnings** | ✅ Production build: zero console output of any kind, at all four viewports, across all five section transitions. ✅ **Dev build:** zero DOM-nesting / hydration warnings at 390 and 1440 across all five sections, after the [§5.4](#54-invalid-p-nesting-in-apppagejs--fixed) fix. Both are needed — React strips nesting warnings from production builds, so the production sweep alone would not have caught §5.4. |
 | `npm run dev` — HMR works | ✅ Ready in 4.4 s. An edit to `app/layout.js` propagated live (`<title>` changed, then reverted). |
 | Interactions | ✅ All five sections navigate and render correct content; dot nav works; dock links hover; **styled-jsx (`About.js:251` marquee) compiles under Turbopack** — `.animate-marquee` and `@keyframes marquee` are present exactly when About is mounted and absent otherwise, so scoping is still correct. |
 | Hero pixel-identical at 390 / 640 / 1440 | ⚠️ Geometry and typography **exactly identical** at all four widths (390, 639, 640, 1440), including the `sm:` variant swap at 639→640 (65 → 73 elements). One rendering delta: text AA mode — [§5.1](#51-text-anti-aliasing-changed--the-one-genuine-rendering-delta). Hop 15 → 16 in isolation: **0.0000%**. |
@@ -380,6 +414,25 @@ Left untouched for `PLAN.md`, so nothing falls between the two documents:
 | Font loading: no `font-display` on the three `@font-face` rules; unsubsetted TTFs | `app/globals.css:5-24` | `PLAN.md` C14. |
 | `<img>` → `next/image` for the dicebear avatars | `app/Components/Testimonials.js:231` | Source of the surviving `no-img-element` warning. Needs the `dangerouslyAllowSVG` / CSP decision in [§3](#nextimage-config-changes-next-16). |
 | `react-hooks/exhaustive-deps` on `parentRef` | `components/ui/background-beams-with-collision.js:134` | Pre-existing; fixing it changes live hero behaviour. |
+| **Dead opacity animation** on the "Scroll to explore" hint | `app/page.js:265` | Found while fixing [§5.4](#54-invalid-p-nesting-in-apppagejs--fixed). See below. |
+
+### The dead animation at `app/page.js:265`
+
+Spotted while fixing the nested `<p>`, and deliberately **not** changed:
+
+```js
+animate={({ opacity: [0.7, 1, 0.7] }, { y: [0, -8, 0] })}
+```
+
+Those are two object literals joined by the **comma operator**, not a merged object. JavaScript evaluates the first, discards it, and yields only the second — so `animate` receives `{ y: [0, -8, 0] }` and the opacity pulse has never run. The browser's own hydration stack trace confirms it: `<motion.p animate={{y:[...]}}>`.
+
+The intended form is almost certainly:
+
+```js
+animate={{ opacity: [0.7, 1, 0.7], y: [0, -8, 0] }}
+```
+
+Left alone because fixing it **adds a visual effect that does not currently exist** — a pulsing opacity on the mobile tutorial hint. That is a behaviour change, not a migration fix, and it belongs in a commit where it can be reviewed on its own merits.
 
 **Three decisions I did not make for you:**
 

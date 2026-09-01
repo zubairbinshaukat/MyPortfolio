@@ -52,14 +52,14 @@ BUTTON||621|393|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0
 DIV||620|392|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
 DIV|hero|559|384|50|28|ui-sans-serif, system-ui, sans-serif, "A|12px|400|rgb(255, 255, 255)|none
 BUTTON||621|419|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
-DIV||620|418|11|11|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||620|418|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
 DIV|about|552|410|57|28|ui-sans-serif, system-ui, sans-serif, "A|12px|400|rgb(255, 255, 255)|none
 BUTTON||621|445|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
 DIV||621|445|11|11|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
 DIV|projects|543|436|66|28|ui-sans-serif, system-ui, sans-serif, "A|12px|400|rgb(255, 255, 255)|none
 BUTTON||621|471|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
-DIV||619|469|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||620|470|11|11|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
 DIV|testimonials|520|462|89|28|ui-sans-serif, system-ui, sans-serif, "A|12px|400|rgb(255, 255, 255)|none
 BUTTON||621|497|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
-DIV||621|497|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
+DIV||620|496|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(0, 0, 0)|none
 DIV|contact|544|488|65|28|ui-sans-serif, system-ui, sans-serif, "A|12px|400|rgb(255, 255, 255)|none
