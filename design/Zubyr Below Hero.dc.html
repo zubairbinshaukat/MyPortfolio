@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Alex+Brush&family=JetBrains+Mono:wght@400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Prata&display=swap" rel="stylesheet">
+<style>
+html{background:#000;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{margin:0;background:#000;color:rgba(255,255,255,.92);font-family:Inter,system-ui,sans-serif}
+*{box-sizing:border-box}
+::selection{background:rgba(168,85,247,.35);color:#fff}
+:focus-visible{outline:2px solid #c084fc;outline-offset:3px;border-radius:3px}
+a{color:#e9d5ff;text-decoration-color:rgba(233,213,255,.35);text-underline-offset:3px}
+a:hover{color:#fff;text-decoration-color:rgba(255,255,255,.6)}
+@keyframes dcIn{from{opacity:0;transform:translateY(16px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes dcFade{from{opacity:0}to{opacity:1}}
+@keyframes dcSweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+::view-transition-group(vt-cover),::view-transition-group(vt-title){animation-duration:620ms;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+::view-transition-old(root),::view-transition-new(root){animation-duration:300ms;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+::view-transition-old(vt-title),::view-transition-new(vt-title){height:100%;object-fit:none;object-position:top left}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}html{scroll-behavior:auto}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#000;position:relative;overflow-x:hidden">
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:26px 26px"></div>
+
+<div style="position:sticky;top:0;z-index:40;background:rgba(0,0,0,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.07)">
+  <div style="height:2px;background:rgba(255,255,255,.04);position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;width:{{ progress }};background:linear-gradient(to right,#a855f7,#8b5cf6,#ec4899);transition:width .5s cubic-bezier(.22,1,.36,1)"></div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:11px 18px;max-width:1560px;margin:0 auto">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.5);white-space:nowrap">zubyr.dev · below the hero</span>
+    <nav aria-label="Prototype views" style="display:flex;flex-wrap:wrap;gap:6px;flex:1 1 420px">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="10">
+        <button type="button" onClick="{{ t.go }}" aria-current="{{ t.cur }}" style="display:flex;align-items:center;gap:7px;min-height:34px;padding:6px 11px;border-radius:999px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font-family:Inter,sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .25s cubic-bezier(.22,1,.36,1)" style-hover="border-color:rgba(255,255,255,.24);color:#fff">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;opacity:.6">{{ t.n }}</span>{{ t.label }}
+        </button>
+      </sc-for>
+    </nav>
+    <div style="display:flex;gap:6px;align-items:center">
+      <button type="button" onClick="{{ setDesktop }}" style="min-height:34px;padding:6px 12px;border-radius:999px;border:1px solid {{ dtBd }};background:{{ dtBg }};color:{{ dtFg }};font-size:12px;font-weight:500;cursor:pointer;font-family:Inter,sans-serif">Desktop</button>
+      <button type="button" onClick="{{ setPhone }}" style="min-height:34px;padding:6px 12px;border-radius:999px;border:1px solid {{ phBd }};background:{{ phBg }};color:{{ phFg }};font-size:12px;font-weight:500;cursor:pointer;font-family:Inter,sans-serif">Phone 412</button>
+    </div>
+  </div>
+</div>
+
+<main style="position:relative;z-index:1;padding:0 0 90px">
+<div style="max-width:{{ frameW }};margin:0 auto;outline:{{ frameOutline }};border-radius:{{ frameRadius }};overflow:hidden;transition:max-width .45s cubic-bezier(.22,1,.36,1)">
+
+<sc-if value="{{ isNav }}" hint-placeholder-val="{{ true }}">
+<article style="padding:{{ padT }} 0 0">
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:0 0 18px">01 — Site navigation</p>
+    <h1 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h1s }};line-height:1.02;letter-spacing:-.01em;margin:0 0 22px;color:#fff;animation:dcIn .5s cubic-bezier(.22,1,.36,1) both">One index, every&nbsp;width.</h1>
+    <p style="max-width:64ch;font-size:16px;line-height:1.75;color:rgba(255,255,255,.62);margin:0 0 14px">The hero already floats a social pill at the top and a dot rail at the right. A second horizontal menu would be a third floating thing. So there is no menu bar: the top band gets a monogram on the left and an <strong style="color:rgba(255,255,255,.9);font-weight:600">Index</strong> trigger on the right, the pill keeps the centre, and the navigation itself is a full-screen typographic index — the same one on a 4K monitor and on a phone.</p>
+    <p style="max-width:64ch;font-size:16px;line-height:1.75;color:rgba(255,255,255,.62);margin:0 0 44px">Past the hero the band condenses to a hairline with the current section spelled out in mono and a 1px gradient scroll line. That line is the only place the gradient runs the full width of the page.</p>
+  </div>
+
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto 20px;display:flex;align-items:baseline;gap:14px;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:12px">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5)">01.1 Top band, at rest and condensed</span>
+  </div>
+
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto 26px">
+    <div style="position:relative;border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;background:#000">
+      <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(ellipse at 72% 40%,rgba(168,85,247,.16) 0%,transparent 62%)"></div>
+      <div style="position:relative;display:flex;align-items:center;gap:12px;padding:14px 16px">
+        <img src="assets/logo.svg" alt="Zubair Bin Shaukat" width="30" height="30" style="display:block;width:30px;height:30px" />
+        <div style="flex:1;display:flex;justify-content:center">
+          <div style="display:flex;gap:4px;padding:5px;border:1px dashed rgba(255,255,255,.14);border-radius:999px;background:rgba(255,255,255,.03)">
+            <sc-for list="{{ socialDots }}" as="s" hint-placeholder-count="5">
+              <span aria-hidden="true" style="width:26px;height:26px;border-radius:999px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.55)">{{ s }}</span>
+            </sc-for>
+          </div>
+        </div>
+        <button type="button" onClick="{{ openMenu }}" style="display:flex;align-items:center;gap:9px;min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.03);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:border-color .3s cubic-bezier(.22,1,.36,1)" style-hover="border-color:rgba(192,132,252,.6)">
+          Index
+          <span aria-hidden="true" style="display:flex;flex-direction:column;gap:3px">
+            <span style="display:block;width:15px;height:1px;background:#fff"></span>
+            <span style="display:block;width:9px;height:1px;background:#fff"></span>
+          </span>
+        </button>
+      </div>
+      <div style="position:relative;padding:{{ heroPadV }} 16px;text-align:center">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:0">existing hero — not redesigned</p>
+      </div>
+      <div style="position:relative;border-top:1px solid rgba(255,255,255,.07)">
+        <div style="height:1px;background:linear-gradient(to right,#a855f7,#8b5cf6,#ec4899);width:38%"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:rgba(8,8,12,.9)">
+          <img src="assets/logo.svg" alt="Zubair Bin Shaukat" width="24" height="24" style="display:block;width:24px;height:24px" />
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.55)">03 — Services</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.55)">Index</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;line-height:1.7;color:rgba(255,255,255,.5);margin:12px 0 0">Condensed state, bottom: 56px tall, hairline gradient = scroll progress, section readout replaces the pill on scroll.</p>
+  </div>
+
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto 20px;display:flex;align-items:baseline;gap:14px;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:12px">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5)">01.2 The index overlay — try it</span>
+  </div>
+
+  <div style="padding:0 {{ pad }} 90px;max-width:1240px;margin:0 auto">
+    <div style="position:relative;border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;background:#000;min-height:520px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;position:relative;z-index:2">
+        <img src="assets/logo.svg" alt="Zubair Bin Shaukat" width="28" height="28" style="display:block;width:28px;height:28px" />
+        <button type="button" onClick="{{ toggleMenu }}" style="min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.03);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer">{{ menuLabel }}</button>
+      </div>
+      <sc-if value="{{ menuClosed }}">
+        <div style="padding:96px 24px;text-align:center">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0">press <span style="color:#c084fc">index</span> to open the overlay</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ menuOpen }}">
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,.97);animation:dcFade .35s cubic-bezier(.22,1,.36,1) both;display:flex;flex-direction:column">
+          <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,rgba(168,85,247,.14) 0%,transparent 65%)"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;position:relative">
+            <img src="assets/logo.svg" alt="Zubair Bin Shaukat" width="28" height="28" style="display:block;width:28px;height:28px" />
+            <button type="button" onClick="{{ toggleMenu }}" aria-label="Close index" style="min-height:44px;min-width:44px;padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:transparent;color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer">Close</button>
+          </div>
+          <nav aria-label="Site" style="position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;padding:18px {{ pad }} 0">
+            <sc-for list="{{ menuItems }}" as="m" hint-placeholder-count="7">
+              <a href="{{ m.href }}" style="display:flex;align-items:baseline;gap:16px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;animation:dcIn .5s cubic-bezier(.22,1,.36,1) both;animation-delay:{{ m.delay }}" style-hover="background:rgba(255,255,255,.03)">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:rgba(255,255,255,.4);width:26px;flex:none">{{ m.n }}</span>
+                <span style="font-family:'Bodoni Moda','Prata',Didot,serif;font-size:{{ menuSize }};line-height:1.06;color:#fff;flex:1">{{ m.label }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.5);display:{{ menuMetaDisp }}">{{ m.meta }}</span>
+              </a>
+            </sc-for>
+          </nav>
+          <div style="position:relative;padding:20px {{ pad }} 26px;display:flex;flex-wrap:wrap;gap:14px 26px;align-items:center;border-top:1px solid rgba(255,255,255,.07)">
+            <a href="mailto:thedevzubair@gmail.com" style="font-size:14px;color:#fff;text-decoration:none;border-bottom:1px solid rgba(192,132,252,.5);padding-bottom:2px">thedevzubair@gmail.com</a>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5)">Lahore, PK · UTC+5</span>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+    <p style="max-width:70ch;font-size:15px;line-height:1.8;color:rgba(255,255,255,.62);margin:18px 0 0">On desktop the index takes the same full screen — the item list runs down the left in Soria at 64px, with the section's one-line description in mono on the right of each row. Rows stagger in at 70ms with the site's standard <span style="font-family:'JetBrains Mono',monospace;font-size:13px">y:16 → 0, blur 6 → 0</span>. Nothing rotates, nothing bounces. Escape closes; focus returns to the trigger.</p>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ isAbout }}">
+<article style="padding:{{ padT }} 0 0">
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:0 0 18px">02 — About</p>
+    <h1 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h1s }};line-height:1.02;letter-spacing:-.01em;margin:0 0 26px;color:#fff;max-width:20ch;animation:dcIn .5s cubic-bezier(.22,1,.36,1) both">Zubair builds the parts nobody wants to run by&nbsp;hand.</h1>
+    <div style="display:flex;flex-wrap:wrap;gap:38px 56px;padding-bottom:52px;border-bottom:1px solid rgba(255,255,255,.07)">
+      <div style="flex:1 1 460px;max-width:66ch">
+        <p style="font-size:17px;line-height:1.78;color:rgba(255,255,255,.72);margin:0 0 18px">Zubair Bin Shaukat is a software engineer in Lahore, Pakistan. He has spent six years building the machinery agencies and founders run their businesses on: automation pipelines in n8n, custom dashboards and marketplace apps inside GoHighLevel, web applications in Next.js, and cross-platform mobile apps in React Native.</p>
+        <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,.62);margin:0 0 18px">Most of the work starts the same way. A team has a process that works, as long as one specific person does it on a specific day. Zubair sits with that person, writes the process down until it stops having exceptions, and then builds the version that does not need them. The deliverable is not a tool — it is a system with a documented failure mode, a retry policy, and a named owner.</p>
+        <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,.62);margin:0">He works direct with founders and white-label for agencies, usually as the only engineer on the project. Twenty-eight of the thirty-four systems he has shipped are still in production. The other six were replaced by platform features, which he considers a good outcome.</p>
+      </div>
+      <div style="flex:1 1 260px">
+        <dl style="margin:0;display:flex;flex-direction:column;gap:0">
+          <sc-for list="{{ facts }}" as="f" hint-placeholder-count="6">
+            <div style="display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+              <dt style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5)">{{ f.k }}</dt>
+              <dd style="margin:0;font-size:14px;font-weight:500;color:rgba(255,255,255,.92);text-align:right">{{ f.v }}</dd>
+            </div>
+          </sc-for>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:52px {{ pad }};max-width:1240px;margin:0 auto">
+    <blockquote style="margin:0;max-width:26ch">
+      <p style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h2s }};line-height:1.1;letter-spacing:-.01em;color:#fff;margin:0">I build systems that run your business without&nbsp;you.</p>
+    </blockquote>
+  </div>
+
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <h2 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:400;margin:0 0 22px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07)">02.1 Stack, by how often it gets used</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:28px 40px;margin-bottom:64px">
+      <sc-for list="{{ stackGroups }}" as="g" hint-placeholder-count="4">
+        <div style="flex:1 1 220px">
+          <h3 style="font-size:14px;font-weight:600;color:#fff;margin:0 0 12px">{{ g.title }}</h3>
+          <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="5">
+              <li style="font-size:14px;line-height:1.5;color:rgba(255,255,255,.62)">{{ i }}</li>
+            </sc-for>
+          </ul>
+        </div>
+      </sc-for>
+    </div>
+
+    <h2 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:400;margin:0 0 6px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07)">02.2 Six years, short version</h2>
+    <ol style="margin:0 0 70px;padding:0;list-style:none">
+      <sc-for list="{{ timeline }}" as="e" hint-placeholder-count="5">
+        <li style="display:flex;flex-wrap:wrap;gap:6px 26px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#c084fc;flex:0 0 76px">{{ e.year }}</span>
+          <div style="flex:1 1 320px;min-width:0">
+            <h3 style="font-size:16px;font-weight:600;color:#fff;margin:0 0 6px">{{ e.title }}</h3>
+            <p style="font-size:14.5px;line-height:1.7;color:rgba(255,255,255,.62);margin:0;max-width:62ch">{{ e.body }}</p>
+          </div>
+        </li>
+      </sc-for>
+    </ol>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ isServices }}">
+<article style="padding:{{ padT }} 0 0">
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:0 0 18px">03 — Services</p>
+    <h1 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h1s }};line-height:1.02;letter-spacing:-.01em;margin:0 0 22px;color:#fff;max-width:22ch;animation:dcIn .5s cubic-bezier(.22,1,.36,1) both">Four things, and what each one costs&nbsp;you.</h1>
+    <p style="max-width:62ch;font-size:16px;line-height:1.75;color:rgba(255,255,255,.62);margin:0 0 48px">Every engagement ends the same way: a running system, a handover document, and a recording of the walkthrough. Below is what changes between them.</p>
+
+    <ol style="margin:0 0 78px;padding:0;list-style:none;border-top:1px solid rgba(255,255,255,.07)">
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="4">
+        <li style="border-bottom:1px solid rgba(255,255,255,.07)">
+          <div style="display:flex;flex-wrap:wrap;gap:14px 32px;padding:26px 0;transition:padding-left .35s cubic-bezier(.22,1,.36,1)" style-hover="padding-left:10px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:rgba(255,255,255,.4);flex:0 0 44px;padding-top:6px">{{ s.n }}</span>
+            <div style="flex:1 1 300px;min-width:0">
+              <h2 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h3s }};line-height:1.1;color:#fff;margin:0 0 10px">{{ s.title }}</h2>
+              <p style="font-size:15px;line-height:1.75;color:rgba(255,255,255,.65);margin:0 0 14px;max-width:56ch">{{ s.body }}</p>
+              <ul style="margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ s.tags }}" as="tg" hint-placeholder-count="4">
+                  <li style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);padding:5px 10px;border:1px solid rgba(255,255,255,.09);border-radius:999px;background:rgba(255,255,255,.03)">{{ tg }}</li>
+                </sc-for>
+              </ul>
+            </div>
+            <div style="flex:0 1 210px">
+              <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.42);margin:0 0 6px">Typical shape</p>
+              <p style="font-size:14px;line-height:1.6;color:rgba(255,255,255,.8);margin:0">{{ s.shape }}</p>
+            </div>
+          </div>
+        </li>
+      </sc-for>
+    </ol>
+  </div>
+
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto 18px;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:12px">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5)">03.2 One service page in full</span>
+  </div>
+
+  <section style="padding:0 {{ pad }} 90px;max-width:1240px;margin:0 auto">
+    <div style="position:relative;padding:44px 0 0">
+      <div aria-hidden="true" style="position:absolute;top:0;left:0;width:110px;height:1px;background:linear-gradient(to right,#a855f7,#ec4899)"></div>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:0 0 16px">Platform solutions</p>
+      <h2 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h2s }};line-height:1.06;letter-spacing:-.01em;color:#fff;margin:0 0 20px;max-width:24ch">GoHighLevel, built from the inside.</h2>
+      <p style="max-width:66ch;font-size:17px;line-height:1.78;color:rgba(255,255,255,.72);margin:0 0 40px">Most GoHighLevel work stops at snapshots and funnels. This is the layer under that: custom dashboards mounted inside the platform, marketplace apps with their own OAuth, sub-account provisioning that runs on a schedule, and API v2 integrations that survive a rate limit.</p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:34px 48px;padding:34px 0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:52px">
+        <div style="flex:1 1 300px">
+          <h3 style="font-size:15px;font-weight:600;color:#fff;margin:0 0 14px">What it covers</h3>
+          <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ ghlCovers }}" as="c" hint-placeholder-count="5">
+              <li style="display:flex;gap:11px;font-size:14.5px;line-height:1.65;color:rgba(255,255,255,.66)">
+                <span aria-hidden="true" style="flex:none;width:5px;height:5px;border-radius:999px;background:rgba(192,132,252,.85);margin-top:8px"></span>{{ c }}
+              </li>
+            </sc-for>
+          </ul>
+        </div>
+        <div style="flex:1 1 300px">
+          <h3 style="font-size:15px;font-weight:600;color:#fff;margin:0 0 14px">What I will say no to</h3>
+          <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ ghlNos }}" as="c" hint-placeholder-count="3">
+              <li style="display:flex;gap:11px;font-size:14.5px;line-height:1.65;color:rgba(255,255,255,.66)">
+                <span aria-hidden="true" style="flex:none;width:9px;height:1px;background:rgba(255,255,255,.3);margin-top:11px"></span>{{ c }}
+              </li>
+            </sc-for>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:400;margin:0 0 24px">How the work runs</h3>
+      <ol style="margin:0 0 56px;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:22px">
+        <sc-for list="{{ ghlSteps }}" as="st" hint-placeholder-count="4">
+          <li style="flex:1 1 220px;padding:20px;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:rgba(255,255,255,.03)">
+            <p style="font-family:'Bodoni Moda','Prata',Didot,serif;font-size:30px;line-height:1;color:rgba(255,255,255,.22);margin:0 0 14px">{{ st.n }}</p>
+            <h4 style="font-size:14.5px;font-weight:600;color:#fff;margin:0 0 8px">{{ st.title }}</h4>
+            <p style="font-size:13.5px;line-height:1.65;color:rgba(255,255,255,.62);margin:0">{{ st.body }}</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin:14px 0 0">{{ st.dur }}</p>
+          </li>
+        </sc-for>
+      </ol>
+
+      <div style="display:flex;flex-wrap:wrap;gap:28px 44px;padding:30px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:rgba(255,255,255,.03);align-items:center">
+        <div style="flex:1 1 340px">
+          <h3 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h3s }};line-height:1.15;color:#fff;margin:0 0 10px">Start with the process, not the platform.</h3>
+          <p style="font-size:15px;line-height:1.75;color:rgba(255,255,255,.65);margin:0;max-width:52ch">Send the current version — a spreadsheet, a Loom, a list of complaints. First reply inside one business day, with the parts I think are automatable and the parts I do not.</p>
+        </div>
+        <a href="mailto:thedevzubair@gmail.com?subject=GoHighLevel%20build" style="display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:14px 22px;border-radius:999px;background:linear-gradient(to right,#a855f7,#8b5cf6,#ec4899);color:#fff;font-size:14.5px;font-weight:600;text-decoration:none;transition:transform .3s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-2px)">thedevzubair@gmail.com<span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+</article>
+</sc-if>
+
+<sc-if value="{{ isProjects }}">
+<article style="padding:{{ padT }} 0 0">
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:0 0 18px">04 — Projects</p>
+    <h1 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h1s }};line-height:1.02;letter-spacing:-.01em;margin:0 0 22px;color:#fff;max-width:20ch;animation:dcIn .5s cubic-bezier(.22,1,.36,1) both">Six systems, and what each one replaced.</h1>
+    <p style="max-width:62ch;font-size:16px;line-height:1.75;color:rgba(255,255,255,.62);margin:0 0 40px">Every row is a real engagement, ordered newest first. Featured ones carry the number that mattered to the client. Open any of them for the full narrative.</p>
+
+    <ol style="margin:0 0 84px;padding:0;list-style:none;border-top:1px solid rgba(255,255,255,.07)">
+      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="6">
+        <li style="border-bottom:1px solid rgba(255,255,255,.07)">
+          <a href="{{ p.href }}" onClick="{{ p.open }}" style="display:flex;flex-wrap:wrap;gap:20px 32px;padding:26px 0;text-decoration:none;color:inherit;align-items:flex-start;transition:padding-left .4s cubic-bezier(.22,1,.36,1)" style-hover="padding-left:8px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:rgba(255,255,255,.4);flex:0 0 44px;padding-top:5px">{{ p.n }}</span>
+            <div style="flex:1 1 320px;min-width:0">
+              <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px;margin-bottom:9px">
+                <h2 data-vt="{{ p.vtTitle }}" style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h3s }};line-height:1.08;color:#fff;margin:0">{{ p.name }}</h2>
+                <span style="display:{{ p.featDisp }};font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:999px;border:1px solid rgba(192,132,252,.45);color:#e9d5ff">Featured</span>
+              </div>
+              <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,.65);margin:0 0 12px;max-width:58ch">{{ p.sum }}</p>
+              <div style="display:flex;flex-wrap:wrap;gap:6px 16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5)">
+                <span>{{ p.year }}</span><span>{{ p.kind }}</span><span>{{ p.client }}</span>
+              </div>
+              <p style="display:{{ p.featBlock }};font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.04em;color:#e9d5ff;margin:12px 0 0">{{ p.metric }}</p>
+            </div>
+            <div data-vt="{{ p.vtCover }}" role="img" aria-label="{{ p.coverAlt }}" style="flex:0 0 {{ coverW }};width:{{ coverW }};max-width:100%;aspect-ratio:16/10;background:#08080C;border:1px solid rgba(255,255,255,.07);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .4s cubic-bezier(.22,1,.36,1)" style-hover="border-color:rgba(255,255,255,.16)">
+              <div style="height:24px;flex:none;display:flex;align-items:center;gap:5px;padding:0 10px;border-bottom:1px solid rgba(255,255,255,.05)">
+                <span aria-hidden="true" style="width:5px;height:5px;border-radius:999px;background:rgba(255,255,255,.16)"></span>
+                <span aria-hidden="true" style="width:5px;height:5px;border-radius:999px;background:rgba(255,255,255,.16)"></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-left:6px">{{ p.kind }}</span>
+              </div>
+              <div style="flex:1;display:flex;align-items:flex-end;gap:5px;padding:12px">
+                <span style="flex:1;height:{{ p.h1 }};background:rgba(255,255,255,.10);border-radius:3px 3px 0 0"></span>
+                <span style="flex:1;height:{{ p.h2b }};background:rgba(255,255,255,.10);border-radius:3px 3px 0 0"></span>
+                <span style="flex:1;height:{{ p.h3b }};background:rgba(255,255,255,.10);border-radius:3px 3px 0 0"></span>
+                <span style="flex:1;height:{{ p.h4 }};background:rgba(255,255,255,.10);border-radius:3px 3px 0 0"></span>
+                <span style="flex:1;height:{{ p.h5 }};background:{{ p.c5 }};border-radius:3px 3px 0 0"></span>
+                <span style="flex:1;height:{{ p.h6 }};background:{{ p.c6 }};border-radius:3px 3px 0 0"></span>
+                <span style="flex:1;height:{{ p.h7 }};background:{{ p.c7 }};border-radius:3px 3px 0 0"></span>
+              </div>
+            </div>
+          </a>
+        </li>
+      </sc-for>
+    </ol>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ isCase }}">
+<article style="padding:{{ padT }} 0 0">
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <a href="/projects" onClick="{{ backProjects }}" style="display:inline-flex;align-items:center;gap:9px;min-height:44px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none" style-hover="color:#fff"><span aria-hidden="true">←</span> All projects</a>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:16px 0 18px">05 — Case study · {{ cs.year }}</p>
+    <h1 data-vt="d-title" style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h1s }};line-height:1.02;letter-spacing:-.01em;margin:0 0 20px;color:#fff;max-width:20ch">{{ cs.name }}</h1>
+    <p style="max-width:64ch;font-size:17px;line-height:1.78;color:rgba(255,255,255,.72);margin:0 0 34px">{{ cs.sum }}</p>
+
+    <div data-vt="d-cover" role="img" aria-label="Dashboard mockup: left sidebar of sub-accounts, a spend-versus-booked-revenue chart, and a table of the five accounts furthest off pace" style="width:100%;aspect-ratio:16/9;background:#08080C;border:1px solid rgba(255,255,255,.07);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;margin-bottom:16px">
+      <div style="height:34px;flex:none;display:flex;align-items:center;gap:6px;padding:0 14px;border-bottom:1px solid rgba(255,255,255,.06)">
+        <span aria-hidden="true" style="width:6px;height:6px;border-radius:999px;background:rgba(255,255,255,.16)"></span>
+        <span aria-hidden="true" style="width:6px;height:6px;border-radius:999px;background:rgba(255,255,255,.16)"></span>
+        <span aria-hidden="true" style="width:6px;height:6px;border-radius:999px;background:rgba(255,255,255,.16)"></span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-left:10px">signal · agency view</span>
+      </div>
+      <div style="flex:1;display:flex;min-height:0">
+        <div style="flex:0 0 30%;max-width:190px;border-right:1px solid rgba(255,255,255,.06);padding:12px 10px;display:flex;flex-direction:column;gap:7px">
+          <sc-for list="{{ sideRows }}" as="r" hint-placeholder-count="8">
+            <span style="height:9px;width:{{ r }};background:rgba(255,255,255,.09);border-radius:3px"></span>
+          </sc-for>
+        </div>
+        <div style="flex:1;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0">
+          <div style="display:flex;gap:10px">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="3">
+              <span style="flex:1;height:34px;border:1px solid rgba(255,255,255,.07);border-radius:8px;background:rgba(255,255,255,.02);display:flex;align-items:center;padding:0 9px;font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.55)">{{ k }}</span>
+            </sc-for>
+          </div>
+          <div style="flex:1;min-height:0;display:flex;align-items:flex-end;gap:5px;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:2px">
+            <sc-for list="{{ csBars }}" as="b" hint-placeholder-count="14">
+              <span style="flex:1;height:{{ b.h }};background:{{ b.c }};border-radius:2px 2px 0 0"></span>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <sc-for list="{{ tblRows }}" as="r" hint-placeholder-count="3">
+              <span style="height:8px;width:{{ r }};background:rgba(255,255,255,.07);border-radius:3px"></span>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;line-height:1.7;color:rgba(255,255,255,.5);margin:0 0 52px">Fig. 1 — the agency view. One row per sub-account, sorted by distance from target rather than alphabetically.</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:34px 56px;padding:30px 0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:56px">
+      <dl style="flex:1 1 240px;margin:0">
+        <sc-for list="{{ csMeta }}" as="m" hint-placeholder-count="4">
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+            <dt style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5)">{{ m.k }}</dt>
+            <dd style="margin:0;font-size:14px;color:rgba(255,255,255,.9);text-align:right">{{ m.v }}</dd>
+          </div>
+        </sc-for>
+      </dl>
+      <div style="flex:1 1 240px">
+        <h2 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:400;margin:0 0 12px">Stack</h2>
+        <ul style="margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:7px">
+          <sc-for list="{{ cs.stack }}" as="s" hint-placeholder-count="5">
+            <li style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:rgba(255,255,255,.62);padding:6px 11px;border:1px solid rgba(255,255,255,.09);border-radius:999px">{{ s }}</li>
+          </sc-for>
+        </ul>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:34px 56px;margin-bottom:56px">
+      <h2 style="flex:0 0 150px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:#c084fc;font-weight:400;margin:6px 0 0">Problem</h2>
+      <div style="flex:1 1 440px;max-width:66ch">
+        <p style="font-size:16.5px;line-height:1.78;color:rgba(255,255,255,.72);margin:0 0 16px">The agency ran 42 client sub-accounts in GoHighLevel. Reporting meant one person opening each sub-account on Monday, copying six numbers into a shared sheet, and rebuilding a slide per client. Six hours a week, and the sheet was wrong often enough that account managers had stopped trusting it.</p>
+        <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,.62);margin:0 0 16px">Three previous attempts had failed for the same reason: they exported data out of GoHighLevel into a BI tool, so account managers had to leave the place they actually worked. Adoption never got past the two people who built it.</p>
+        <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,.62);margin:0">There was also no shared definition of a qualified lead. Four sub-accounts tagged it on the form, two on the call outcome, the rest not at all.</p>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:34px 56px;margin-bottom:56px">
+      <h2 style="flex:0 0 150px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:#c084fc;font-weight:400;margin:6px 0 0">Approach</h2>
+      <div style="flex:1 1 440px;max-width:66ch">
+        <p style="font-size:16.5px;line-height:1.78;color:rgba(255,255,255,.72);margin:0 0 20px">We agreed the definitions before writing any code — two sessions, one page of output. Then the dashboard was built as a custom menu link inside GoHighLevel, so it opens where the work already happens.</p>
+        <ol style="margin:0 0 20px;padding:0;list-style:none;display:flex;flex-direction:column;gap:16px">
+          <sc-for list="{{ csApproach }}" as="a" hint-placeholder-count="4">
+            <li style="display:flex;gap:16px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);flex:none;padding-top:4px">{{ a.n }}</span>
+              <div>
+                <h3 style="font-size:15px;font-weight:600;color:#fff;margin:0 0 6px">{{ a.title }}</h3>
+                <p style="font-size:14.5px;line-height:1.7;color:rgba(255,255,255,.64);margin:0">{{ a.body }}</p>
+              </div>
+            </li>
+          </sc-for>
+        </ol>
+        <figure style="margin:28px 0 0">
+          <div role="img" aria-label="Mockout of the nightly sync log: 42 rows, one per sub-account, each showing fetch, normalise and store timings with two rows flagged for retry" style="width:100%;aspect-ratio:16/9;background:#08080C;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:7px;overflow:hidden">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:4px">sync · 03:00 utc</span>
+            <sc-for list="{{ logRows }}" as="r" hint-placeholder-count="7">
+              <span style="display:flex;align-items:center;gap:8px">
+                <span aria-hidden="true" style="width:5px;height:5px;border-radius:999px;background:{{ r.c }};flex:none"></span>
+                <span style="height:7px;width:{{ r.w }};background:rgba(255,255,255,.08);border-radius:3px"></span>
+              </span>
+            </sc-for>
+          </div>
+          <figcaption style="font-family:'JetBrains Mono',monospace;font-size:10.5px;line-height:1.7;color:rgba(255,255,255,.5);margin:12px 0 0">Fig. 2 — the nightly sync log, which the agency owner checks more often than the dashboard.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:34px 56px;margin-bottom:20px">
+      <h2 style="flex:0 0 150px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:#c084fc;font-weight:400;margin:6px 0 0">Outcome</h2>
+      <div style="flex:1 1 440px;max-width:66ch">
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:26px">
+          <sc-for list="{{ csResults }}" as="r" hint-placeholder-count="4">
+            <div style="flex:1 1 150px;padding:18px;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:rgba(255,255,255,.03)">
+              <p style="font-family:'Bodoni Moda','Prata',Didot,serif;font-size:34px;line-height:1;color:#fff;margin:0 0 8px">{{ r.v }}</p>
+              <p style="font-size:13px;line-height:1.55;color:rgba(255,255,255,.62);margin:0">{{ r.k }}</p>
+            </div>
+          </sc-for>
+        </div>
+        <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,.65);margin:0 0 16px">Monday reporting went from six hours to an eleven-minute review of exceptions. Thirty-eight of the 42 account managers open the dashboard at least weekly — measured, not assumed. Two client renewals were credited to the new report in the following quarter.</p>
+        <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,.65);margin:0 0 16px">What did not go to plan: the first version polled the API per sub-account on page load and hit rate limits by the ninth account. It was rebuilt as a nightly sync into Postgres with a Redis cache for the current day, which is what shipped.</p>
+        <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,.65);margin:0">Handover was a 40-minute recorded walkthrough, a runbook covering the four failure modes, and the sync log above. The agency has since added two metrics themselves.</p>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:16px;padding:36px 0 90px;margin-top:40px;border-top:1px solid rgba(255,255,255,.07)">
+      <a href="/projects" onClick="{{ backProjects }}" style="display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:13px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:#fff;text-decoration:none;font-size:14px" style-hover="border-color:rgba(255,255,255,.3)"><span aria-hidden="true">←</span> All six projects</a>
+      <a href="mailto:thedevzubair@gmail.com" style="display:inline-flex;align-items:center;min-height:48px;padding:13px 20px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;text-decoration:none;font-size:14px" style-hover="background:rgba(255,255,255,.09)">Ask about a similar build</a>
+    </div>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ isVoices }}">
+<article style="padding:{{ padT }} 0 0">
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:0 0 18px">06 — Testimonials + FAQ</p>
+    <h1 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h1s }};line-height:1.02;letter-spacing:-.01em;margin:0 0 22px;color:#fff;max-width:22ch;animation:dcIn .5s cubic-bezier(.22,1,.36,1) both">Three people who had to live with the result.</h1>
+    <p style="max-width:60ch;font-size:16px;line-height:1.75;color:rgba(255,255,255,.62);margin:0 0 46px">Quotes are lightly edited for length only. Avatars are monograms until clients send photos, which is most of the time.</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:22px;margin-bottom:84px">
+      <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="3">
+        <figure style="flex:1 1 300px;margin:0;padding:26px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:rgba(255,255,255,.03);display:flex;flex-direction:column;gap:20px;transition:border-color .4s cubic-bezier(.22,1,.36,1)" style-hover="border-color:rgba(255,255,255,.16)">
+          <p style="font-family:'Bodoni Moda','Prata',Didot,serif;font-size:32px;line-height:0;color:rgba(192,132,252,.55);margin:14px 0 -6px;height:14px">&ldquo;</p>
+          <blockquote style="margin:0;flex:1">
+            <p style="font-size:15.5px;line-height:1.78;color:rgba(255,255,255,.78);margin:0">{{ q.text }}</p>
+          </blockquote>
+          <figcaption style="display:flex;align-items:center;gap:14px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07)">
+            <span aria-hidden="true" style="flex:none;width:44px;height:44px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:radial-gradient(circle at 30% 25%,rgba(168,85,247,.22),rgba(255,255,255,.03) 70%);display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda','Prata',Didot,serif;font-size:16px;letter-spacing:.06em;color:#fff">{{ q.mono }}</span>
+            <span>
+              <span style="display:block;font-size:14px;font-weight:600;color:#fff">{{ q.name }}</span>
+              <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:4px">{{ q.role }}</span>
+            </span>
+          </figcaption>
+        </figure>
+      </sc-for>
+    </div>
+
+    <h2 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h2s }};line-height:1.06;letter-spacing:-.01em;color:#fff;margin:0 0 34px;max-width:18ch">Asked before every project.</h2>
+    <div style="border-top:1px solid rgba(255,255,255,.07);margin-bottom:90px">
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
+        <div style="border-bottom:1px solid rgba(255,255,255,.07)">
+          <h3 style="margin:0">
+            <button type="button" onClick="{{ f.toggle }}" aria-expanded="{{ f.open }}" style="width:100%;display:flex;align-items:baseline;gap:16px;min-height:56px;padding:18px 0;background:transparent;border:0;color:#fff;text-align:left;cursor:pointer;font-family:Inter,sans-serif;font-size:16.5px;font-weight:500;line-height:1.4">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:rgba(255,255,255,.4);flex:none;width:26px">{{ f.n }}</span>
+              <span style="flex:1">{{ f.q }}</span>
+              <span aria-hidden="true" style="flex:none;font-family:'JetBrains Mono',monospace;font-size:16px;color:{{ f.iconColor }};transition:transform .35s cubic-bezier(.22,1,.36,1);transform:{{ f.iconRot }}">+</span>
+            </button>
+          </h3>
+          <sc-if value="{{ f.open }}">
+            <p style="margin:0 0 22px;padding:0 26px 0 42px;max-width:70ch;font-size:15px;line-height:1.8;color:rgba(255,255,255,.65);animation:dcIn .4s cubic-bezier(.22,1,.36,1) both">{{ f.a }}</p>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ isBlog }}">
+<article style="padding:{{ padT }} 0 0">
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:0">07 — Writing</p>
+      <button type="button" onClick="{{ toggleEmpty }}" style="min-height:38px;padding:9px 14px;border-radius:999px;border:1px dashed rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.7);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer">{{ emptyLabel }}</button>
+    </div>
+
+    <sc-if value="{{ blogFull }}">
+      <div>
+        <h1 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h1s }};line-height:1.02;letter-spacing:-.01em;margin:0 0 22px;color:#fff;max-width:20ch;animation:dcIn .5s cubic-bezier(.22,1,.36,1) both">Notes from things that broke.</h1>
+        <p style="max-width:62ch;font-size:16px;line-height:1.75;color:rgba(255,255,255,.62);margin:0 0 46px">Write-ups of specific problems, with the code that fixed them. No round-ups, no tool lists.</p>
+        <ol style="margin:0 0 84px;padding:0;list-style:none;border-top:1px solid rgba(255,255,255,.07)">
+          <sc-for list="{{ posts }}" as="p" hint-placeholder-count="5">
+            <li style="border-bottom:1px solid rgba(255,255,255,.07)">
+              <a href="{{ p.href }}" onClick="{{ p.open }}" style="display:flex;flex-wrap:wrap;gap:18px 28px;padding:24px 0;text-decoration:none;color:inherit;align-items:flex-start;transition:padding-left .4s cubic-bezier(.22,1,.36,1)" style-hover="padding-left:8px">
+                <span data-vt="{{ p.vtCover }}" aria-hidden="true" style="flex:none;width:66px;height:66px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:#08080C;display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda','Prata',Didot,serif;font-size:26px;color:rgba(255,255,255,.55)">{{ p.n }}</span>
+                <div style="flex:1 1 320px;min-width:0">
+                  <h2 data-vt="{{ p.vtTitle }}" style="font-size:19px;font-weight:600;line-height:1.35;color:#fff;margin:0 0 8px;max-width:44ch">{{ p.title }}</h2>
+                  <p style="font-size:14.5px;line-height:1.7;color:rgba(255,255,255,.62);margin:0 0 10px;max-width:60ch">{{ p.dek }}</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px 16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5)">
+                    <span>{{ p.date }}</span><span>{{ p.mins }}</span><span>{{ p.topic }}</span>
+                  </div>
+                </div>
+              </a>
+            </li>
+          </sc-for>
+        </ol>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ blogEmpty }}">
+      <div style="padding:0 0 90px">
+        <h1 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h1s }};line-height:1.02;letter-spacing:-.01em;margin:0 0 22px;color:#fff;max-width:18ch;animation:dcIn .5s cubic-bezier(.22,1,.36,1) both">Nothing published yet.</h1>
+        <p style="max-width:58ch;font-size:16.5px;line-height:1.78;color:rgba(255,255,255,.7);margin:0 0 40px">The first three write-ups are drafted and in review. They cover work that shipped, so they wait until the client is comfortable being described.</p>
+        <ol style="margin:0 0 40px;padding:0;list-style:none;border-top:1px solid rgba(255,255,255,.07);max-width:70ch">
+          <sc-for list="{{ drafts }}" as="d" hint-placeholder-count="3">
+            <li style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;padding:18px 0;border-bottom:1px dashed rgba(255,255,255,.1)">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.42);flex:none;width:86px">{{ d.state }}</span>
+              <span style="flex:1 1 260px;font-size:16px;line-height:1.5;color:rgba(255,255,255,.55)">{{ d.title }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:rgba(255,255,255,.5)">{{ d.eta }}</span>
+            </li>
+          </sc-for>
+        </ol>
+        <p style="max-width:58ch;font-size:15px;line-height:1.8;color:rgba(255,255,255,.62);margin:0 0 20px">In the meantime, the case studies carry the same detail — <a href="/projects" onClick="{{ goProjects }}">Subaccount Signal</a> is the closest thing to a technical write-up on the site.</p>
+        <a href="mailto:thedevzubair@gmail.com?subject=Tell%20me%20when%20you%20publish" style="display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:14px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:#fff;text-decoration:none;font-size:14.5px" style-hover="border-color:rgba(192,132,252,.6)">Email me when the first one lands<span aria-hidden="true">↗</span></a>
+      </div>
+    </sc-if>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ isPost }}">
+<article style="padding:{{ padT }} 0 0">
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <a href="/writing" onClick="{{ backBlog }}" style="display:inline-flex;align-items:center;gap:9px;min-height:44px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none" style-hover="color:#fff"><span aria-hidden="true">←</span> All writing</a>
+    <div style="display:flex;flex-wrap:wrap;gap:20px 26px;align-items:flex-start;margin:20px 0 30px">
+      <span data-vt="bd-cover" aria-hidden="true" style="flex:none;width:76px;height:76px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:#08080C;display:flex;align-items:center;justify-content:center;font-family:'Bodoni Moda','Prata',Didot,serif;font-size:30px;color:rgba(255,255,255,.55)">{{ post.n }}</span>
+      <div style="flex:1 1 380px;min-width:0">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:0 0 14px">08 — {{ post.topic }} · {{ post.date }} · {{ post.mins }}</p>
+        <h1 data-vt="bd-title" style="font-size:{{ postH1 }};font-weight:700;letter-spacing:-.02em;line-height:1.12;color:#fff;margin:0;max-width:26ch">{{ post.title }}</h1>
+      </div>
+    </div>
+    <div style="max-width:70ch">
+      <p style="font-size:18px;line-height:1.7;color:rgba(255,255,255,.78);margin:0 0 34px;padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.07)">A retry-safe pipeline is mostly a naming problem. Here is the key I use, why it lives in Postgres instead of n8n, and the three failure modes it does not solve.</p>
+
+      <p style="font-size:17px;line-height:1.8;color:rgba(255,255,255,.72);margin:0 0 22px">The pipeline ran at 03:00 and filed invoices into Xero. It worked for five weeks. Then a depot's connection dropped mid-run, n8n retried the workflow from the top, and 61 invoices were filed twice. I found out at 08:40, from the client.</p>
+      <p style="font-size:17px;line-height:1.8;color:rgba(255,255,255,.72);margin:0 0 34px">The bug was not the retry. The retry was correct. The bug was that my workflow had no way of saying <em style="color:#fff;font-style:normal;border-bottom:1px solid rgba(192,132,252,.5)">this exact invoice has already been filed</em>.</p>
+
+      <h2 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ postH2 }};line-height:1.15;color:#fff;margin:0 0 16px">One key per business event</h2>
+      <p style="font-size:17px;line-height:1.8;color:rgba(255,255,255,.72);margin:0 0 20px">An idempotency key is a string that identifies the thing that happened, not the run that processed it. If you can generate it twice from the same input and get the same string, you can check it before you write.</p>
+      <pre style="margin:0 0 12px;padding:20px;background:#08080C;border:1px solid rgba(255,255,255,.07);border-radius:14px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.75;color:rgba(255,255,255,.78)"><code>// n8n Function node — deterministic, no clock, no run id
+const src = $json.source;            // 'xero.invoice.created'
+const id  = $json.entityId;          // stable upstream id
+const day = $json.periodEnd.slice(0, 10);
+
+return [{
+  json: {
+    ...$json,
+    idemKey: `${src}:${id}:${day}`,
+    attempt: $runIndex + 1,
+  },
+}];</code></pre>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;line-height:1.7;color:rgba(255,255,255,.5);margin:0 0 34px">No <span style="color:rgba(255,255,255,.75)">Date.now()</span>, no <span style="color:rgba(255,255,255,.75)">$execution.id</span>. Both change on retry, which is the whole problem.</p>
+
+      <h2 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ postH2 }};line-height:1.15;color:#fff;margin:0 0 16px">Where the key lives</h2>
+      <p style="font-size:17px;line-height:1.8;color:rgba(255,255,255,.72);margin:0 0 22px">Not in n8n. Static data on a workflow is convenient and it is not a database — it has no unique constraint, and two concurrent executions will both read an empty value and both write. The key goes in a Postgres table whose only job is to say yes or no.</p>
+      <pre style="margin:0 0 34px;padding:20px;background:#08080C;border:1px solid rgba(255,255,255,.07);border-radius:14px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.75;color:rgba(255,255,255,.78)"><code>create table processed_event (
+  idem_key    text primary key,
+  workflow    text not null,
+  created_at  timestamptz not null default now()
+);
+
+-- claim it or bail; the constraint does the arbitration
+insert into processed_event (idem_key, workflow)
+values ($1, $2)
+on conflict (idem_key) do nothing
+returning idem_key;</code></pre>
+
+      <blockquote style="margin:0 0 34px;padding:26px 0 26px 28px;border-left:1px solid rgba(192,132,252,.5)">
+        <p style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ postQuote }};line-height:1.22;color:#fff;margin:0">If the empty result means &ldquo;someone else already has this&rdquo;, you have moved the race from your workflow into the database, where it has been solved for forty years.</p>
+      </blockquote>
+
+      <h2 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ postH2 }};line-height:1.15;color:#fff;margin:0 0 16px">What it does not fix</h2>
+      <p style="font-size:17px;line-height:1.8;color:rgba(255,255,255,.72);margin:0 0 18px">The key stops duplicates. It does not make the pipeline correct. Three things still bit me afterwards:</p>
+      <ul style="margin:0 0 34px;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px">
+        <sc-for list="{{ postList }}" as="l" hint-placeholder-count="3">
+          <li style="display:flex;gap:14px;font-size:16px;line-height:1.75;color:rgba(255,255,255,.68)">
+            <span aria-hidden="true" style="flex:none;width:5px;height:5px;border-radius:999px;background:rgba(192,132,252,.85);margin-top:10px"></span>
+            <span>{{ l }}</span>
+          </li>
+        </sc-for>
+      </ul>
+
+      <h2 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ postH2 }};line-height:1.15;color:#fff;margin:0 0 16px">The rule I use now</h2>
+      <p style="font-size:17px;line-height:1.8;color:rgba(255,255,255,.72);margin:0 0 22px">Before any node that writes to a system I do not own, there is a claim step. Before any pipeline goes live, I run it twice on the same input on purpose and check that the second run changes nothing. It takes ten minutes and it has caught something in four of the last six projects.</p>
+      <p style="font-size:17px;line-height:1.8;color:rgba(255,255,255,.72);margin:0 0 44px">The 61 duplicates took two hours to reverse and one uncomfortable call. The claim table took twenty minutes to build.</p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:16px;padding:32px 0 90px;border-top:1px solid rgba(255,255,255,.07)">
+        <a href="/writing" onClick="{{ backBlog }}" style="display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:13px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:#fff;text-decoration:none;font-size:14px" style-hover="border-color:rgba(255,255,255,.3)"><span aria-hidden="true">←</span> All writing</a>
+        <a href="mailto:thedevzubair@gmail.com" style="display:inline-flex;align-items:center;min-height:48px;padding:13px 20px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;text-decoration:none;font-size:14px" style-hover="background:rgba(255,255,255,.09)">Disagree? Tell me</a>
+      </div>
+    </div>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ isContact }}">
+<div>
+<article style="padding:{{ padT }} 0 0">
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:0 0 18px">09 — Contact</p>
+    <h1 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h1s }};line-height:1.02;letter-spacing:-.01em;margin:0 0 22px;color:#fff;max-width:20ch;animation:dcIn .5s cubic-bezier(.22,1,.36,1) both">Describe the process. I&rsquo;ll tell you what I&rsquo;d&nbsp;automate.</h1>
+    <p style="max-width:60ch;font-size:16px;line-height:1.75;color:rgba(255,255,255,.62);margin:0 0 52px">One reply from me, inside a business day, from Lahore (UTC+5). No discovery call before there is something to discuss.</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:38px 56px;padding-bottom:80px">
+      <form onSubmit="{{ submit }}" style="flex:1 1 420px;display:flex;flex-direction:column;gap:18px">
+        <sc-for list="{{ fields }}" as="f" hint-placeholder-count="3">
+          <p style="margin:0;display:flex;flex-direction:column;gap:8px">
+            <label for="{{ f.id }}" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)">{{ f.label }}</label>
+            <input id="{{ f.id }}" name="{{ f.id }}" type="{{ f.type }}" required="{{ true }}" placeholder="{{ f.ph }}" autoComplete="{{ f.ac }}" style="min-height:48px;padding:13px 15px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#fff;font-family:Inter,sans-serif;font-size:15px" style-focus="border-color:rgba(192,132,252,.7);background:rgba(255,255,255,.05)" />
+          </p>
+        </sc-for>
+        <p style="margin:0;display:flex;flex-direction:column;gap:8px">
+          <label for="c-brief" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)">What runs by hand today</label>
+          <textarea id="c-brief" name="brief" rows="5" required="{{ true }}" placeholder="Every Monday someone opens 42 sub-accounts and copies six numbers into a sheet." style="padding:13px 15px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#fff;font-family:Inter,sans-serif;font-size:15px;line-height:1.65;resize:vertical" style-focus="border-color:rgba(192,132,252,.7);background:rgba(255,255,255,.05)"></textarea>
+        </p>
+        <fieldset style="margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:10px">
+          <legend style="padding:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)">Closest fit</legend>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ kinds }}" as="k" hint-placeholder-count="4">
+              <label style="display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:10px 15px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.03);font-size:13.5px;color:rgba(255,255,255,.8);cursor:pointer" style-hover="border-color:rgba(255,255,255,.24)">
+                <input type="radio" name="kind" value="{{ k }}" style="accent-color:#a855f7;width:15px;height:15px" />{{ k }}
+              </label>
+            </sc-for>
+          </div>
+        </fieldset>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:6px">
+          <button type="submit" style="min-height:50px;padding:15px 24px;border-radius:999px;border:0;background:linear-gradient(to right,#a855f7,#8b5cf6,#ec4899);color:#fff;font-family:Inter,sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:transform .3s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-2px)">Send it</button>
+          <span aria-live="polite" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.6)">{{ sent }}</span>
+        </div>
+      </form>
+
+      <div style="flex:1 1 260px">
+        <h2 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:400;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07)">Or skip the form</h2>
+        <a href="mailto:thedevzubair@gmail.com" style="display:block;font-size:19px;font-weight:500;color:#fff;text-decoration:none;margin:0 0 6px;border-bottom:1px solid rgba(192,132,252,.5);padding-bottom:6px" style-hover="border-color:#fff">thedevzubair@gmail.com</a>
+        <p style="font-size:14px;line-height:1.7;color:rgba(255,255,255,.62);margin:14px 0 26px">Attach the spreadsheet, the Loom, or the list of complaints. That is a better brief than a form.</p>
+        <dl style="margin:0">
+          <sc-for list="{{ contactMeta }}" as="m" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+              <dt style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5)">{{ m.k }}</dt>
+              <dd style="margin:0;font-size:14px;color:rgba(255,255,255,.9);text-align:right">{{ m.v }}</dd>
+            </div>
+          </sc-for>
+        </dl>
+      </div>
+    </div>
+  </div>
+</article>
+
+<footer style="border-top:1px solid rgba(255,255,255,.07);background:#08080C">
+  <div aria-hidden="true" style="height:1px;background:linear-gradient(to right,rgba(168,85,247,0),#a855f7,#8b5cf6,#ec4899,rgba(236,72,153,0))"></div>
+  <div style="padding:56px {{ pad }} 34px;max-width:1240px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;gap:38px 48px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.07)">
+      <div style="flex:1 1 280px">
+        <p style="font-family:'Bodoni Moda','Prata',Didot,serif;font-size:30px;line-height:1.1;color:#fff;margin:0 0 4px">Zubair</p>
+        <p style="font-family:'Alex Brush',cursive;font-size:26px;line-height:1;color:#c084fc;margin:0 0 18px">Bin Shaukat</p>
+        <p style="font-size:14.5px;line-height:1.75;color:rgba(255,255,255,.62);margin:0;max-width:34ch">Software engineer in Lahore. I build systems that run your business without you.</p>
+      </div>
+      <nav aria-label="Footer" style="flex:2 1 420px;display:flex;flex-wrap:wrap;gap:28px 40px">
+        <sc-for list="{{ footerCols }}" as="c" hint-placeholder-count="3">
+          <div style="flex:1 1 150px">
+            <h2 style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:400;margin:0 0 14px">{{ c.title }}</h2>
+            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px">
+              <sc-for list="{{ c.links }}" as="l" hint-placeholder-count="4">
+                <li><a href="{{ l.href }}" style="display:flex;align-items:center;min-height:36px;font-size:14.5px;color:rgba(255,255,255,.7);text-decoration:none" style-hover="color:#fff">{{ l.label }}</a></li>
+              </sc-for>
+            </ul>
+          </div>
+        </sc-for>
+      </nav>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;justify-content:space-between;padding-top:26px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0">© 2026 Zubair Bin Shaukat · Lahore, PK</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0">Built with Next.js · Available for work</p>
+    </div>
+  </div>
+</footer>
+</div>
+</sc-if>
+
+<sc-if value="{{ isNote }}">
+<article style="padding:{{ padT }} 0 90px">
+  <div style="padding:0 {{ pad }};max-width:1240px;margin:0 auto">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#c084fc;margin:0 0 18px">10 — Design note</p>
+    <h1 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h1s }};line-height:1.02;letter-spacing:-.01em;margin:0 0 22px;color:#fff;max-width:20ch;animation:dcIn .5s cubic-bezier(.22,1,.36,1) both">The Ledger — rules of the system.</h1>
+    <p style="max-width:64ch;font-size:16.5px;line-height:1.78;color:rgba(255,255,255,.7);margin:0 0 52px">Direction chosen: the site below the hero is an <strong style="color:#fff;font-weight:600">indexed ledger</strong> — numbered sections, hairline rules instead of cards, the display serif doing the headline work at every level, and mono carrying all metadata. The hero is the only spectacle; everything after it reads like a well-set spec sheet. Rejected: a dashboard-mimicking &ldquo;console&rdquo; site (too costume-y, and it competes with the actual dashboards in the work) and a cinematic full-bleed scroll (beautiful, slow, and hostile to skimming founders).</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:34px 48px;margin-bottom:60px">
+      <sc-for list="{{ noteCards }}" as="c" hint-placeholder-count="4">
+        <section style="flex:1 1 300px">
+          <h2 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:400;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07)">{{ c.title }}</h2>
+          <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ c.rows }}" as="r" hint-placeholder-count="5">
+              <li style="display:flex;justify-content:space-between;gap:16px;font-size:14px;line-height:1.6;color:rgba(255,255,255,.68)">
+                <span style="flex:1 1 auto">{{ r.k }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:rgba(255,255,255,.85);text-align:right;flex:0 1 auto">{{ r.v }}</span>
+              </li>
+            </sc-for>
+          </ul>
+        </section>
+      </sc-for>
+    </div>
+
+    <h2 style="font-family:'Bodoni Moda','Prata',Didot,serif;font-weight:400;font-size:{{ h2s }};line-height:1.08;color:#fff;margin:0 0 28px;max-width:22ch">Three decisions I would defend.</h2>
+    <ol style="margin:0;padding:0;list-style:none;border-top:1px solid rgba(255,255,255,.07);max-width:78ch">
+      <sc-for list="{{ defends }}" as="d" hint-placeholder-count="3">
+        <li style="display:flex;flex-wrap:wrap;gap:10px 26px;padding:24px 0;border-bottom:1px solid rgba(255,255,255,.07)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);flex:0 0 40px;padding-top:4px">{{ d.n }}</span>
+          <div style="flex:1 1 320px;min-width:0">
+            <h3 style="font-size:17px;font-weight:600;color:#fff;margin:0 0 8px">{{ d.title }}</h3>
+            <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,.65);margin:0">{{ d.body }}</p>
+          </div>
+        </li>
+      </sc-for>
+    </ol>
+  </div>
+</article>
+</sc-if>
+
+</div>
+</main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = { view: 'nav', project: 'signal', post: 'idem', phone: false, menuOpen: false, blogEmpty: false, faq: 0, sent: '' };
+
+  componentDidMount() {
+    this._k = e => { if (e.key === 'Escape' && this.state.menuOpen) this.setState({ menuOpen: false }); };
+    window.addEventListener('keydown', this._k);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this._k); }
+
+  reduced() { return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+
+  mark(keys, on) {
+    keys.forEach((k, i) => {
+      const el = document.querySelector('[data-vt="' + k + '"]');
+      if (el) el.style.viewTransitionName = on ? (i ? 'vt-title' : 'vt-cover') : '';
+    });
+  }
+
+  clearNames() {
+    document.querySelectorAll('[data-vt]').forEach(el => { el.style.viewTransitionName = ''; });
+  }
+
+  vt(next, from, to) {
+    clearTimeout(this._vtT);
+    this.clearNames();
+    if (!document.startViewTransition || this.reduced()) { this.setState(next); return; }
+    this.mark(from, true);
+    let t;
+    try {
+      t = document.startViewTransition(() => new Promise(res => {
+        this.setState(next, () => { this.clearNames(); this.mark(to, true); requestAnimationFrame(res); });
+      }));
+    } catch (e) { this.clearNames(); this.setState(next); return; }
+    const clear = () => { clearTimeout(this._vtT); this.clearNames(); };
+    this._vtT = setTimeout(clear, 900);
+    if (t && t.finished) t.finished.then(clear, clear);
+  }
+
+  tab(v) { return () => { this.setState({ view: v, menuOpen: false }); window.scrollTo(0, 0); }; }
+
+  renderVals() {
+    const s = this.state;
+    const phone = s.phone;
+    const T = {
+      pad: phone ? '20px' : 'clamp(24px,4vw,64px)',
+      padT: phone ? '40px' : 'clamp(48px,6vw,88px)',
+      h1s: phone ? 'clamp(32px,9vw,42px)' : 'clamp(38px,5.4vw,76px)',
+      h2s: phone ? 'clamp(26px,7.5vw,34px)' : 'clamp(29px,4vw,56px)',
+      h3s: phone ? '22px' : 'clamp(22px,2.2vw,32px)',
+      postH1: phone ? '27px' : 'clamp(30px,3.2vw,46px)',
+      postH2: phone ? '23px' : 'clamp(24px,2.4vw,34px)',
+      postQuote: phone ? '22px' : 'clamp(24px,2.6vw,34px)',
+      coverW: phone ? '100%' : '218px',
+      menuSize: phone ? '30px' : 'clamp(34px,4.4vw,64px)',
+      menuMetaDisp: phone ? 'none' : 'block',
+      heroPadV: phone ? '54px' : '88px',
+      frameW: phone ? '412px' : '100%',
+      frameOutline: phone ? '1px solid rgba(255,255,255,.1)' : 'none',
+      frameRadius: phone ? '22px' : '0'
+    };
+
+    const tabDefs = [
+      ['nav', '01', 'Navigation'], ['about', '02', 'About'], ['services', '03', 'Services'],
+      ['projects', '04', 'Projects'], ['case', '05', 'Case study'], ['voices', '06', 'Testimonials + FAQ'],
+      ['blog', '07', 'Blog'], ['post', '08', 'Post'], ['contact', '09', 'Contact + Footer'], ['note', '10', 'Design note']
+    ];
+    const tabs = tabDefs.map(([id, n, label]) => {
+      const cur = s.view === id;
+      return {
+        id, n, label, go: this.tab(id), cur: cur ? 'page' : undefined,
+        bg: cur ? 'rgba(255,255,255,.09)' : 'transparent',
+        bd: cur ? 'rgba(192,132,252,.55)' : 'rgba(255,255,255,.1)',
+        fg: cur ? '#fff' : 'rgba(255,255,255,.62)'
+      };
+    });
+    const idx = tabDefs.findIndex(t => t[0] === s.view);
+
+    const bar = (h, accent) => ({ h, c: accent ? 'linear-gradient(to top,#a855f7,#ec4899)' : 'rgba(255,255,255,.10)' });
+    const barsFrom = (arr, accentAt) => arr.map((h, i) => bar(h, i === accentAt));
+
+    const P = [
+      { id: 'signal', n: '01', name: 'Subaccount Signal', kind: 'Custom dashboard', year: '2025', client: 'Marketing agency · 42 sub-accounts', featured: true,
+        metric: '6 h → 11 min of Monday reporting',
+        sum: 'One analytics surface for 42 GoHighLevel sub-accounts, built inside the platform instead of beside it.',
+        coverAlt: 'Abstract dashboard mockup: sidebar of sub-accounts beside a bar chart of weekly qualified leads',
+        bars: barsFrom(['34%', '52%', '41%', '68%', '58%', '86%', '47%'], 5),
+        stack: ['GoHighLevel API v2', 'Next.js', 'Postgres', 'Redis', 'Vercel Cron'] },
+      { id: 'reviewloop', n: '02', name: 'Reviewloop', kind: 'Marketplace app', year: '2024', client: 'Home-services SaaS reseller', featured: true,
+        metric: '1,900 installs in the first year',
+        sum: 'A GoHighLevel marketplace app that turns a finished job into a review request without anyone remembering to send it.',
+        coverAlt: 'Abstract app mockup: installs climbing week over week with one highlighted column',
+        bars: barsFrom(['22%', '30%', '44%', '39%', '61%', '72%', '90%'], 6),
+        stack: ['GHL Marketplace SDK', 'OAuth 2.0', 'Node', 'Fastify', 'SQLite'] },
+      { id: 'casefile', n: '03', name: 'Casefile', kind: 'Web application', year: '2025', client: 'Immigration practice · 6 attorneys', featured: true,
+        metric: '71% fewer \u201cwhere is my case\u201d calls',
+        sum: 'A client portal for an immigration practice: document intake, deadlines and status in one place clients actually log into.',
+        coverAlt: 'Abstract portal mockup: document checklist rows with a deadline column',
+        bars: barsFrom(['48%', '44%', '62%', '55%', '78%', '51%', '66%'], 4),
+        stack: ['Next.js 15', 'Prisma', 'Postgres', 'Uploadthing', 'Resend'] },
+      { id: 'runway', n: '04', name: 'Invoice Runway', kind: 'Automation system', year: '2024', client: 'Equipment rental · 3 depots', featured: false,
+        metric: '480 invoices a month, unattended',
+        sum: 'An n8n pipeline that turned a two-person, three-day invoicing ritual into an exception queue of nine.',
+        coverAlt: 'Abstract pipeline mockup: nightly run log with two rows flagged for retry',
+        bars: barsFrom(['30%', '36%', '33%', '41%', '38%', '44%', '40%'], -1),
+        stack: ['n8n', 'Xero API', 'Postgres', 'S3', 'Slack'] },
+      { id: 'routecard', n: '05', name: 'Routecard', kind: 'Mobile app', year: '2023', client: 'Facilities maintenance contractor', featured: false,
+        metric: 'Offline-first · 0 lost job records in 18 months',
+        sum: 'A cross-platform app for field crews that works when the van has no signal and reconciles when it does.',
+        coverAlt: 'Abstract mobile mockup: job cards queued for sync',
+        bars: barsFrom(['58%', '26%', '64%', '31%', '70%', '35%', '52%'], -1),
+        stack: ['React Native', 'Expo', 'WatermelonDB', 'Mapbox', 'Sentry'] },
+      { id: 'sixteen', n: '06', name: 'Sixteen Wires', kind: 'Integration', year: '2023', client: 'DTC supplements brand', featured: false,
+        metric: '5 systems, 1 source of truth',
+        sum: 'Five third-party APIs wired into one order-to-cash workflow, with a retry story for every hop.',
+        coverAlt: 'Abstract integration mockup: five service lanes converging into one queue',
+        bars: barsFrom(['42%', '49%', '38%', '56%', '46%', '61%', '44%'], -1),
+        stack: ['Stripe', 'Airtable', 'Twilio', 'Xero', 'GoHighLevel', 'n8n'] }
+    ];
+    const projects = P.map(p => ({
+      ...p, href: '/projects/' + p.id, vtCover: 'p-cover-' + p.id, vtTitle: 'p-title-' + p.id,
+      featDisp: p.featured ? 'inline-block' : 'none',
+      featBlock: p.featured ? 'block' : 'none',
+      h1: p.bars[0].h, h2b: p.bars[1].h, h3b: p.bars[2].h, h4: p.bars[3].h,
+      h5: p.bars[4].h, h6: p.bars[5].h, h7: p.bars[6].h,
+      c5: p.bars[4].c, c6: p.bars[5].c, c7: p.bars[6].c,
+      open: e => { e.preventDefault(); this.vt({ view: 'case', project: p.id }, ['p-cover-' + p.id, 'p-title-' + p.id], ['d-cover', 'd-title']); }
+    }));
+    const cs = P.find(p => p.id === s.project) || P[0];
+
+    const POSTS = [
+      { id: 'idem', n: '01', title: 'The idempotency key that stopped my 3 a.m. pages', date: '12 Feb 2026', mins: '9 min', topic: 'Automation',
+        dek: 'Sixty-one invoices filed twice, and the twenty-minute Postgres table that made it impossible.' },
+      { id: 'scopes', n: '02', title: 'GoHighLevel API v2: what the docs omit about sub-account scopes', date: '28 Jan 2026', mins: '11 min', topic: 'Platform',
+        dek: 'Agency tokens, location tokens, and the four permissions you only discover in production.' },
+      { id: 'auth', n: '03', title: 'Shipping a marketplace app when the platform owns your auth', date: '09 Dec 2025', mins: '7 min', topic: 'Platform',
+        dek: 'Install, uninstall, reinstall — the three flows that decide whether your app survives review.' },
+      { id: 'offline', n: '04', title: 'Offline-first is a data model decision, not a library choice', date: '17 Nov 2025', mins: '12 min', topic: 'Mobile',
+        dek: 'What changes when the van has no signal for six hours and two crews edit the same job.' },
+      { id: 'inbox', n: '05', title: 'I stopped writing webhook handlers and started writing inboxes', date: '02 Oct 2025', mins: '6 min', topic: 'Automation',
+        dek: 'Accept, persist, acknowledge, then process. Three lines of ordering that removed a class of bug.' }
+    ];
+    const posts = POSTS.map(p => ({
+      ...p, href: '/writing/' + p.id, vtCover: 'b-cover-' + p.id, vtTitle: 'b-title-' + p.id,
+      open: e => { e.preventDefault(); this.vt({ view: 'post', post: p.id }, ['b-cover-' + p.id, 'b-title-' + p.id], ['bd-cover', 'bd-title']); }
+    }));
+    const post = POSTS.find(p => p.id === s.post) || POSTS[0];
+
+    const menuItems = [
+      ['01', 'About', 'Six years, plainly stated', '/about'],
+      ['02', 'Services', 'Four things, and what each costs', '/services'],
+      ['03', 'Projects', 'Six systems in production', '/projects'],
+      ['04', 'Writing', 'Notes from things that broke', '/writing'],
+      ['05', 'Testimonials', 'People who lived with the result', '/testimonials'],
+      ['06', 'FAQ', 'Asked before every project', '/faq'],
+      ['07', 'Contact', 'One reply, one business day', '/contact']
+    ].map(([n, label, meta, href], i) => ({ n, label, meta, href, delay: (0.07 * i).toFixed(2) + 's' }));
+
+    const faqData = [
+      ['01', 'How do you scope a project?', 'A paid two-day discovery, credited against the build if you go ahead. Output is a written spec: the process as it runs today, the parts I will automate, the parts I will not, a fixed price and a date. Roughly one in five discoveries ends with me saying the automation is not worth building yet.'],
+      ['02', 'What does handover include?', 'A recorded walkthrough, a runbook listing every failure mode with the fix, credentials transferred to accounts you own, and thirty days of fixes at no cost. Nothing runs on infrastructure in my name.'],
+      ['03', 'Do you work white-label for agencies?', 'Yes, and about half the work is that. I appear as your engineer, use your project tooling, and never contact your client directly unless you put me on the call.'],
+      ['04', 'What are typical timelines?', 'An automation pipeline is two to four weeks. A GoHighLevel dashboard or marketplace app is four to eight. A web app or mobile app is eight to sixteen, staged so something ships in the first three.'],
+      ['05', 'Who owns the code and the automations?', 'You do, on delivery, in writing. Repositories are transferred to your organisation, n8n workflows exported and documented, and you get the architecture notes so the next engineer does not have to guess.']
+    ];
+    const faqs = faqData.map(([n, q, a], i) => ({
+      n, q, a, open: s.faq === i, toggle: () => this.setState({ faq: s.faq === i ? -1 : i }),
+      iconColor: s.faq === i ? '#c084fc' : 'rgba(255,255,255,.45)',
+      iconRot: s.faq === i ? 'rotate(45deg)' : 'none'
+    }));
+
+    return {
+      ...T,
+      tabs, progress: ((idx + 1) / tabDefs.length * 100).toFixed(0) + '%',
+      setPhone: () => this.setState({ phone: true }),
+      setDesktop: () => this.setState({ phone: false }),
+      phBg: phone ? 'rgba(255,255,255,.09)' : 'transparent',
+      phBd: phone ? 'rgba(192,132,252,.55)' : 'rgba(255,255,255,.1)',
+      phFg: phone ? '#fff' : 'rgba(255,255,255,.62)',
+      dtBg: phone ? 'transparent' : 'rgba(255,255,255,.09)',
+      dtBd: phone ? 'rgba(255,255,255,.1)' : 'rgba(192,132,252,.55)',
+      dtFg: phone ? 'rgba(255,255,255,.62)' : '#fff',
+
+      isNav: s.view === 'nav', isAbout: s.view === 'about', isServices: s.view === 'services',
+      isProjects: s.view === 'projects', isCase: s.view === 'case', isVoices: s.view === 'voices',
+      isBlog: s.view === 'blog', isPost: s.view === 'post', isContact: s.view === 'contact', isNote: s.view === 'note',
+
+      socialDots: ['x', 'in', 'gh', 'ig', '@'],
+      menuOpen: s.menuOpen, menuClosed: !s.menuOpen,
+      menuLabel: s.menuOpen ? 'Close' : 'Index',
+      openMenu: () => this.setState({ menuOpen: true }),
+      toggleMenu: () => this.setState({ menuOpen: !s.menuOpen }),
+      menuItems,
+
+      facts: [
+        { k: 'Based', v: 'Lahore, Pakistan' }, { k: 'Timezone', v: 'UTC+5' },
+        { k: 'Experience', v: '6 years' }, { k: 'Systems shipped', v: '34' },
+        { k: 'Still in production', v: '28' }, { k: 'Longest-running', v: '4 years, 1 month' },
+        { k: 'Works with', v: 'Founders, agencies' }, { k: 'Engagement', v: 'Fixed scope, fixed price' }
+      ],
+      stackGroups: [
+        { title: 'Automation', items: ['n8n (self-hosted and cloud)', 'GoHighLevel workflows', 'Webhook inboxes + queues', 'Postgres as the ledger', 'Retry and idempotency design'] },
+        { title: 'Platform · GoHighLevel', items: ['API v2, agency + location scopes', 'Marketplace apps, OAuth 2.0', 'Custom menu-link dashboards', 'Sub-account provisioning', 'Snapshot and template hygiene'] },
+        { title: 'Web', items: ['Next.js, App Router', 'TypeScript', 'Tailwind', 'Prisma + Postgres', 'Vercel, Railway, Hetzner'] },
+        { title: 'Mobile', items: ['React Native + Expo', 'Offline-first sync', 'WatermelonDB, SQLite', 'App Store + Play releases', 'Sentry, OTA updates'] }
+      ],
+      timeline: [
+        { year: '2020', title: 'First paid automation', body: 'A lead-routing script for a two-person insurance agency. It ran for four years before the platform shipped the same feature.' },
+        { year: '2021', title: 'Moved into GoHighLevel full time', body: 'Built snapshots and workflows for resellers, then started writing the things snapshots could not do.' },
+        { year: '2022', title: 'First marketplace app', body: 'Learned that on someone else\u2019s platform, the install and uninstall flows are the product.' },
+        { year: '2023', title: 'Mobile and integrations', body: 'Two cross-platform apps and an order-to-cash integration across five APIs. The year offline-first stopped being theoretical.' },
+        { year: '2024', title: 'Pipelines with runbooks', body: 'Started shipping a documented failure mode with every automation. Support requests dropped by roughly half.' },
+        { year: '2025 →', title: 'Systems, not scripts', body: 'Custom dashboards and portals inside the platforms clients already live in, handed off with the keys and the notes.' }
+      ],
+
+      services: [
+        { n: '01', title: 'Automation Systems', shape: '2–4 weeks · fixed price · runbook included',
+          body: 'A manual process, written down until it stops having exceptions, then rebuilt as a pipeline with retries, an exception queue and a log someone can read at 8 a.m.',
+          tags: ['n8n', 'Webhooks', 'Postgres', 'Exception queues'] },
+        { n: '02', title: 'Platform Solutions · GoHighLevel', shape: '4–8 weeks · agency or direct',
+          body: 'The layer under snapshots: custom dashboards mounted inside the platform, marketplace apps with their own OAuth, provisioning that runs on a schedule, API v2 work that survives a rate limit.',
+          tags: ['API v2', 'Marketplace apps', 'Dashboards', 'Provisioning'] },
+        { n: '03', title: 'Web Development', shape: '8–16 weeks · staged releases',
+          body: 'Client-facing applications where the hard part is the data model, not the pixels. Portals, internal tools, anything replacing a spreadsheet that six people fight over.',
+          tags: ['Next.js', 'TypeScript', 'Postgres', 'Auth'] },
+        { n: '04', title: 'Mobile Apps', shape: '8–16 weeks · store submission included',
+          body: 'One codebase, both stores, built for the case where the network is not there. Sync conflicts get designed, not discovered.',
+          tags: ['React Native', 'Expo', 'Offline-first', 'Releases'] }
+      ],
+      ghlCovers: [
+        'Custom dashboards mounted as a menu link, so they open inside the sub-account rather than in a separate BI tool.',
+        'Marketplace apps: OAuth install, webhook subscriptions, uninstall cleanup, and a review submission that passes first time.',
+        'Sub-account provisioning — creation, snapshot application, user seeding and tagging — on a schedule or a trigger.',
+        'API v2 integrations with rate-limit backoff, nightly reconciliation, and a sync log you can read without me.',
+        'Repairing existing builds: usually a token scope problem, a webhook with no retry, or both.'
+      ],
+      ghlNos: [
+        'Rebuilding a working snapshot into custom code because custom code sounds better.',
+        'Dashboards without an agreed definition of the metric. That conversation comes first or the build does not start.',
+        'Scraping the platform UI where an API exists. It breaks on their release schedule, not yours.'
+      ],
+      ghlSteps: [
+        { n: '01', title: 'Read the process', body: 'Two sessions with the person who does the work today, and one page of agreed definitions out the other end.', dur: 'Days 1–2' },
+        { n: '02', title: 'Thin slice', body: 'One sub-account, one metric, end to end, in the real environment. Proves the scopes and the shape.', dur: 'Week 1' },
+        { n: '03', title: 'Build and harden', body: 'The rest of the surface, plus the sync, the cache, the backoff and the exception view.', dur: 'Weeks 2–6' },
+        { n: '04', title: 'Hand off', body: 'Recorded walkthrough, runbook per failure mode, credentials moved to accounts you own, 30 days of fixes.', dur: 'Final week' }
+      ],
+
+      sideRows: ['84%', '62%', '71%', '55%', '78%', '48%', '66%', '58%'],
+      kpis: ['qualified leads', 'cost / booked', 'off pace: 5'],
+      csBars: barsFrom(['32%', '48%', '38%', '61%', '55%', '72%', '44%', '58%', '66%', '51%', '84%', '47%', '62%', '39%'], 10),
+      tblRows: ['92%', '76%', '84%'],
+      logRows: [
+        { c: 'rgba(255,255,255,.22)', w: '78%' }, { c: 'rgba(255,255,255,.22)', w: '64%' },
+        { c: '#c084fc', w: '86%' }, { c: 'rgba(255,255,255,.22)', w: '58%' },
+        { c: 'rgba(255,255,255,.22)', w: '72%' }, { c: '#c084fc', w: '66%' },
+        { c: 'rgba(255,255,255,.22)', w: '80%' }
+      ],
+      projects, cs, csMeta: [
+        { k: 'Client', v: cs.client }, { k: 'Year', v: cs.year },
+        { k: 'Type', v: cs.kind }, { k: 'Duration', v: '7 weeks' }, { k: 'Team', v: 'Solo engineer' }
+      ],
+      csApproach: [
+        { n: '01', title: 'Agree the definitions first', body: 'A qualified lead became one thing across all 42 sub-accounts: a form submission with a booked call outcome inside 14 days. Written down, signed off, then built.' },
+        { n: '02', title: 'Build where the work happens', body: 'The dashboard is a custom menu link inside GoHighLevel. Account managers never leave the tool they already have open, which is why this version got adopted and the previous three did not.' },
+        { n: '03', title: 'Sync nightly, cache today', body: 'A 03:00 job pulls all 42 sub-accounts into Postgres; Redis holds the current day. Page loads never touch the API, so the dashboard is fast and the rate limit is never the user\u2019s problem.' },
+        { n: '04', title: 'Sort by exception', body: 'The default view is not alphabetical. It lists the five accounts furthest from target, because that is the only list anyone acts on.' }
+      ],
+      csResults: [
+        { v: '11 min', k: 'Monday reporting, down from six hours' },
+        { v: '38 / 42', k: 'Account managers using it weekly' },
+        { v: '0', k: 'API rate-limit incidents since launch' },
+        { v: '2', k: 'Renewals credited to the new report' }
+      ],
+
+      quotes: [
+        { mono: 'HI', name: 'Hafsa Iqbal', role: 'Operations Lead, equipment rental',
+          text: 'End of month used to take two of us three days. Zubair sat with the actual invoicing spreadsheet for an afternoon, then rebuilt it as a pipeline that files 480 invoices and hands us a list of nine exceptions. He warned us about the nine before he built it.' },
+        { mono: 'DO', name: 'Daniel Okafor', role: 'Founder, marketing agency',
+          text: 'We had four dashboards and no agreement on which number was right. He made us define a qualified lead and write it down before he touched any code. That order mattered more than the dashboard did.' },
+        { mono: 'PM', name: 'Priya Menon', role: 'Service Delivery Manager, facilities contractor',
+          text: 'Our crews lose signal for half the day and the app just handles it. Eighteen months in we have not lost a job record, and the two bugs we did hit came back with a fix and an explanation of what caused them.' }
+      ],
+      faqs,
+
+      blogFull: !s.blogEmpty, blogEmpty: s.blogEmpty,
+      emptyLabel: s.blogEmpty ? 'Show published index' : 'Show empty state',
+      toggleEmpty: () => this.setState({ blogEmpty: !s.blogEmpty }),
+      goProjects: e => { e.preventDefault(); this.setState({ view: 'projects' }); window.scrollTo(0, 0); },
+      posts,
+      drafts: [
+        { state: 'In review', title: 'The idempotency key that stopped my 3 a.m. pages', eta: 'Feb' },
+        { state: 'Drafted', title: 'GoHighLevel API v2: what the docs omit about sub-account scopes', eta: 'Mar' },
+        { state: 'Outlined', title: 'Offline-first is a data model decision, not a library choice', eta: 'Apr' }
+      ],
+      post, postH1: T.postH1,
+      postList: [
+        'Ordering. Two events for the same invoice arriving out of order still produce the wrong final state; the key only stops the second write, it does not sequence them.',
+        'Partial writes. If the third of four API calls fails, the claim is already taken and the record is half-built. Claim per hop, or make the whole hop reversible.',
+        'Upstream duplicates. When the source system emits the same event with two different ids, no key you derive from those ids can save you. That one needs a human rule.'
+      ],
+      backProjects: e => { e.preventDefault(); const id = s.project; this.vt({ view: 'projects' }, ['d-cover', 'd-title'], ['p-cover-' + id, 'p-title-' + id]); },
+      backBlog: e => { e.preventDefault(); const id = s.post; this.vt({ view: 'blog', blogEmpty: false }, ['bd-cover', 'bd-title'], ['b-cover-' + id, 'b-title-' + id]); },
+
+      fields: [
+        { id: 'c-name', label: 'Name', type: 'text', ph: 'Daniel Okafor', ac: 'name' },
+        { id: 'c-email', label: 'Email', type: 'email', ph: 'you@company.com', ac: 'email' },
+        { id: 'c-company', label: 'Company or agency', type: 'text', ph: 'Marketing agency, 40 retainer clients', ac: 'organization' }
+      ],
+      kinds: ['Automation system', 'GoHighLevel build', 'Web application', 'Mobile app', 'Not sure yet'],
+      submit: e => { e.preventDefault(); this.setState({ sent: 'Prototype — nothing sent. Real form posts to a queue, not an inbox.' }); },
+      sent: s.sent,
+      contactMeta: [
+        { k: 'Location', v: 'Lahore, Pakistan' }, { k: 'Reply time', v: 'Within 1 business day' },
+        { k: 'X', v: 'x.com/zubairbinshaukt' }, { k: 'LinkedIn', v: '/in/zubairbinshaukat' },
+        { k: 'GitHub', v: '/zubairbinshaukat' }, { k: 'Instagram', v: '@zubairbinshaukat' }
+      ],
+      footerCols: [
+        { title: 'Site', links: [
+          { label: 'About', href: '/about' }, { label: 'Services', href: '/services' },
+          { label: 'Projects', href: '/projects' }, { label: 'Writing', href: '/writing' },
+          { label: 'Testimonials', href: '/testimonials' }, { label: 'FAQ', href: '/faq' }, { label: 'Contact', href: '/contact' }
+        ] },
+        { title: 'Services', links: [
+          { label: 'Automation Systems', href: '/services/automation' }, { label: 'Platform · GoHighLevel', href: '/services/gohighlevel' },
+          { label: 'Web Development', href: '/services/web' }, { label: 'Mobile Apps', href: '/services/mobile' }
+        ] },
+        { title: 'Elsewhere', links: [
+          { label: 'X · zubairbinshaukt', href: 'https://x.com/zubairbinshaukt' },
+          { label: 'LinkedIn', href: 'https://linkedin.com/in/zubairbinshaukat' },
+          { label: 'GitHub', href: 'https://github.com/zubairbinshaukat' },
+          { label: 'Instagram', href: 'https://instagram.com/zubairbinshaukat' },
+          { label: 'thedevzubair@gmail.com', href: 'mailto:thedevzubair@gmail.com' }
+        ] }
+      ],
+
+      noteCards: [
+        { title: 'Type scale', rows: [
+          { k: 'Display · Didone, 400', v: 'clamp(38,5.4vw,76)' },
+          { k: 'Section h2 · Didone, 400', v: 'clamp(29,4vw,56)' },
+          { k: 'Item h2/h3 · Didone, 400', v: 'clamp(22,2.2vw,32)' },
+          { k: 'Post title · Inter, 700', v: 'clamp(30,3.2vw,46)' },
+          { k: 'Lede · Inter, 400', v: '17 / 1.78' },
+          { k: 'Body · Inter, 400', v: '15 / 1.8' },
+          { k: 'Long-form body', v: '17 / 1.8' },
+          { k: 'Eyebrow · mono', v: '11 · 0.25em caps' },
+          { k: 'Metadata · mono', v: '10.5 · 0.16em caps' }
+        ] },
+        { title: 'Spacing', rows: [
+          { k: 'Base unit', v: '4px' },
+          { k: 'Gutter', v: 'clamp(24,4vw,64)' },
+          { k: 'Max measure', v: '1240px / 66ch text' },
+          { k: 'Section rhythm', v: '52 · 80 · 90' },
+          { k: 'Ledger row padding', v: '24–26 vertical' },
+          { k: 'Stagger', v: '0.07s, 500ms, ease 0.22/1/0.36/1' },
+          { k: 'Radii', v: '999 · 20 · 16 · 14 · 12' },
+          { k: 'Min tap target', v: '44px' }
+        ] },
+        { title: 'The gradient rule', rows: [
+          { k: 'Once per view, at one size', v: 'enforced' },
+          { k: 'Always a line, mask or single CTA', v: 'never a fill' },
+          { k: 'Full-width only as scroll progress', v: '1px' },
+          { k: 'Section backgrounds', v: 'none, ever' },
+          { k: 'Allowed on hover/focus', v: 'only the touched element' },
+          { k: 'Elsewhere the accent is', v: '#c084fc, 1px' },
+          { k: 'Ambient purple wash', v: 'hero + index only' }
+        ] },
+        { title: 'Colour + contrast', rows: [
+          { k: 'Ground', v: '#000000' },
+          { k: 'Elevated', v: '#08080C' },
+          { k: 'Surface', v: 'white 3%' },
+          { k: 'Hairline', v: 'white 6–7%' },
+          { k: 'Heading', v: 'white 100%' },
+          { k: 'Body floor', v: 'white 62% · 6.9:1' },
+          { k: 'Metadata floor', v: 'white 50% · 5.2:1' },
+          { k: 'Accent text', v: '#c084fc · 8.4:1' },
+          { k: 'Focus ring', v: '2px #c084fc, 3px offset' }
+        ] }
+      ],
+      defends: [
+        { n: '01', title: 'There is no menu bar — navigation is one full-screen index at every width.', body: 'The hero already floats two things. A third would make the top of the site a shelf of pills. Collapsing desktop and mobile navigation into the same typographic overlay means the nav is a designed moment instead of a compromise, the trigger is a 44px target everywhere, and there is exactly one nav to maintain in the Next.js build. The cost is one extra tap on desktop; skimmers get the section readout in the condensed bar instead.' },
+        { n: '02', title: 'The display Didone carries every heading level, not just the hero.', body: 'The brief noticed the typeface is the identity and the rest of the site is generic. Putting Inter on section headings would keep that true. So the display serif runs from the 76px display down to 22px project names, always at weight 400, always with tracking near zero — and Inter is demoted to body, UI and the one place a serif genuinely reads worse: the long-form post title, where 26 characters per line at 700 weight is more legible. Mono holds every index, label and number, which is what gives the ledger its spine.' },
+        { n: '03', title: 'Cards are the exception; hairline rows are the default.', body: 'Six projects, five posts, four services and seven nav items are all lists, and a list of rules reads faster and denser than a grid of cards — which is what a skimming founder needs. Cards appear exactly three times, where the unit really is a discrete object: testimonials, the four process steps, and the outcome numbers. That restraint is also why no bento grid and no three-across icon circles appear anywhere.' },
+        { n: '04', title: 'Shared element transitions are used on two navigations only.', body: 'Project card → case study and post row → post. The cover and the title carry through on a 620ms 0.22/1/0.36/1 curve while the rest of the page cross-fades in 300ms, so the eye follows one object rather than watching a whole page move. Every other navigation is an ordinary one, no support means an ordinary one too, and reduced motion skips it entirely.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

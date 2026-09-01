@@ -1,0 +1,30 @@
+# Zubair Bin Shaukat
+
+> Zubair Bin Shaukat is a software engineer based in Lahore, Pakistan. He
+> builds business automation systems with n8n, custom GoHighLevel dashboards
+> and marketplace apps, web applications with Next.js and React, and
+> cross-platform mobile applications with React Native. He works directly with
+> founders and white-label for agencies, on fixed-scope engagements.
+
+Also known as: Zubyr, Zubair Shaukat.
+Contact: thedevzubair@gmail.com
+Canonical site: https://www.zubyr.dev
+
+## Pages
+
+- [Home](https://www.zubyr.dev/): Overview of the four services, selected case studies, how the work runs, and the FAQ.
+- [About](https://www.zubyr.dev/about): Fact-dense third-person profile — role, location, stack, and what he takes on.
+- [GoHighLevel Development](https://www.zubyr.dev/services/gohighlevel): Custom dashboards mounted inside the platform, marketplace apps with OAuth, sub-account provisioning, API v2 integrations.
+- [n8n & Workflow Automation](https://www.zubyr.dev/services/automation): Manual processes rebuilt as n8n pipelines with retries, idempotency, an exception queue and a runbook.
+- [Web Development](https://www.zubyr.dev/services/web-development): Client portals, internal tools and web applications in Next.js, React, TypeScript and Postgres.
+- [Mobile App Development](https://www.zubyr.dev/services/mobile): Cross-platform iOS and Android apps in React Native and Expo, built offline-first.
+- [Projects](https://www.zubyr.dev/projects): Selected work written up as case studies — problem, approach, outcome.
+- [Blog](https://www.zubyr.dev/blog): Engineering notes on automation, platform APIs and mobile sync.
+- [Contact](https://www.zubyr.dev/contact): How to start a project, and what to include in a first message.
+
+## Profiles
+
+- GitHub: https://github.com/zubairbinshaukat
+- LinkedIn: https://www.linkedin.com/in/zubairbinshaukat
+- X: https://x.com/zubairbinshaukt
+- Instagram: https://www.instagram.com/zubairbinshaukat

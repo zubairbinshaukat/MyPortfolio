@@ -9,7 +9,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "check:meta": "node scripts/check-meta.mjs",
+    "check:nojs": "node scripts/check-nojs.mjs",
+    "check": "npm run check:content && npm run build && npm run check:meta && npm run check:commitments && npm run check:nojs",
+    "check:content": "node scripts/check-content.mjs",
+    "check:commitments": "node scripts/check-commitments.mjs"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.14.0",
@@ -18,15 +23,24 @@
     "@tsparticles/slim": "^3.5.0",
     "clsx": "^2.1.1",
     "framer-motion": "^13.1.1",
+    "gray-matter": "^4.0.3",
     "next": "16.3.4",
+    "next-mdx-remote-client": "^2.1.12",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-pretty-code": "^0.14.5",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "shiki": "^4.4.3",
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
     "eslint": "^9.39.5",
     "eslint-config-next": "16.3.4",
+    "pngjs": "^7.0.0",
     "postcss": "^8",
+    "puppeteer": "^25.9.0",
     "tailwindcss": "^3.4.1"
   }
 }

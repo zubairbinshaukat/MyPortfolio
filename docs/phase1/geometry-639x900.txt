@@ -1,0 +1,249 @@
+A|Skip to content|-1|-1|1|1|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||0|0|639|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0))
+DIV||0|0|639|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||0|0|639|64|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||0|0|639|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||571|-20|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+BUTTON||571|-20|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||581|-10|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(163, 163, 163)|none
+path||584|-7|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(163, 163, 163)|none
+path||584|3|13|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(163, 163, 163)|none
+path||589|-3|3|2|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(163, 163, 163)|none
+DIV||0|0|639|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+IMG||28|20|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(0, 0, 0, 0)|none
+DIV||0|0|639|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+CANVAS||0|0|0|0
+DIV||0|0|639|450|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||32|122|73|62|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||21|111|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||27|117|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||92|111|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||98|117|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||21|171|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||27|177|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||92|171|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||98|177|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H1|Hi!|49|135|39|36|"Yatra One", "Yatra One Fallback", cursi|30px|700|rgb(243, 244, 246)|none
+P|I'm|32|192|607|32|Font2, sans-serif|24px|700|rgb(255, 255, 255)|none
+H1|ZUBAIR|32|224|607|48|Font2, sans-serif|48px|700|rgb(255, 255, 255)|none
+DIV||32|248|607|80|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(0, 0, 0, 0)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+SPAN|Bin Shaukat|32|258|226|60|Font0, sans-serif|48px|500|rgba(0, 0, 0, 0)|none
+DIV||64|450|511|450|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||64|450|511|450|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||64|389|511|511|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||64|389|511|511|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||115|440|409|409|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||74|399|146|44|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||74|399|146|44|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV|Web Developer|71|384|152|73|ui-sans-serif, system-ui, sans-serif, "A|14px|600|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||64|389|511|511|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+IMG||64|0|511|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(0, 0, 0, 0)|none
+DIV||439|779|161|44|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||439|779|161|44|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV|Mobile Developer|437|771|165|61|ui-sans-serif, system-ui, sans-serif, "A|14px|600|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||563|619|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||563|619|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||531|517|8|8|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||531|517|8|8|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||0|900|639|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+NAV||0|900|639|90|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||0|901|639|88|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+UL||24|917|591|56|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+LI||24|917|45|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Zubair|24|918|45|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+LI||93|917|44|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|About|93|918|44|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||161|917|90|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|GoHighLevel|161|918|90|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||275|917|84|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Automation|275|918|84|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||382|917|131|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Web Development|382|918|131|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||538|917|49|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Mobile|538|918|49|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|949|56|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Projects|24|950|56|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||104|949|32|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Blog|104|950|32|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||160|949|55|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Contact|160|950|55|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+MAIN||0|990|639|5171|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+SECTION||0|990|639|1080|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H2|What I do|24|1054|591|36|ui-sans-serif, system-ui, sans-serif, "A|30px|700|rgb(255, 255, 255)|none
+P|Four kinds of work. Each one is scoped i|24|1102|591|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+UL||24|1182|591|824|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+LI||24|1182|591|194|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3||49|1207|541|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+A|GoHighLevel Development|49|1207|243|27|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+P|The layer under snapshots: custom dashbo|49|1243|541|72|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+P|4–8 weeks · agency or direct|49|1327|541|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.7)|none
+LI||24|1400|591|194|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3||49|1425|541|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+A|n8n & Workflow Automation|49|1425|261|27|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+P|A manual process, written down until it |49|1461|541|72|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+P|2–4 weeks · fixed price · runbook includ|49|1545|541|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.7)|none
+LI||24|1618|591|194|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3||49|1643|541|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+A|Web Development|49|1643|169|27|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+P|Client-facing applications where the har|49|1679|541|72|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+P|8–16 weeks · staged releases|49|1763|541|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.7)|none
+LI||24|1836|591|170|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3||49|1861|541|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+A|Mobile App Development|49|1861|234|27|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+P|One codebase, both stores, built for the|49|1897|541|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+P|8–16 weeks · store submission included|49|1957|541|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.7)|none
+SECTION||0|2070|639|727|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H2|Selected work|24|2134|591|36|ui-sans-serif, system-ui, sans-serif, "A|30px|700|rgb(255, 255, 255)|none
+UL||24|2202|591|475|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+LI||24|2202|591|137|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3||24|2227|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+A|Biz-Xpert Mobile|24|2227|154|27|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+P|Mobile app · 2025|24|2259|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.7)|none
+P|The cross-platform mobile client for the|24|2291|591|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+LI||24|2371|591|137|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3||24|2396|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+A|Biz-Xpert Web|24|2396|132|27|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+P|Web application · 2025|24|2428|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.7)|none
+P|A business platform web application buil|24|2460|591|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+LI||24|2540|591|137|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3||24|2565|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+A|OpenCinema|24|2565|118|27|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+P|Web application · 2024|24|2597|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.7)|none
+P|A movie discovery interface built on a p|24|2629|591|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+P||24|2709|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|All projects|24|2710|79|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+SECTION||0|2797|639|683|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H2|How I work|24|2861|591|36|ui-sans-serif, system-ui, sans-serif, "A|30px|700|rgb(255, 255, 255)|none
+OL||24|2929|591|487|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+LI||24|2929|591|157|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3||24|2954|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+SPAN|01|24|2954|19|27|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgba(255, 255, 255, 0.7)|none
+P|Sessions with the person who does the wo|24|2990|591|96|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+LI||24|3118|591|133|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3||24|3143|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+SPAN|02|24|3143|22|27|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgba(255, 255, 255, 0.7)|none
+P|One complete path, end to end, in the re|24|3179|591|72|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+LI||24|3283|591|133|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3||24|3308|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+SPAN|03|24|3308|22|27|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgba(255, 255, 255, 0.7)|none
+P|A recorded walkthrough, a runbook listin|24|3344|591|72|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+SECTION||0|3480|639|805|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H2|What people say|24|3544|591|36|ui-sans-serif, system-ui, sans-serif, "A|30px|700|rgb(255, 255, 255)|none
+UL||24|3612|591|609|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+LI||24|3612|591|179|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+FIGURE||24|3612|591|179|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+BLOCKQUOTE||49|3637|541|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+P|Always brings smart ideas and clean code|49|3637|541|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+FIGCAPTION||49|3701|541|65|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+SPAN|UK|49|3722|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|600|rgb(255, 255, 255)|none
+SPAN||101|3718|154|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+SPAN|Co-Founder, Devsmat|101|3742|154|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.7)|none
+LI||24|3815|591|203|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+FIGURE||24|3815|591|203|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+BLOCKQUOTE||49|3840|541|72|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+P|Zubair is not a person but a legend. Wor|49|3840|541|72|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+FIGCAPTION||49|3928|541|65|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+SPAN|FA|49|3949|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|600|rgb(255, 255, 255)|none
+SPAN||101|3945|217|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+SPAN|Co-Founder, Indepth Solutions|101|3969|217|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.7)|none
+LI||24|4042|591|179|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+FIGURE||24|4042|591|179|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+BLOCKQUOTE||49|4067|541|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+P|Quick learner with a real passion for co|49|4067|541|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+FIGCAPTION||49|4131|541|65|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+SPAN|QH|49|4152|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|600|rgb(255, 255, 255)|none
+SPAN||101|4148|154|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+SPAN|Co-Founder, Devsmat|101|4172|154|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.7)|none
+SECTION||0|4285|639|1604|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H2|Frequently asked questions|24|4349|591|36|ui-sans-serif, system-ui, sans-serif, "A|30px|700|rgb(255, 255, 255)|none
+DL||24|4417|591|1408|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||24|4417|591|181|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DT||24|4442|591|28|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3|Who is Zubair Bin Shaukat?|24|4442|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+DD|Zubair Bin Shaukat is a software enginee|24|4478|591|120|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+DIV||24|4630|591|181|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DT||24|4655|591|28|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3|What services does Zubair Bin Shaukat of|24|4655|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+DD|Four things. Automation systems built on|24|4691|591|120|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+DIV||24|4843|591|133|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DT||24|4868|591|28|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3|Where is Zubair Bin Shaukat based?|24|4868|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+DD|Lahore, Pakistan, on UTC+5. He works rem|24|4904|591|72|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+DIV||24|5008|591|157|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DT||24|5033|591|28|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3|How can I hire Zubair Bin Shaukat?|24|5033|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+DD|Through the contact form at https://www.|24|5069|591|96|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+DIV||24|5197|591|157|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DT||24|5222|591|28|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3|How do you scope a project?|24|5222|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+DD|A paid discovery, credited against the b|24|5258|591|96|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+DIV||24|5386|591|133|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DT||24|5411|591|28|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3|What does handover include?|24|5411|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+DD|A recorded walkthrough, a runbook listin|24|5447|591|72|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+DIV||24|5551|591|109|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DT||24|5576|591|28|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3|Do you work white-label for agencies?|24|5576|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+DD|Yes. The engagement appears as your engi|24|5612|591|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+DIV||24|5692|591|133|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DT||24|5717|591|28|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H3|Who owns the code and the automations?|24|5717|591|28|ui-sans-serif, system-ui, sans-serif, "A|20px|600|rgb(255, 255, 255)|none
+DD|You do, on delivery, in writing. Reposit|24|5753|591|72|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+SECTION||0|5889|639|272|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H2|Start a project|24|5953|591|36|ui-sans-serif, system-ui, sans-serif, "A|30px|700|rgb(255, 255, 255)|none
+P|Describe the process you want automated |24|6001|591|48|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
+P||24|6073|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Get in touch|24|6073|87|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|thedevzubair@gmail.com|135|6073|180|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+DIV||621|393|10|114|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||621|393|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||620|392|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||621|419|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||621|419|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||621|445|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||621|445|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||621|471|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||621|471|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||621|497|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||621|497|10|10|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+FOOTER||0|6161|639|786|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||0|6162|639|785|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||24|6210|591|600|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||24|6210|591|184|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H2|Site|24|6210|591|20|ui-sans-serif, system-ui, sans-serif, "A|14px|600|rgb(255, 255, 255)|none
+UL||24|6242|591|152|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+LI||24|6242|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Home|24|6243|43|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6274|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|About|24|6275|44|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6306|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Projects|24|6307|56|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6338|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Blog|24|6339|32|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6370|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Contact|24|6371|55|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+DIV||24|6434|591|152|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H2|Services|24|6434|591|20|ui-sans-serif, system-ui, sans-serif, "A|14px|600|rgb(255, 255, 255)|none
+UL||24|6466|591|120|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+LI||24|6466|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|GoHighLevel Development|24|6467|189|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6498|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|n8n & Workflow Automation|24|6499|204|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6530|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Web Development|24|6531|131|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6562|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Mobile App Development|24|6563|182|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+DIV||24|6626|591|184|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H2|Elsewhere|24|6626|591|20|ui-sans-serif, system-ui, sans-serif, "A|14px|600|rgb(255, 255, 255)|none
+UL||24|6658|591|152|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+LI||24|6658|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|GitHub|24|6659|50|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6690|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|LinkedIn|24|6691|60|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6722|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|X|24|6723|9|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6754|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|Instagram|24|6755|71|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+LI||24|6786|591|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A|thedevzubair@gmail.com|24|6787|180|21|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.9)|none
+P|Zubair Bin Shaukat — Software Engineer i|24|6850|591|49|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(255, 255, 255, 0.8)|none
