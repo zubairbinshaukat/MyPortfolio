@@ -1,0 +1,77 @@
+
+===== VISUAL CONTRACT: Next 14.2.7 (baseline) -> 16.3.4 (final) =====
+
+### 390x844  *** FAIL ***
+  contract elements : 65
+  geometry/typography: 1 DIFFERENCES
+    [390x844 #26] field6: "__Yatra_One_4f563a, __Yatra_One_Fallback" -> ""Yatra One", "Yatra One Fallback", cursi"
+  frozen pixels     : 2.8105% differ / 0.3071% strong  (limit 1% / 0.05%)
+
+### 639x900  *** FAIL ***
+  contract elements : 65
+  geometry/typography: 1 DIFFERENCES
+    [639x900 #26] field6: "__Yatra_One_4f563a, __Yatra_One_Fallback" -> ""Yatra One", "Yatra One Fallback", cursi"
+  frozen pixels     : 3.0988% differ / 0.1674% strong  (limit 1% / 0.05%)
+
+### 640x900  *** FAIL ***
+  contract elements : 73
+  geometry/typography: 2 DIFFERENCES
+    [640x900 #25] field6: "__Yatra_One_4f563a, __Yatra_One_Fallback" -> ""Yatra One", "Yatra One Fallback", cursi"
+    [640x900 #62] DIV"" geom 602,414,17,17 -> 603,415,13,13
+  frozen pixels     : 0.8601% differ / 0.1684% strong  (limit 1% / 0.05%)
+
+### 1440x900  *** FAIL ***
+  contract elements : 100
+  geometry/typography: 1 DIFFERENCES
+    [1440x900 #52] field6: "__Yatra_One_4f563a, __Yatra_One_Fallback" -> ""Yatra One", "Yatra One Fallback", cursi"
+  frozen pixels     : 1.2772% differ / 0.0258% strong  (limit 1% / 0.05%)
+
+RESULT: 4 viewport(s) FAILED
+
+===== VISUAL CONTRACT: Next 15.5.25 (hop1) -> 16.3.4 (hop2) =====
+
+### 390x844  PASS
+  contract elements : 65
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels     : 0.0012% differ / 0.0000% strong  (limit 1% / 0.05%)
+
+### 639x900  PASS
+  contract elements : 65
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels     : 0.0000% differ / 0.0000% strong  (limit 1% / 0.05%)
+
+### 640x900  PASS
+  contract elements : 73
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels     : 0.0000% differ / 0.0000% strong  (limit 1% / 0.05%)
+
+### 1440x900  PASS
+  contract elements : 100
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels     : 0.0000% differ / 0.0000% strong  (limit 1% / 0.05%)
+
+RESULT: ALL VIEWPORTS PASS
+
+===== VISUAL CONTRACT: NOISE FLOOR (14.2.7 captured twice) =====
+
+### 390x844  PASS
+  contract elements : 65
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels     : 0.0134% differ / 0.0000% strong  (limit 1% / 0.05%)
+
+### 639x900  PASS
+  contract elements : 65
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels     : 0.0007% differ / 0.0000% strong  (limit 1% / 0.05%)
+
+### 640x900  PASS
+  contract elements : 73
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels     : 0.4663% differ / 0.0045% strong  (limit 1% / 0.05%)
+
+### 1440x900  PASS
+  contract elements : 100
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels     : 0.0000% differ / 0.0000% strong  (limit 1% / 0.05%)
+
+RESULT: ALL VIEWPORTS PASS

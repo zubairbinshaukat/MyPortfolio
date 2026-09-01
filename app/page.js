@@ -261,7 +261,7 @@ const Page = () => {
             className="sm:hidden absolute right-8 top-1/2 bottom-1/2 -translate-y-1/2 z-40"
           >
             <div className="flex items-center gap-3">
-              <motion.p
+              <motion.div
                 animate={({ opacity: [0.7, 1, 0.7] }, { y: [0, -8, 0] })}
                 transition={{
                   duration: 2,
@@ -273,7 +273,7 @@ const Page = () => {
                 <p className="text-white/70 text-sm font-medium tracking-wide text-nowrap">
                   Scroll to explore
                 </p>
-              </motion.p>
+              </motion.div>
             </div>
           </motion.div>
         )}
