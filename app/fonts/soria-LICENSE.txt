@@ -1,0 +1,44 @@
+Soria
+Copyright (c) 2016 by Bydani. All rights reserved.
+Designer: Bydani — https://www.behance.net/danibydani
+
+Licensed under Creative Commons Attribution-NoDerivatives 4.0 International
+(CC BY-ND 4.0). Full licence: https://creativecommons.org/licenses/by-nd/4.0/
+
+Applies to: soria-regular.woff2 and soria-og.ttf in this directory.
+
+
+THIS FONT IS NOT UNDER THE SIL OPEN FONT LICENCE
+
+The file that used to sit beside Soria in public/fonts/ was a copy of the SIL
+Open Font License, and PLAN §1 records the fonts as OFL. That is wrong for this
+one. Soria's own name table declares CC BY-ND 4.0, and the two licences differ
+on the point that matters here: OFL permits modification, ND forbids it.
+
+The practical consequence is that PLAN §2.2's instruction to subset this font
+to Latin cannot be carried out. Removing glyphs is a modification. So:
+
+  soria-og.ttf          the font exactly as released by Bydani, unmodified.
+                        Read from disk at build time by app/opengraph-image.js,
+                        which renders through Satori and cannot read WOFF2.
+                        It lives under app/ rather than public/, so no browser
+                        request can reach it.
+
+  soria-regular.woff2   the same font in a different container. Creative
+                        Commons state that technical format-shifting does not
+                        produce an adaptation, so a container change is
+                        permitted where glyph removal is not. Every glyph,
+                        every table and every advance width is preserved;
+                        scripts/check-fonts.py measures that against the
+                        master and fails if anything moved.
+
+Compliance costs 6 KB — 26.2 KB for the lossless conversion against 20.3 KB
+for the Latin subset that was planned.
+
+
+ATTRIBUTION
+
+CC BY-ND 4.0 requires credit to the creator, a link to the licence, and an
+indication of whether changes were made. The site discharges that in the
+footer's colophon line. Removing that line makes the site non-compliant; if the
+credit is unwanted, replace the typeface rather than drop the credit.

@@ -1,0 +1,26 @@
+check-preloader — PLAN §3.3
+2026-09-02T13:12:55.420Z
+http://localhost:3000
+
+  ok    zero preloader markup in the prerendered HTML  —  4 markers checked
+  ok    reduced motion: the overlay never mounts
+  ok    reduced motion: no data-intro on <html>
+  ok    reduced motion: no session cookie written  —  (no cookies)
+  ok    reduced motion: the hero lockup is untouched  —  opacity 1
+  ok    first visit: the overlay mounts
+  ok    first visit: the whole sequence is within 2200ms  —  1584ms
+  ok    the overlay's own text clears WCAG AA  —  worst 5.28:1 against 4.5:1, on "init zubyr.dev"
+  ok    second view in the same session: no overlay
+
+  5 runs per arm, interleaved, first pair discarded
+  412x823, Slow 4G, 4x CPU — the same emulation as check:vitals
+
+                   LCP median   LCP spread   CLS median   LCP element
+  preloader off        1752 ms        84 ms       0.0000   img
+  preloader on         1732 ms        76 ms       0.0000   img
+
+  ok    LCP is recorded before the overlay exists, in every run  —  5/5; margins 1228, 1255, 1244, 1198, 1282 ms
+  ok    LCP difference is inside the control arm's own noise  —  20 ms apart, tolerance 84 ms (the off arm's spread)
+  ok    the overlay contributes no LCP candidate  —  all candidates predate the overlay — off [div@13920, img@193380] on [div@13920, div@17889, img@193380]
+  ok    CLS identical  —  0.0000 vs 0.0000
+  ok    LCP element identical  —  img vs img

@@ -1,0 +1,92 @@
+DIV||0|0|1440|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0))
+DIV||0|0|1440|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||0|24|1440|64|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||0|24|1440|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||572|24|296|64|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+A||588|36|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||588|36|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||598|46|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||598|46|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||601|49|14|15|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+A||644|36|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||644|36|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||654|46|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||654|46|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||657|49|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||661|55|0|4|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||661|53|0|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||664|55|0|4|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||664|55|3|4|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+A||700|36|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||700|36|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||710|46|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||710|46|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||713|49|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||718|54|5|5|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||724|52|0|0|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+A||756|36|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||756|36|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||766|46|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||766|46|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||772|49|9|15|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+A||812|36|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||812|36|40|40|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||822|46|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||822|46|20|20|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||825|49|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+path||825|49|13|13|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(212, 212, 212)|none
+DIV||0|0|1440|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||0|0|720|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||0|0|720|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||134|213|452|314|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||134|213|73|62|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||123|202|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||129|208|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||194|202|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||200|208|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||123|262|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||129|268|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+svg||194|262|24|24|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+path||200|268|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+H1|Hi!|151|226|39|36|"Yatra One", "Yatra One Fallback", cursi|30px|700|rgb(243, 244, 246)|none
+P|I'm|134|283|452|32|Font2, sans-serif|24px|700|rgb(255, 255, 255)|none
+H1|ZUBAIR|134|315|452|108|Font2, sans-serif|108px|700|rgb(255, 255, 255)|none
+DIV||134|399|452|128|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(0, 0, 0, 0)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+SPAN|Bin Shaukat|134|403|452|120|Font0, sans-serif|96px|500|rgba(0, 0, 0, 0)|none
+DIV||40|527|640|160|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||120|527|480|2|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgba(0, 0, 0, 0), rgb(99, 102, 241
+DIV||120|527|480|1|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgba(0, 0, 0, 0), rgb(99, 102, 241
+DIV||280|527|160|5|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgba(0, 0, 0, 0), rgb(14, 165, 233
+DIV||280|527|160|1|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgba(0, 0, 0, 0), rgb(14, 165, 233
+DIV||40|527|640|160|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||40|527|640|160|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+CANVAS||40|527|640|160
+DIV||40|527|640|160|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||720|0|720|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||720|0|720|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||730|300|700|600|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||730|300|700|600|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||800|330|560|540|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||800|240|174|52|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||800|240|174|52|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV|Web Developer|796|222|181|87|ui-sans-serif, system-ui, sans-serif, "A|18px|600|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||730|300|700|600|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+IMG||730|0|700|900|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgba(0, 0, 0, 0)|none
+DIV||1250|788|194|52|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1250|788|194|52|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV|Mobile Developer|1248|778|198|72|ui-sans-serif, system-ui, sans-serif, "A|18px|600|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||1418|570|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1418|570|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||1373|450|8|8|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1373|450|8|8|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||1404|388|12|124|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1404|388|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1403|387|15|15|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||1404|416|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1404|416|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1404|444|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1404|444|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1404|472|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1404|472|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1404|500|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none
+DIV||1404|500|12|12|ui-sans-serif, system-ui, sans-serif, "A|16px|400|rgb(255, 255, 255)|none

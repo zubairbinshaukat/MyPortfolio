@@ -1,7 +1,9 @@
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
+import PageHeader from "@/components/PageHeader";
+import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "@/components/ContactForm";
-import { site, replyTime } from "@/lib/site";
+import { navEntry, site, replyTime } from "@/lib/site";
 import { services } from "@/lib/services";
 
 export const metadata = {
@@ -15,100 +17,135 @@ export const metadata = {
   alternates: { canonical: "/contact" },
 };
 
+const entry = navEntry("/contact");
+
 export default function ContactPage() {
   return (
-    <PageShell trail={[{ name: "Contact", href: "/contact" }]}>
-      <h1 className="text-4xl font-bold text-white">Start a Project</h1>
-      <p className="mt-4 max-w-3xl text-lg text-white/80">
-        Describe the process you want automated or the application you want
-        built — what happens today, who does it, and what it costs you when it
-        goes wrong. The reply will say whether it is something {site.firstName}{" "}
-        takes on, and what the next step costs.
-      </p>
+    <PageShell
+      trail={[{ name: "Contact", href: "/contact" }]}
+      readout={`${entry.n} — ${entry.label}`}
+    >
+      <PageHeader
+        n={entry.n}
+        eyebrow={entry.label}
+        title="Start a Project"
+        lede={`Describe the process you want automated or the application you want built — what happens today, who does it, and what it costs you when it goes wrong. The reply will say whether it is something ${site.firstName} takes on, and what the next step costs.`}
+      />
 
-      <section aria-labelledby="send" className="mt-12">
-        <h2 id="send" className="text-2xl font-bold text-white">
-          Send a message
-        </h2>
-        <ContactForm email={site.email} />
-      </section>
+      <div className="mt-[52px] flex flex-wrap gap-x-14 gap-y-10">
+        <section aria-labelledby="send" className="flex-[1_1_420px]">
+          <SectionHeading id="send">{entry.n}.1 Send a message</SectionHeading>
+          <ContactForm email={site.email} />
+        </section>
 
-      <section aria-labelledby="reach" className="mt-16">
-        <h2 id="reach" className="text-2xl font-bold text-white">
-          How to reach him
-        </h2>
-        <dl className="mt-6 divide-y divide-white/15 border-y border-white/15">
-          <div className="flex flex-wrap gap-x-6 py-3">
-            <dt className="w-40 shrink-0 text-white/70">Email</dt>
-            <dd>
-              <a
-                href={`mailto:${site.email}`}
-                className="text-white underline underline-offset-4"
-              >
-                {site.email}
-              </a>
-            </dd>
-          </div>
-          <div className="flex flex-wrap gap-x-6 py-3">
-            <dt className="w-40 shrink-0 text-white/70">Location</dt>
-            <dd className="text-white">
-              {site.location.locality}, {site.location.country} (
-              {site.location.timezone})
-            </dd>
-          </div>
-          {/* A reply-time promise. Gated until confirmed; see lib/commitments.mjs. */}
-          {replyTime ? (
-            <div className="flex flex-wrap gap-x-6 py-3">
-              <dt className="w-40 shrink-0 text-white/70">Reply time</dt>
-              <dd className="text-white">{replyTime}</dd>
-            </div>
-          ) : null}
-          {site.socials.map((social) => (
-            <div key={social.url} className="flex flex-wrap gap-x-6 py-3">
-              <dt className="w-40 shrink-0 text-white/70">{social.label}</dt>
-              <dd>
-                <a
-                  href={social.url}
-                  rel="me noopener noreferrer"
-                  target="_blank"
-                  className="text-white underline underline-offset-4"
+        <div className="flex-[1_1_260px]">
+          <section aria-labelledby="reach">
+            <SectionHeading id="reach">{entry.n}.2 Or skip the form</SectionHeading>
+            <a
+              href={`mailto:${site.email}`}
+              className="mt-4 block border-b border-accent-line pb-[6px] text-[19px] font-medium text-heading no-underline transition-colors duration-300 ease-ease hover:border-white"
+            >
+              {site.email}
+            </a>
+            <p className="mb-[26px] mt-[14px] text-[14px] leading-[1.7] text-body">
+              Attach the spreadsheet, the recording, or the list of complaints.
+              That is a better brief than a form.
+            </p>
+
+            <dl>
+              <div className="flex justify-between gap-[14px] border-b border-hairline-soft py-[10px]">
+                <dt className="font-mono text-metadata uppercase text-meta">
+                  Location
+                </dt>
+                <dd className="text-right text-[14px] text-strong">
+                  {site.location.locality}, {site.location.country} (
+                  {site.location.timezone})
+                </dd>
+              </div>
+
+              {/* A reply-time promise. Gated until confirmed; see lib/commitments.mjs. */}
+              {replyTime ? (
+                <div className="flex justify-between gap-[14px] border-b border-hairline-soft py-[10px]">
+                  <dt className="font-mono text-metadata uppercase text-meta">
+                    Reply time
+                  </dt>
+                  <dd className="text-right text-[14px] text-strong">{replyTime}</dd>
+                </div>
+              ) : null}
+
+              {site.socials.map((social) => (
+                <div
+                  key={social.url}
+                  className="flex justify-between gap-[14px] border-b border-hairline-soft py-[10px]"
                 >
-                  {social.handle}
-                </a>
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+                  <dt className="font-mono text-metadata uppercase text-meta">
+                    {social.label}
+                  </dt>
+                  <dd className="text-right text-[14px]">
+                    <a
+                      href={social.url}
+                      rel="me noopener noreferrer"
+                      target="_blank"
+                      className="text-heading underline decoration-accent-line underline-offset-4"
+                    >
+                      {social.handle}
+                    </a>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
 
-      <section aria-labelledby="what-to-include" className="mt-16">
-        <h2 id="what-to-include" className="text-2xl font-bold text-white">
-          What to include
-        </h2>
-        <ul className="mt-6 max-w-3xl list-disc space-y-2 pl-6 text-white/80">
-          <li>The process or product, described as it works today.</li>
-          <li>Who currently does it, and roughly how long it takes them.</li>
-          <li>The systems already involved — platforms, spreadsheets, inboxes.</li>
-          <li>Whether this is direct or white-label through an agency.</li>
-          <li>Any date the work has to land by.</li>
-        </ul>
-      </section>
+          <section aria-labelledby="what-to-include" className="mt-12">
+            <SectionHeading id="what-to-include">
+              {entry.n}.3 What to include
+            </SectionHeading>
+            <ul className="mt-4 flex flex-col gap-[11px]">
+              {[
+                "The process or product, described as it works today.",
+                "Who currently does it, and roughly how long it takes them.",
+                "The systems already involved — platforms, spreadsheets, inboxes.",
+                "Whether this is direct or white-label through an agency.",
+                "Any date the work has to land by.",
+              ].map((item) => (
+                <li
+                  key={item}
+                  className="flex gap-[11px] text-[14.5px] leading-[1.65] text-body"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="mt-2 h-[5px] w-[5px] flex-none rounded-full bg-accent"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+      </div>
 
-      <section aria-labelledby="services-list" className="mt-16">
-        <h2 id="services-list" className="text-2xl font-bold text-white">
-          What he takes on
-        </h2>
-        <ul className="mt-6 space-y-2">
+      <section aria-labelledby="services-list" className="mt-14">
+        <SectionHeading id="services-list">
+          {entry.n}.4 What he takes on
+        </SectionHeading>
+        <ul className="mt-[22px]">
           {services.map((service) => (
-            <li key={service.slug}>
-              <Link
-                href={`/services/${service.slug}`}
-                className="text-white underline underline-offset-4"
-              >
-                {service.title}
-              </Link>
+            <li
+              key={service.slug}
+              className="group relative flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-hairline py-4"
+            >
+              <h3 className="flex-1 font-display text-item-h3 text-heading">
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="no-underline after:absolute after:inset-0 after:content-['']"
+                >
+                  {service.title}
+                </Link>
+              </h3>
               {service.shape ? (
-                <span className="text-white/70"> — {service.shape}</span>
+                <span className="font-mono text-metadata uppercase text-meta">
+                  {service.shape}
+                </span>
               ) : null}
             </li>
           ))}

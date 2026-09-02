@@ -1,0 +1,37 @@
+Lighthouse 12.8.2 — https://www.zubyr.dev/
+2026-09-02T09:43:25.135Z  ·  win32 x64
+
+              Perf  A11y  Best   SEO         FCP      LCP      TBT      CLS       SI
+mobile          71    95   100   100       1.4 s    4.1 s   300 ms    0.178    2.9 s
+desktop         96    96   100   100       0.3 s    0.6 s     0 ms    0.125    0.9 s
+
+mobile — LCP element: <img alt="Zubair Bin Shaukat - Software Developer" width="700" height="700" decoding="async" data-nimg="1" class="w-full h-auto object-contain sm:w-[90%] max-h-[100vh] md:w-full" style="color:transparent" srcset="/_next/image?url=%2F_next%2Fstatic%2Fimmutable%2Fmedia%2Fdp.2_zk91clz7rnu.…" src="/_next/image?url=%2F_next%2Fstatic%2Fimmutable%2Fmedia%2Fdp.2_zk91clz7rnu.…">
+mobile — findings:
+    Minimize main-thread work — 6.3 s
+    Reduce JavaScript execution time — 2.5 s
+    Ensure text remains visible during webfont load
+    Avoid large layout shifts — 1 layout shift found
+    Buttons do not have an accessible name
+    Eliminate render-blocking resources — Est savings of 260 ms
+    Reduce unused JavaScript — Est savings of 67 KiB
+    Properly size images — Est savings of 197 KiB
+    Avoid serving legacy JavaScript to modern browsers — Est savings of 14 KiB
+    Font display — Est savings of 430 ms
+    Improve image delivery — Est savings of 209 KiB
+    Legacy JavaScript — Est savings of 14 KiB
+    Render blocking requests — Est savings of 410 ms
+
+desktop — LCP element: <img alt="Zubair Bin Shaukat - Software Developer" width="700" height="700" decoding="async" data-nimg="1" class="w-full h-auto object-contain sm:w-[90%] max-h-[100vh] md:w-full" style="color:transparent" srcset="/_next/image?url=%2F_next%2Fstatic%2Fimmutable%2Fmedia%2Fdp.2_zk91clz7rnu.…" src="https://www.zubyr.dev/_next/image?url=%2F_next%2Fstatic%2Fimmutable%2Fmedi…">
+desktop — findings:
+    Minimize main-thread work — 2.1 s
+    Reduce JavaScript execution time — 1.4 s
+    Ensure text remains visible during webfont load
+    Avoid large layout shifts — 1 layout shift found
+    Links do not have a discernible name
+    Reduce unused JavaScript — Est savings of 67 KiB
+    Properly size images — Est savings of 17 KiB
+    Avoid serving legacy JavaScript to modern browsers — Est savings of 14 KiB
+    Font display — Est savings of 340 ms
+    Improve image delivery — Est savings of 24 KiB
+    Legacy JavaScript — Est savings of 14 KiB
+    Render blocking requests

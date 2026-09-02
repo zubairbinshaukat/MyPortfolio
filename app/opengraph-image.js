@@ -22,11 +22,14 @@ export const contentType = "image/png";
  * the same brand. Read from disk rather than fetched — ImageResponse has a
  * 500 KB bundle budget and this file is ~75 KB.
  *
- * Phase 2 renames these files and moves them to app/fonts/; this path changes
- * with them.
+ * It reads the TTF master rather than the WOFF2 the browser gets, for two
+ * reasons. Satori, which ImageResponse renders through, does not read WOFF2.
+ * And Soria is CC BY-ND 4.0 — see app/fonts/soria-LICENSE.txt — so the copy
+ * the repository carries has to be unmodified. The file sits under app/ rather
+ * than public/, so it is a build-time read and never a request.
  */
 const soria = fs.readFileSync(
-  path.join(process.cwd(), "public", "fonts", "font-2.ttf")
+  path.join(process.cwd(), "app", "fonts", "soria-og.ttf")
 );
 
 export default function OpengraphImage() {

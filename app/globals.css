@@ -1,24 +1,624 @@
+/**
+ * Lenis's own stylesheet, imported rather than copied.
+ *
+ * Every rule in it is scoped to the `.lenis` class Lenis puts on <html> when
+ * it instantiates, so with JavaScript off — or under prefers-reduced-motion,
+ * where components/SmoothScroll.js never loads the library at all — none of it
+ * applies. Four rules, ~200 bytes gzipped, and keeping the import means a
+ * Lenis upgrade cannot leave a hand-copied fork behind.
+ */
+@import "lenis/dist/lenis.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Font1";
-  src: url("/fonts/font-1.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+/**
+ * Design tokens.
+ *
+ * Every value here comes from the approved prototype's own design note
+ * (design/Zubyr Below Hero.dc.html, view 10 — "The Ledger"), which states the
+ * type scale, the spacing scale, the colour ramp and the gradient rule as a
+ * table. They are declared once, as custom properties, and Tailwind's theme in
+ * tailwind.config.js points at them — so a component never writes a hex value
+ * and the token can be changed in one place.
+ *
+ * The @font-face block that used to live here is gone. It declared three
+ * unsubsetted TTFs, one of which (Font1, Skyscapers) had zero usages, with no
+ * font-display and no preload, discovered only after the browser had parsed
+ * the HTML, then the CSS, then the @font-face rule. app/fonts/index.js loads
+ * the same two faces that were actually used through next/font/local, which
+ * emits the preload and the swap.
+ */
+:root {
+  /* --- colour ----------------------------------------------------------
+   * Contrast figures are against the ground and are measured, not claimed:
+   * scripts/check-contrast.mjs computes every one of them and fails below
+   * 4.5:1. PLAN §2.1 sets the body floor at 60% white; the design's 62% is
+   * above it, and metadata at 50% still clears AA at 5.3:1.
+   */
+  --c-ground: #000000; /* the page */
+  --c-elevated: #08080c; /* footer, code blocks, cover mocks */
+  --c-surface: rgba(255, 255, 255, 0.03); /* cards, pills, inputs */
+  --c-surface-hover: rgba(255, 255, 255, 0.06);
+  --c-hairline: rgba(255, 255, 255, 0.07); /* every rule on the site */
+  --c-hairline-soft: rgba(255, 255, 255, 0.06);
+  --c-edge: rgba(255, 255, 255, 0.14); /* borders that read as controls */
+  --c-edge-strong: rgba(255, 255, 255, 0.24);
+
+  --c-heading: #ffffff; /* 21:1 */
+  --c-lede: rgba(255, 255, 255, 0.72); /* 9.7:1 */
+  --c-body: rgba(255, 255, 255, 0.62); /* 6.9:1 */
+  --c-meta: rgba(255, 255, 255, 0.5); /* 5.3:1 */
+
+  --c-accent: #c084fc; /* 8.4:1 */
+  --c-accent-soft: #e9d5ff; /* 15.4:1 — link text */
+  --c-accent-line: rgba(192, 132, 252, 0.5); /* borders only — 2.6:1 as text */
+  --c-accent-muted: rgba(192, 132, 252, 0.62); /* 3.3:1 — the quiet accent for glyphs */
+
+  /* The one gradient. Design note: "always a line, mask or single CTA;
+   * never a fill; full-width only as scroll progress, 1px". */
+  --gradient: linear-gradient(to right, #a855f7, #8b5cf6, #ec4899);
+
+  /* --- type scale -------------------------------------------------------
+   * The prototype switches between a phone and a desktop clamp with a
+   * JavaScript flag, because a prototype can. A single fluid clamp per step
+   * lands on the same numbers at both ends and needs no JavaScript: each one
+   * below is tuned to the prototype's phone value at 390px and its desktop
+   * ceiling at 1440px and above.
+   */
+  --fs-display: clamp(2.125rem, 1.2rem + 4.2vw, 4.75rem); /* 38 -> 76 */
+  --fs-h2: clamp(1.625rem, 1.05rem + 2.6vw, 3.5rem); /* 26 -> 56 */
+  --fs-h3: clamp(1.375rem, 1.15rem + 1vw, 2rem); /* 22 -> 32 */
+  --fs-menu: clamp(1.875rem, 1.2rem + 3.1vw, 4rem); /* 30 -> 64 */
+  --fs-post-title: clamp(1.6875rem, 1.35rem + 1.5vw, 2.875rem); /* 27 -> 46 */
+  --fs-post-h2: clamp(1.4375rem, 1.25rem + 0.85vw, 2.125rem); /* 23 -> 34 */
+  --fs-quote: clamp(1.375rem, 1.15rem + 1vw, 2.125rem); /* 22 -> 34 */
+
+  /* --- spacing ----------------------------------------------------------
+   * Base unit 4px. Gutter and the top pad are fluid on the same principle as
+   * the type scale; the section rhythm is the design note's 52 / 80 / 90.
+   */
+  --gutter: clamp(1.25rem, 0.6rem + 3.4vw, 4rem); /* 20 -> 64 */
+  --pad-top: clamp(2.5rem, 1.2rem + 4.6vw, 5.5rem); /* 40 -> 88 */
+  --measure: 1240px;
+
+  /* --- motion -----------------------------------------------------------
+   * One curve for the whole site. Phase 3 owns choreography; these exist now
+   * so the hover and focus transitions the design specifies are consistent.
+   */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 500ms;
+  --stagger: 70ms;
+
+  /* --- Phase 3 motion ---------------------------------------------------
+   * PLAN §3.2 fixes tier 1 at "≤ 300 ms, on cubic-bezier(0.22, 1, 0.36, 1)"
+   * — the same curve the rest of the site already uses, so a route change
+   * and a hover share one feel. 260ms leaves headroom under the ceiling; the
+   * old page leaves in half that, because content on its way out should not
+   * compete for attention with content arriving.
+   */
+  --dur-nav-exit: 130ms;
+  --dur-nav-enter: 260ms;
+  --dur-morph: 340ms;
+
+  /* The sticky band's height: 10px + a 44px control + 10px + the 1px
+   * scroll-progress line. Scroll padding, snap alignment and Lenis's anchor
+   * offset all measure from it, so it is written once.
+   */
+  --band-h: 66px;
 }
 
-@font-face {
-  font-family: "Font2";
-  src: url("/fonts/font-2.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+/**
+ * The ground. `background-color` rather than the old
+ * `bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900`, which was a
+ * full-page gradient fill — precisely what the design note's gradient rule
+ * forbids ("section backgrounds: none, ever").
+ */
+html {
+  background-color: var(--c-ground);
+  -webkit-font-smoothing: antialiased;
+
+  /*
+   * Anything scrolled into view — a heading anchor, a snap target, the skip
+   * link's destination — stops below the sticky band instead of under it.
+   * Without this every `#heading` link on the blog lands with its heading
+   * hidden behind 66px of chrome, which reads as a broken link.
+   */
+  scroll-padding-top: var(--band-h);
 }
 
-@font-face {
-  font-family: "Font0";
-  src: url("/fonts/font-0.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+body {
+  background-color: var(--c-ground);
+  color: var(--c-lede);
+}
+
+/**
+ * One focus ring for the whole site: 2px accent, 3px offset. Declared here
+ * rather than as a utility on every control, so a control cannot be added
+ * without one.
+ */
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+::selection {
+  background: rgba(168, 85, 247, 0.35);
+  color: #fff;
+}
+
+/**
+ * The ambient dot grid. Design note: it and the purple wash are allowed on the
+ * hero and the index overlay only. Fixed and non-painting-cost — a 26px
+ * repeating radial gradient, no image request, no element in the flow.
+ */
+.dot-grid::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+/**
+ * Heading anchors from rehype-autolink-headings. Hidden until the heading is
+ * hovered or the anchor itself is focused, so a keyboard user can still reach
+ * them.
+ */
+.heading-anchor {
+  margin-left: 0.5ch;
+  opacity: 0;
+  color: var(--c-accent);
+  text-decoration: none;
+  transition: opacity 200ms var(--ease);
+}
+
+.heading-anchor::after {
+  content: "#";
+}
+
+:is(h2, h3, h4):hover > .heading-anchor,
+.heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+/**
+ * Everything the design animates is an entrance: y 16 -> 0, blur 6 -> 0, over
+ * 500ms on the shared curve. Declared as a utility rather than through a
+ * motion library, because an entrance animation that needs 34 KB of JavaScript
+ * to run is not worth having.
+ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+.animate-rise {
+  animation: rise var(--dur) var(--ease) both;
+}
+
+/* =====================================================================
+ * PHASE 3 — MOTION
+ * =====================================================================
+ */
+
+/**
+ * §3.1 — SCROLL SNAP, THE NO-JAVASCRIPT PATH
+ *
+ * The homepage marks its hero and its six sections `data-snap`, and marks the
+ * document `data-snap-root`. `:has()` is what lets one page opt the *document*
+ * scroller in without a class on <html> that only a client component could
+ * set — the scroll container for a page like this one is the root element, and
+ * `scroll-snap-type` has to be declared on the container, not the children.
+ *
+ * `proximity`, not `mandatory`. Several of these sections are taller than the
+ * viewport, and a mandatory snap on a section you cannot see the end of is how
+ * a reader gets pulled back to a boundary they were deliberately scrolling
+ * past. Proximity only engages when a gesture already ended near an edge.
+ *
+ * `html.lenis` turns it off: once components/SmoothScroll.js has an instance,
+ * Lenis is moving the document with `scrollTo` every frame and the browser's
+ * snap engine would re-snap after each of those. `lenis/snap` takes over and
+ * produces the same feel from inside Lenis's own loop. See SmoothScroll.js.
+ */
+html:has([data-snap-root]) {
+  scroll-snap-type: y proximity;
+}
+
+html.lenis:has([data-snap-root]) {
+  scroll-snap-type: none;
+}
+
+[data-snap] {
+  scroll-snap-align: start;
+  /* `normal`, so a fast flick may pass more than one section. `always` would
+   * make every gesture land on the next boundary, which is the wheel hijack
+   * this site spent Phase 1 removing, rebuilt in CSS. */
+  scroll-snap-stop: normal;
+}
+
+/**
+ * §3.3 — THE INTRO OVERLAY
+ *
+ * Every movement in components/Preloader.js is one of the three keyframes
+ * below plus a per-element `animation-delay` written in the JSX, which is
+ * where the timeline lives. Nothing here runs unless that component has
+ * mounted, and it only mounts on a first visit in a session with reduced
+ * motion off — so on every other page view these rules match nothing.
+ */
+@keyframes intro-line {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * The glyph wipe: a clip rising through each letter rather than a fade.
+ * `translateY` moves the letter up into its own box at the same time, so the
+ * glyph appears to be uncovered by something passing over it instead of
+ * dissolving into place — which is the difference between a reveal and a
+ * cross-fade.
+ */
+@keyframes intro-glyph {
+  from {
+    clip-path: inset(100% 0 0 0);
+    transform: translateY(0.16em);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+@keyframes intro-rule {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.animate-intro-line {
+  animation: intro-line 320ms var(--ease) both;
+}
+
+.animate-intro-glyph {
+  animation: intro-glyph 420ms var(--ease) both;
+}
+
+.animate-intro-rule {
+  animation: intro-rule 620ms var(--ease) both;
+}
+
+/**
+ * THE HANDOFF
+ *
+ * §3.3: "the hero's own text settles y: 20 -> 0 timed to the last panel, so
+ * reveal and hero intro read as one continuous move." This is that, and it is
+ * two rules because it has to be safe in the failure case.
+ *
+ * `playing` holds the lockup down and invisible while the overlay is up. It is
+ * set by the same effect that mounts the overlay and removed by that effect's
+ * cleanup, so a component that unmounts for any reason — an error, a fast
+ * navigation, React remounting it in development — takes the attribute with
+ * it. There is no path that leaves the hero hidden.
+ *
+ * `settling` is set at the moment the panels start to leave and carries the
+ * transition. The 60ms delay is one panel stagger: the first panel is already
+ * moving when the lockup starts to rise, so the two read as one gesture rather
+ * than as a curtain followed by an entrance.
+ *
+ * Transform and opacity only. Neither contributes to Cumulative Layout Shift —
+ * a transformed element has not moved as far as layout is concerned — which is
+ * what lets §3.3's "PageSpeed identical with it on and off" be a structural
+ * property here rather than a hope.
+ */
+html[data-intro="playing"] [data-hero-lockup] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+html[data-intro="settling"] [data-hero-lockup] {
+  opacity: 1;
+  transform: none;
+  /*
+    20ms + 440ms = 460ms, which is exactly when the third panel finishes: the
+    stagger is 60ms and each panel takes 340ms, so the last one leaves at
+    2 x 60 + 340. §3.3 asks for the settle to be "timed to the last panel", and
+    this is that arithmetic rather than a number that looked about right. The
+    two ending together is also what lets the overlay unmount and the
+    `data-intro` attribute be removed in the same beat, with no transition left
+    running for the removal to cut short.
+  */
+  transition:
+    opacity 440ms var(--ease) 20ms,
+    transform 440ms var(--ease) 20ms;
+}
+
+/**
+ * §3.2 TIER 3 — THE INDEX OVERLAY
+ *
+ * Its motion is not here any more. It was: `panel-wipe`, `wash-in` and a
+ * per-link `.animate-rise` delay, about forty lines of keyframes — and it
+ * played on the first open of a page and never again.
+ *
+ * A closed <details> keeps its content in the DOM with `content-visibility:
+ * hidden` on `::details-content`, which freezes a CSS animation rather than
+ * removing it. The first open let the clock run, the close froze it at
+ * `finished`, and every later open unfroze an animation already filling its
+ * end state. There is no arrangement of CSS that replays on an element that is
+ * never remounted.
+ *
+ * components/IndexBehaviour.js drives it with the Web Animations API instead,
+ * where each open constructs a new Animation and replay is the mechanism. The
+ * choreography and its timings are documented there, in one block, so the
+ * 400ms budget can be checked by reading it.
+ *
+ * With JavaScript off the panel opens and closes instantly, which is what a
+ * native <details> does.
+ */
+
+/**
+ * THE ROUTE CURTAIN
+ *
+ * components/RouteCurtain.js builds one element with this class after
+ * hydration and animates its transform. Everything it looks like is here, and
+ * everything it does is there — the component writes no colour and no
+ * geometry, which is the same rule every other component on the site follows.
+ *
+ * `::after` is the brand gradient as a one-pixel leading edge. The design
+ * note's gradient rule is "always a line, mask or single CTA; never a fill",
+ * so the panel is the page's own ground colour and the gradient is the hairline
+ * that sweeps down ahead of it — the same language as the scroll-progress bar.
+ *
+ * `pointer-events: none` is load-bearing: this passes over the page during a
+ * navigation and must never eat a click. It starts off-screen and `hidden`, so
+ * it costs nothing until it is used.
+ */
+.route-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  pointer-events: none;
+  background: var(--c-ground);
+  transform: translateY(-100%);
+}
+
+.route-curtain::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--gradient);
+}
+
+/**
+ * §3.2 — WHICH NAVIGATIONS ANIMATE, AND WHICH ARE INSTANT
+ *
+ * There are two kinds of route change on this site and they must not both run
+ * a view transition.
+ *
+ *   A list-to-detail navigation carries the transition type `morph`. Its cover
+ *   and title move into the page it opens, and the rest of the page crossfades
+ *   and lifts around them. components/ProjectRow.js and app/blog/page.js are
+ *   the two places that declare the type.
+ *
+ *   Everything else is covered by the route curtain — a real element animated
+ *   in JavaScript, on top of the page. A view transition during that is
+ *   actively harmful: the browser replaces every element with a static
+ *   snapshot for the transition's duration, and the curtain is an element. It
+ *   was measured doing exactly that: a 337ms plateau in the middle of the
+ *   descent and a 665ms total lifetime against a 600ms budget, because the
+ *   panel was a frozen image for the length of the crossfade.
+ *
+ * So the default here is that nothing animates, and the `morph` rules below
+ * are the exception. That is the opposite of the usual arrangement and it is
+ * the right way round: an animation that runs when it should not is invisible
+ * in a screenshot and obvious in motion, and this way a navigation has to ask
+ * for a transition rather than opt out of one.
+ *
+ * `:active-view-transition-type()` matches on the document element while a
+ * transition of that type is running (Chrome 125+). A browser without it gets
+ * the zeroed defaults and no page animation at all, which is the same thing a
+ * browser without view transitions gets.
+ */
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0s;
+  animation-delay: 0s;
+}
+
+/**
+ * ...and nothing animates at all while the route curtain is covering.
+ *
+ * `data-curtain` is on <html> from the click that starts the panel until it has
+ * left. A view transition running underneath an opaque panel is invisible work
+ * that costs a real freeze — the browser replaces every element with a static
+ * snapshot for the transition's duration, the curtain is an element, and it
+ * stops moving. Measured at a 337ms plateau before this rule existed.
+ *
+ * It is stated as its own rule rather than folded into the defaults above
+ * because it has to beat the `.morph` exception below: a shared-element pair
+ * that happens to form during a curtain navigation must still not animate.
+ */
+html[data-curtain]::view-transition-group(*),
+html[data-curtain]::view-transition-old(*),
+html[data-curtain]::view-transition-new(*) {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+}
+
+/**
+ * THE MORPH NAVIGATION
+ *
+ * A crossfade with a small upward lift around a pair of elements that move.
+ * The exit is half the length of the enter and runs first: old content should
+ * be gone before new content asks to be read, and overlapping them is what
+ * makes a page transition feel like a smear rather than a cut.
+ */
+html:active-view-transition-type(morph)::view-transition-old(root) {
+  animation: var(--dur-nav-exit) var(--ease) both page-fade reverse;
+}
+
+html:active-view-transition-type(morph)::view-transition-new(root) {
+  animation:
+    var(--dur-nav-enter) var(--ease) var(--dur-nav-exit) both page-fade,
+    var(--dur-nav-enter) var(--ease) var(--dur-nav-exit) both page-lift;
+}
+
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes page-lift {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/**
+ * The band does not move.
+ *
+ * It is the one element on screen that is in the same place on every route, so
+ * it is the reader's anchor: if it lifts and fades with the page, the whole
+ * viewport appears to move and the transition stops reading as "the content
+ * changed" and starts reading as "everything changed". Naming it pulls it out
+ * of the page snapshot into a group of its own, and that group is told not to
+ * animate at all.
+ *
+ * `display: none` on the old snapshot rather than a crossfade: the two bands
+ * are identical apart from their readout, and painting both for 260ms produces
+ * a visible double-strike on the monogram.
+ */
+::view-transition-group(site-band) {
+  animation: none;
+  z-index: 10;
+}
+
+::view-transition-old(site-band) {
+  display: none;
+}
+
+::view-transition-new(site-band) {
+  animation: none;
+}
+
+/**
+ * §3.2 TIER 2 — LIST TO DETAIL
+ *
+ * The cover and the title persist across the navigation and grow into their
+ * places on the detail page. Everything else crossfades around them.
+ *
+ * The blur is not decoration. A morph interpolates one snapshot's pixels into
+ * another's at a different size, and the intermediate frames of that are
+ * visibly wrong — text at 1.4x is text that has been stretched. Three pixels
+ * of blur at the midpoint hides the interpolation without hiding the movement.
+ */
+/*
+  No transition-type gate on these two, deliberately, unlike the page fade
+  above.
+
+  The `morph` view-transition-class only exists on a group when React has
+  actually paired a `share="morph"` element across the navigation — so these
+  rules are gated by the thing they are for, and cannot fire on a navigation
+  that has no pair. Keying them to the transition type instead made the morph
+  depend on the link carrying `transitionTypes`, which is a property of how the
+  navigation was started rather than of whether there is anything to morph.
+*/
+::view-transition-group(.morph) {
+  animation-duration: var(--dur-morph);
+  animation-timing-function: var(--ease);
+}
+
+::view-transition-image-pair(.morph) {
+  animation-name: morph-blur;
+  animation-duration: var(--dur-morph);
+}
+
+@keyframes morph-blur {
+  30% {
+    filter: blur(3px);
+  }
+}
+
+/**
+ * Clicks are not swallowed while a transition runs.
+ *
+ * The ::view-transition overlay sits above the live document and captures
+ * pointer events for the length of the animation. At 260ms that is a click a
+ * fast reader will lose. Named participants still skip hit-testing, which is
+ * one more reason to name as little as possible and keep the durations short.
+ */
+::view-transition {
+  pointer-events: none;
+}
+
+/**
+ * REDUCED MOTION
+ *
+ * The blanket rule above cannot reach these: `*` does not match a
+ * pseudo-element the browser generates outside the document tree. Zeroing the
+ * durations leaves the navigation working and removes every frame of movement,
+ * which is the browser's own behaviour without the API at all.
+ */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
+  /*
+    Snapping is movement the reader did not ask for. The blanket rule below
+    already forces `scroll-behavior: auto`, so a snap would be instantaneous
+    rather than animated — but an instant reposition at the end of every
+    gesture is exactly the class of surprise this preference exists to remove.
+    Lenis is never loaded under the same query, so with this rule off there is
+    no snapping from either mechanism.
+  */
+  html:has([data-snap-root]) {
+    scroll-snap-type: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

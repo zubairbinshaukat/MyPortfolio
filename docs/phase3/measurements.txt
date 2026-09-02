@@ -1,0 +1,140 @@
+measurements — Phase 3
+2026-09-02T08:45:52Z
+
+===== JAVASCRIPT BUDGET (PLAN 2.3) =====
+check-js: JavaScript downloaded per route, from .next/server/app
+
+route                         chunks     raw    gzip  brotli   budget
+------------------------------------------------------------------------
+/                                  9  568.4  174.5  151.1   OVER
+/about                             7  463.7  138.1  118.3     ok
+/services/gohighlevel              7  463.7  138.1  118.3     ok
+/services/automation               7  463.7  138.1  118.3     ok
+/services/web-development          7  463.7  138.1  118.3     ok
+/services/mobile                   7  463.7  138.1  118.3     ok
+/projects                          7  463.7  138.1  118.3     ok
+/projects/opencinema               7  463.7  138.1  118.3     ok
+/blog                              7  463.7  138.1  118.3     ok
+/blog/idempotency-keys             7  463.7  138.1  118.3     ok
+/contact                           7  468.5  139.6  119.6     ok
+
+heaviest route: /
+  35icn469pb0nv.js                222.6   69.5   59.5
+  1z99mlp5cofct.js                172.2   45.9   38.7
+  0shbdydncz_dh.js                 59.4   20.5   18.5
+  091fgd8dil18r.js                 44.6   15.6   13.9
+  3h6l75wjuwx-x.js                 24.2    7.5    6.5
+  263e7kxh9c4ko.js                 18.4    6.7    5.9
+  turbopack-3nmd7u_9xdqxv.js       10.7    4.2    3.8
+  0h2qsuyze9ds1.js                 14.0    3.6    3.2
+  2pduq9-c4u_gn.js                  2.3    1.1    0.9
+
+budget: 120 KB brotli per route (PLAN §2.3).
+deferred: lenis is in no route's initial scripts.
+
+check-js FAILED — 1 route(s) over budget.
+
+===== CORE WEB VITALS, 412x823 / Slow 4G / 4x CPU =====
+=== /
+  LCP      2052 ms  <IMG>  193,380 px²  "http://localhost:3000/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdp.3tb7oyfw47vm1.webp&w=640&q=75"
+           class="w-full h-auto object-contain sm:w-[90%] max-h-[100vh] md:w-full"
+             candidate   193380 px²  <IMG> "http://localhost:3000/_next/image?url=%2"
+             candidate    13920 px²  <DIV> "Hi!I'mZUBAIRBin Shaukat"
+  CLS      0.0000
+  fonts    6
+             /_next/static/media/7c371263396b4e5a-s.p.2b3z6k5kcb3-b.woff2
+             /_next/static/media/alexbrush_regular.p.2mmra1chsrb3c.woff2
+             /_next/static/media/soria_regular.p.2h4fouhxc76x6.woff2
+             /_next/static/media/051742360c26797e-s.p.1bkzbscqrt8rl.woff2
+             /_next/static/media/484c29470f6c382a-s.0-8ea646q3t53.woff2
+             /_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2
+  origins  https://cloud.umami.is, https://gateway.umami.is
+
+=== /about
+  LCP      1452 ms  <P>  73,164 px²  "Zubair Bin Shaukat is a software engineer based in Lahore, P"
+           class="text-lede text-strong"
+             candidate    73164 px²  <P> "Zubair Bin Shaukat is a software enginee"
+  CLS      0.0000
+  fonts    6
+             /_next/static/media/7c371263396b4e5a-s.p.2b3z6k5kcb3-b.woff2
+             /_next/static/media/alexbrush_regular.p.2mmra1chsrb3c.woff2
+             /_next/static/media/soria_regular.p.2h4fouhxc76x6.woff2
+             /_next/static/media/051742360c26797e-s.p.1bkzbscqrt8rl.woff2
+             /_next/static/media/484c29470f6c382a-s.0-8ea646q3t53.woff2
+             /_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2
+  origins  https://cloud.umami.is, https://gateway.umami.is
+
+=== /services/gohighlevel
+  LCP      1368 ms  <H1>  48,811 px²  "GoHighLevel Custom Dashboards & Marketplace Apps"
+           class="mt-[18px] max-w-[20ch] font-display text-display text-heading animate-"
+             candidate    48811 px²  <H1> "GoHighLevel Custom Dashboards & Marketpl"
+             candidate    47094 px²  <P> "The layer under snapshots: custom dashbo"
+  CLS      0.0000
+  fonts    6
+             /_next/static/media/7c371263396b4e5a-s.p.2b3z6k5kcb3-b.woff2
+             /_next/static/media/alexbrush_regular.p.2mmra1chsrb3c.woff2
+             /_next/static/media/soria_regular.p.2h4fouhxc76x6.woff2
+             /_next/static/media/051742360c26797e-s.p.1bkzbscqrt8rl.woff2
+             /_next/static/media/484c29470f6c382a-s.0-8ea646q3t53.woff2
+             /_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2
+  origins  https://cloud.umami.is, https://gateway.umami.is
+
+=== /projects
+  LCP      1212 ms  <P>  39,960 px²  "Systems in production, written up as case studies: what the "
+           class="mt-[22px] max-w-lede text-lede text-body"
+             candidate    39960 px²  <P> "Systems in production, written up as cas"
+  CLS      0.0000
+  fonts    6
+             /_next/static/media/7c371263396b4e5a-s.p.2b3z6k5kcb3-b.woff2
+             /_next/static/media/alexbrush_regular.p.2mmra1chsrb3c.woff2
+             /_next/static/media/soria_regular.p.2h4fouhxc76x6.woff2
+             /_next/static/media/051742360c26797e-s.p.1bkzbscqrt8rl.woff2
+             /_next/static/media/484c29470f6c382a-s.0-8ea646q3t53.woff2
+             /_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2
+  origins  https://cloud.umami.is, https://gateway.umami.is
+
+=== /blog
+  LCP      1212 ms  <P>  46,228 px²  "The case studies cover the same ground in more depth, and th"
+           class="mt-[18px] text-copy text-body"
+             candidate    46228 px²  <P> "The case studies cover the same ground i"
+  CLS      0.0000
+  fonts    6
+             /_next/static/media/7c371263396b4e5a-s.p.2b3z6k5kcb3-b.woff2
+             /_next/static/media/alexbrush_regular.p.2mmra1chsrb3c.woff2
+             /_next/static/media/soria_regular.p.2h4fouhxc76x6.woff2
+             /_next/static/media/051742360c26797e-s.p.1bkzbscqrt8rl.woff2
+             /_next/static/media/484c29470f6c382a-s.0-8ea646q3t53.woff2
+             /_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2
+  origins  https://cloud.umami.is, https://gateway.umami.is
+
+=== /contact
+  LCP      1248 ms  <P>  62,608 px²  "Describe the process you want automated or the application y"
+           class="mt-[22px] max-w-lede text-lede text-body"
+             candidate    62608 px²  <P> "Describe the process you want automated "
+  CLS      0.0000
+  fonts    6
+             /_next/static/media/7c371263396b4e5a-s.p.2b3z6k5kcb3-b.woff2
+             /_next/static/media/alexbrush_regular.p.2mmra1chsrb3c.woff2
+             /_next/static/media/soria_regular.p.2h4fouhxc76x6.woff2
+             /_next/static/media/051742360c26797e-s.p.1bkzbscqrt8rl.woff2
+             /_next/static/media/484c29470f6c382a-s.0-8ea646q3t53.woff2
+             /_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2
+  origins  https://cloud.umami.is, https://gateway.umami.is
+
+CLS is zero on every route.
+
+===== TEXT CONTRAST =====
+/                             195 text elements  all pass
+    gradient text: worst stop 4.96:1 (needs 3) — "Bin Shaukat"
+/about                        125 text elements  all pass
+/services/gohighlevel         103 text elements  all pass
+/services/mobile              103 text elements  all pass
+/projects                      84 text elements  all pass
+/projects/opencinema           89 text elements  all pass
+/blog                          77 text elements  all pass
+/blog/idempotency-keys        166 text elements  all pass
+/contact                      101 text elements  all pass
+
+1043 text elements measured, 0 below AA.
+lowest measured ratio: 3.46:1 on / — <P> "“"
+check-contrast OK

@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import React, { useRef, useState, useEffect } from "react";
 
 export const BackgroundBeamsWithCollision = ({
@@ -131,7 +131,10 @@ const CollisionMechanism = React.forwardRef(({ parentRef, containerRef, beamOpti
     const animationInterval = setInterval(checkCollision, 50);
 
     return () => clearInterval(animationInterval);
-  }, [cycleCollisionDetected, containerRef]);
+    // `parentRef` was missing. Both refs are stable objects, so listing them
+    // changes nothing at runtime — but a lint warning that is always there is
+    // a warning nobody reads, and PLAN §2.4 asks for zero new ones.
+  }, [cycleCollisionDetected, containerRef, parentRef]);
 
   useEffect(() => {
     if (collision.detected && collision.coordinates) {
@@ -147,7 +150,7 @@ const CollisionMechanism = React.forwardRef(({ parentRef, containerRef, beamOpti
   }, [collision]);
 
   return (<>
-    <motion.div
+    <m.div
       key={beamKey}
       ref={beamRef}
       animate="animate"
@@ -192,27 +195,46 @@ const CollisionMechanism = React.forwardRef(({ parentRef, containerRef, beamOpti
 
 CollisionMechanism.displayName = "CollisionMechanism";
 
+/**
+ * One burst of debris.
+ *
+ * PLAN §2.4: the twenty directions and the twenty durations were computed with
+ * `Math.random()` in the render body. The React Compiler's `react-hooks/purity`
+ * rule flags that, correctly — render has to be a pure function of props and
+ * state, and this one returned different values every time it ran. Under
+ * concurrent rendering React is free to render a component twice and discard
+ * one result, which would have re-rolled every particle mid-flight.
+ *
+ * The randomness has not been removed; it has been moved to where random
+ * belongs. A `useState` initialiser runs exactly once for the life of the
+ * component, so each Explosion still gets its own scatter, and now keeps it.
+ * The per-span `duration` moved into the same object for the same reason — it
+ * was the third impure call.
+ */
 const Explosion = ({
   ...props
 }) => {
-  const spans = Array.from({ length: 20 }, (_, index) => ({
-    id: index,
-    initialX: 0,
-    initialY: 0,
-    directionX: Math.floor(Math.random() * 80 - 40),
-    directionY: Math.floor(Math.random() * -50 - 10),
-  }));
+  const [spans] = useState(() =>
+    Array.from({ length: 20 }, (_, index) => ({
+      id: index,
+      initialX: 0,
+      initialY: 0,
+      directionX: Math.floor(Math.random() * 80 - 40),
+      directionY: Math.floor(Math.random() * -50 - 10),
+      duration: Math.random() * 1.5 + 0.5,
+    }))
+  );
 
   return (
     (<div {...props} className={cn("absolute z-50 h-2 w-2", props.className)}>
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute -inset-x-10 top-0 m-auto h-2 w-10 rounded-full bg-gradient-to-r from-transparent via-indigo-500 to-transparent blur-sm"></motion.div>
+        className="absolute -inset-x-10 top-0 m-auto h-2 w-10 rounded-full bg-gradient-to-r from-transparent via-indigo-500 to-transparent blur-sm"></m.div>
       {spans.map((span) => (
-        <motion.span
+        <m.span
           key={span.id}
           initial={{ x: span.initialX, y: span.initialY, opacity: 1 }}
           animate={{
@@ -220,7 +242,7 @@ const Explosion = ({
             y: span.directionY,
             opacity: 0,
           }}
-          transition={{ duration: Math.random() * 1.5 + 0.5, ease: "easeOut" }}
+          transition={{ duration: span.duration, ease: "easeOut" }}
           className="absolute h-1 w-1 rounded-full bg-gradient-to-b from-indigo-500 to-purple-500" />
       ))}
     </div>)

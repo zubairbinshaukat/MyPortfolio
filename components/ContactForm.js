@@ -44,10 +44,20 @@ const initialState = {
   values: { name: "", email: "", subject: "", message: "" },
 };
 
+/** Labels are mono caps at the metadata step, like every other label on the site. */
+const labelClass = "font-mono text-metadata uppercase text-meta";
+
+/**
+ * Field styling, from the design's contact view: a 12px radius on a 3% white
+ * surface, a hairline border that turns accent on focus, and a 48px minimum
+ * height so every field clears the design note's tap target. The focus ring
+ * itself is global — app/globals.css gives `:focus-visible` one ring for the
+ * whole site, so no control can be added without one.
+ */
 const inputClass =
-  "mt-2 w-full rounded-md border border-white/25 bg-black/30 px-3 py-2 text-white " +
-  "placeholder:text-white/40 focus-visible:outline focus-visible:outline-2 " +
-  "focus-visible:outline-offset-2 focus-visible:outline-purple-400";
+  "mt-2 min-h-control w-full rounded-field border border-white/10 bg-surface px-[15px] py-[13px] " +
+  "text-[15px] text-heading placeholder:text-meta transition-colors duration-300 ease-ease " +
+  "focus:border-accent-line focus:bg-surface-hover";
 
 function Submit() {
   // Reads the pending state of the enclosing form. With JavaScript off this
@@ -57,7 +67,7 @@ function Submit() {
     <button
       type="submit"
       disabled={pending}
-      className="mt-8 rounded-md border border-white/30 bg-white/10 px-5 py-2.5 font-semibold text-white hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:opacity-60"
+      className="mt-8 inline-flex min-h-[50px] items-center rounded-full bg-gradient px-6 py-[15px] text-[15px] font-semibold text-white transition-transform duration-300 ease-ease hover:-translate-y-[2px] disabled:translate-y-0 disabled:opacity-60"
     >
       {pending ? "Sending…" : "Send message"}
     </button>
@@ -67,7 +77,7 @@ function Submit() {
 function FieldError({ id, message }) {
   if (!message) return null;
   return (
-    <p id={id} className="mt-2 text-white/90">
+    <p id={id} className="mt-2 text-copy text-accent-soft">
       {message}
     </p>
   );
@@ -84,15 +94,15 @@ export default function ContactForm({ email }) {
         // submission. On a no-JS submission the page has fully reloaded, so the
         // heading order carries it instead.
         role="status"
-        className="mt-6 max-w-2xl rounded-lg border border-white/25 bg-black/20 p-6"
+        className="mt-6 max-w-2xl rounded-card border border-hairline bg-surface p-6"
       >
-        <p className="text-lg font-semibold text-white">Message sent</p>
-        <p className="mt-2 text-white/80">{state.message}</p>
-        <p className="mt-4 text-white/80">
+        <p className="font-display text-item-h3 text-heading">Message sent</p>
+        <p className="mt-3 text-copy text-body">{state.message}</p>
+        <p className="mt-3 text-copy text-body">
           If you do not hear back, the address is{" "}
           <a
             href={`mailto:${email}`}
-            className="text-white underline underline-offset-4"
+            className="text-heading underline decoration-accent-line underline-offset-4"
           >
             {email}
           </a>
@@ -107,14 +117,14 @@ export default function ContactForm({ email }) {
       {state.status === "error" ? (
         <div
           role="alert"
-          className="mb-6 rounded-md border border-white/30 bg-black/30 px-4 py-3 text-white/90"
+          className="mb-6 rounded-field border border-accent-line bg-surface px-4 py-3 text-copy text-strong"
         >
           {state.message}
         </div>
       ) : null}
 
       <div>
-        <label htmlFor="contact-name" className="text-white">
+        <label htmlFor="contact-name" className={labelClass}>
           Your name
         </label>
         <input
@@ -132,8 +142,8 @@ export default function ContactForm({ email }) {
         <FieldError id="contact-name-error" message={fieldErrors.name} />
       </div>
 
-      <div className="mt-6">
-        <label htmlFor="contact-email" className="text-white">
+      <div className="mt-[18px]">
+        <label htmlFor="contact-email" className={labelClass}>
           Your email
         </label>
         <input
@@ -151,9 +161,9 @@ export default function ContactForm({ email }) {
         <FieldError id="contact-email-error" message={fieldErrors.email} />
       </div>
 
-      <div className="mt-6">
-        <label htmlFor="contact-subject" className="text-white">
-          Subject <span className="text-white/60">(optional)</span>
+      <div className="mt-[18px]">
+        <label htmlFor="contact-subject" className={labelClass}>
+          Subject <span>(optional)</span>
         </label>
         <input
           id="contact-subject"
@@ -168,8 +178,8 @@ export default function ContactForm({ email }) {
         <FieldError id="contact-subject-error" message={fieldErrors.subject} />
       </div>
 
-      <div className="mt-6">
-        <label htmlFor="contact-message" className="text-white">
+      <div className="mt-[18px]">
+        <label htmlFor="contact-message" className={labelClass}>
           What you want built
         </label>
         <textarea
@@ -208,9 +218,12 @@ export default function ContactForm({ email }) {
 
       <Submit />
 
-      <p className="mt-4 text-white/70">
+      <p className="mt-4 max-w-prose text-[13.5px] leading-[1.7] text-meta">
         The form sends straight to{" "}
-        <a href={`mailto:${email}`} className="text-white underline underline-offset-4">
+        <a
+          href={`mailto:${email}`}
+          className="text-body underline decoration-accent-line underline-offset-4 transition-colors duration-300 ease-ease hover:text-heading"
+        >
           {email}
         </a>
         . If it fails, it will say so and nothing will have been sent — email

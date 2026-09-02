@@ -45,23 +45,33 @@ const EXPECTED = {
   "services/automation.html": ["Automation Systems with n8n", "exception queue"],
   "services/web-development.html": ["Web Development with Next.js", "data model"],
   "services/mobile.html": ["Cross-Platform Mobile Apps", "Offline-first"],
-  "projects.html": ["Selected Work", "OpenCinema", "Biz-Xpert"],
-  "projects/opencinema.html": ["OpenCinema", "The problem", "Approach", "Outcome"],
-  // Every post is drafted, so /blog is its empty state. These phrases are the
-  // designed panel: the page has to read as finished, not as a list that
-  // failed to load, and it has to do that with no JavaScript at all.
+  "projects.html": ["Selected Work", "BlueBoost", "multi-tenant SaaS platform"],
+  "projects/blueboost.html": [
+    "BlueBoost",
+    "The problem",
+    "Approach",
+    "Outcome",
+    "conversation provider",
+  ],
+  // One post is published, so /blog is a list rather than its empty state. The
+  // empty-state panel is still built and still asserted — by check-content's
+  // reading of the frontmatter, not here — and these phrases would fail the
+  // moment the last post went back to draft, which is the signal you want.
   "blog.html": [
     "Engineering Notes",
-    "No notes published yet",
-    "There is nothing to read on this page today",
-    "Selected work",
-    "thedevzubair@gmail.com",
+    "GoHighLevel two-way sync",
+    "every message you post comes back to you as a webhook",
+    "Automation",
   ],
-  "blog/idempotency-keys.html": [
-    "Idempotency keys",
-    "claim before you work",
-    "Upstream duplicates",
-    "processed_events",
+  // The post carries an inline SVG diagram written as JSX in the MDX body. The
+  // last two phrases are inside it, so this also asserts the diagram survives
+  // into the prerendered HTML rather than being stripped or deferred.
+  "blog/gohighlevel-two-way-sync-echo.html": [
+    "GoHighLevel two-way sync",
+    "The obvious fix",
+    "Store their id at the moment you write",
+    "own_mirror_echo",
+    "echo guard",
   ],
   // The contact form is a client component, so every field has to be in the
   // server HTML: with JavaScript off the browser posts the form to the server
@@ -112,6 +122,65 @@ for (const [file, phrases] of Object.entries(EXPECTED)) {
     }
   }
 }
+
+/**
+ * The navigation, with JavaScript disabled.
+ *
+ * Phase 2 replaced Phase 1's always-visible list of links with the design's
+ * full-screen index, which is a disclosure: the links are in the HTML but the
+ * panel starts closed. That is a new way for the site to fail the governing
+ * rule — a React-state overlay would render every link and then have no way to
+ * reveal one — so it gets its own assertion rather than riding on the phrase
+ * list above.
+ *
+ * Three things have to be true on every page, after every <script> is stripped:
+ *
+ *   the disclosure is a native <details>/<summary>, which opens with no
+ *   JavaScript at all and reports its own state to assistive technology;
+ *
+ *   every top-level route is an href inside it;
+ *
+ *   the footer carries the same routes outside any disclosure, so the link
+ *   graph does not depend on the disclosure behaving at all.
+ */
+const TOP_LEVEL = [
+  "/about",
+  "/services/gohighlevel",
+  "/services/automation",
+  "/services/web-development",
+  "/services/mobile",
+  "/projects",
+  "/blog",
+  "/contact",
+];
+
+for (const file of Object.keys(EXPECTED)) {
+  const full = path.join(APP_DIR, file);
+  if (!fs.existsSync(full)) continue;
+
+  const visible = withoutScripts(fs.readFileSync(full, "utf8"));
+
+  const hasNativeDisclosure =
+    /<details[\s>]/i.test(visible) && /<summary[\s>]/i.test(visible);
+  if (hasNativeDisclosure) {
+    checks++;
+  } else {
+    console.error(
+      `  FAIL  ${file}  the site index is not a native <details>/<summary>, so it cannot open without JavaScript`
+    );
+    failures++;
+  }
+
+  for (const route of TOP_LEVEL) {
+    if (visible.includes(`href="${route}"`)) {
+      checks++;
+    } else {
+      console.error(`  FAIL  ${file}  no link to ${route} with JavaScript disabled`);
+      failures++;
+    }
+  }
+}
+
 
 console.log(`\ncheck-nojs: ${checks} phrases present, ${failures} missing.`);
 if (failures) {

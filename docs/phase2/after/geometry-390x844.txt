@@ -1,0 +1,63 @@
+DIV||0|0|390|65|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||0|0|390|65|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||0|0|390|1|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||0|1|390|64|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+A||23|11|24|44|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+SPAN||23|21|24|24|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|url("http://localhost:3000/logo.svg")
+SUMMARY||266|11|101|44|"JetBrains Mono", "JetBrains Mono Fallba|11px|400|rgb(255, 255, 255)|none
+SPAN|Index|283|25|43|17|"JetBrains Mono", "JetBrains Mono Fallba|11px|400|rgb(255, 255, 255)|none
+SPAN||335|31|15|5|"JetBrains Mono", "JetBrains Mono Fallba|11px|400|rgb(255, 255, 255)|none
+SPAN||335|31|15|1|"JetBrains Mono", "JetBrains Mono Fallba|11px|400|rgb(255, 255, 255)|none
+SPAN||335|35|9|1|"JetBrains Mono", "JetBrains Mono Fallba|11px|400|rgb(255, 255, 255)|none
+DIV||0|0|390|844|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0))
+DIV||0|0|390|844|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||0|72|390|64|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||173|72|44|44|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+BUTTON||173|72|44|44|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+svg||185|84|20|20|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+path||188|87|13|13|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+path||193|91|3|2|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+DIV||0|0|390|844|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||0|0|390|422|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||32|108|73|62|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+svg||21|97|24|24|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+path||27|103|12|12|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+svg||92|97|24|24|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+path||98|103|12|12|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+svg||21|157|24|24|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+path||27|163|12|12|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+svg||92|157|24|24|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+path||98|163|12|12|Inter, "Inter Fallback"|16px|400|rgb(255, 255, 255)|none
+H1|Hi!|49|121|39|36|"Yatra One", "Yatra One Fallback", cursi|30px|700|rgb(243, 244, 246)|none
+P|I'm|32|178|358|32|soria, serif|24px|700|rgb(255, 255, 255)|none
+H1|ZUBAIR|32|210|358|48|soria, serif|48px|700|rgb(255, 255, 255)|none
+DIV||32|234|358|80|Inter, "Inter Fallback"|16px|400|rgba(0, 0, 0, 0)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+SPAN|Bin Shaukat|32|244|226|60|alexBrush, cursive|48px|500|rgba(0, 0, 0, 0)|none
+DIV||39|422|312|422|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||39|422|312|422|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||39|532|312|312|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||39|532|312|312|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||70|563|250|250|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||45|538|151|44|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||45|538|151|44|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV|Web Developer|42|523|157|74|Inter, "Inter Fallback"|14px|600|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||39|532|312|312|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+IMG||39|289|312|555|Inter, "Inter Fallback"|16px|400|rgba(0, 0, 0, 0)|none
+DIV||200|753|166|44|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||200|753|166|44|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV|Mobile Developer|198|745|170|61|Inter, "Inter Fallback"|14px|600|rgb(255, 255, 255)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||339|672|12|12|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||339|672|12|12|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||321|610|8|8|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||321|610|8|8|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||372|365|10|114|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||372|365|10|10|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||371|364|13|13|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|linear-gradient(to right, rgb(168, 85, 247), rgb(139, 92, 24
+DIV||372|391|10|10|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||372|391|10|10|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||372|417|10|10|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||372|417|10|10|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||372|443|10|10|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||372|443|10|10|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||372|469|10|10|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none
+DIV||372|469|10|10|Inter, "Inter Fallback"|16px|400|rgba(255, 255, 255, 0.62)|none

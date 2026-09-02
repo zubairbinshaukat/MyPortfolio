@@ -1,0 +1,177 @@
+hero contract — PLAN §0.2 / §3.4 / §3.5, after the Phase 3 review follow-up
+2026-09-02T10:27:15Z
+
+=========================================================================
+A. Phase 2 baseline -> now.  The whole Phase 3 delta.
+   band+dock covers the band and the strip the old floating dock sat in;
+   dot-rail covers the strip the old dot rail sat in.
+=========================================================================
+
+===== HERO CONTRACT: phase 2 -> phase 3 + follow-up =====
+
+### 390x844  *** FAIL ***
+  contract elements  : 63
+  geometry/typography: 111 DIFFERENCES
+    [390x844 #4] field0: "A" -> "DIV"
+    [390x844 #4] A"" geom 23,11,24,44 -> 23,11,54,44
+    [390x844 #5] field0: "SPAN" -> "A"
+    [390x844 #5] SPAN"" geom 23,21,24,24 -> 23,11,24,44
+    [390x844 #6] field0: "SUMMARY" -> "SPAN"
+    [390x844 #6] SUMMARY"" geom 266,11,101,44 -> 23,21,24,24
+    [390x844 #7] field0: "SPAN" -> "DIV"
+    [390x844 #7] SPAN"Index" geom 283,25,43,17 -> 85,11,220,44
+    [390x844 #8] field0: "SPAN" -> "UL"
+    [390x844 #8] SPAN"" geom 335,31,15,5 -> 85,11,220,44
+    [390x844 #9] field0: "SPAN" -> "LI"
+    [390x844 #9] SPAN"" geom 335,31,15,1 -> 85,11,44,44
+  frozen pixels      : 3.6593% differ / 0.8327% strong  (limit 1% / 0.05%)
+    in band+dock       :  3.4995% differ /  0.6833% strong
+    in dot-rail        :  0.1598% differ /  0.1495% strong
+    everywhere else  :  0.0000% differ /  0.0000% strong
+
+### 639x900  *** FAIL ***
+  contract elements  : 63
+  geometry/typography: 112 DIFFERENCES
+    ELEMENT COUNT: 63 -> 65
+    [639x900 #4] field0: "A" -> "DIV"
+    [639x900 #4] A"" geom 31,11,24,44 -> 31,11,166,44
+    [639x900 #5] field0: "SPAN" -> "A"
+    [639x900 #5] SPAN"" geom 31,21,24,24 -> 31,11,24,44
+    [639x900 #6] field0: "SUMMARY" -> "SPAN"
+    [639x900 #6] SUMMARY"" geom 507,11,101,44 -> 31,21,24,24
+    [639x900 #7] field0: "SPAN" -> "DIV"
+    [639x900 #7] SPAN"Index" geom 524,25,43,17 -> 210,11,220,44
+    [639x900 #8] field0: "SPAN" -> "UL"
+    [639x900 #8] SPAN"" geom 576,31,15,5 -> 210,11,220,44
+    [639x900 #9] field0: "SPAN" -> "LI"
+  frozen pixels      : 1.9810% differ / 0.4251% strong  (limit 1% / 0.05%)
+    in band+dock       :  1.8896% differ /  0.3396% strong
+    in dot-rail        :  0.0915% differ /  0.0856% strong
+    everywhere else  :  0.0000% differ /  0.0000% strong
+
+### 640x900  *** FAIL ***
+  contract elements  : 74
+  geometry/typography: 133 DIFFERENCES
+    ELEMENT COUNT: 74 -> 76
+    [640x900 #4] field0: "A" -> "DIV"
+    [640x900 #4] A"" geom 31,11,24,44 -> 31,11,167,44
+    [640x900 #5] field0: "SPAN" -> "A"
+    [640x900 #5] SPAN"" geom 31,21,24,24 -> 31,11,24,44
+    [640x900 #6] field0: "SUMMARY" -> "SPAN"
+    [640x900 #6] SUMMARY"" geom 508,11,101,44 -> 31,21,24,24
+    [640x900 #7] field0: "SPAN" -> "DIV"
+    [640x900 #7] SPAN"Index" geom 525,25,43,17 -> 210,11,220,44
+    [640x900 #8] field0: "SPAN" -> "UL"
+    [640x900 #8] SPAN"" geom 577,31,15,5 -> 210,11,220,44
+    [640x900 #9] field0: "SPAN" -> "LI"
+  frozen pixels      : 2.3014% differ / 0.4561% strong  (limit 1% / 0.05%)
+    in band+dock       :  1.8866% differ /  0.3389% strong
+    in dot-rail        :  0.1580% differ /  0.1167% strong
+    everywhere else  :  0.2568% differ /  0.0005% strong
+
+### 1440x900  *** FAIL ***
+  contract elements  : 98
+  geometry/typography: 138 DIFFERENCES
+    ELEMENT COUNT: 98 -> 76
+    [1440x900 #4] field0: "A" -> "DIV"
+    [1440x900 #4] A"" geom 159,11,24,44 -> 159,11,439,44
+    [1440x900 #5] field0: "SPAN" -> "A"
+    [1440x900 #5] SPAN"" geom 159,21,24,24 -> 159,11,24,44
+    [1440x900 #6] field0: "SUMMARY" -> "SPAN"
+    [1440x900 #6] SUMMARY"" geom 1181,11,101,44 -> 159,21,24,24
+    [1440x900 #7] field0: "SPAN" -> "DIV"
+    [1440x900 #7] SPAN"Index" geom 1198,25,43,17 -> 610,11,220,44
+    [1440x900 #8] field0: "SPAN" -> "UL"
+    [1440x900 #8] SPAN"" geom 1249,31,15,5 -> 610,11,220,44
+    [1440x900 #9] field0: "SPAN" -> "LI"
+  frozen pixels      : 2.2340% differ / 0.5756% strong  (limit 1% / 0.05%)
+    in band+dock       :  2.1638% differ /  0.5238% strong
+    in dot-rail        :  0.0702% differ /  0.0519% strong
+    everywhere else  :  0.0000% differ /  0.0000% strong
+
+RESULT: 4 viewport(s) FAILED
+
+=========================================================================
+B. Phase 3 as reported -> now.  The follow-up delta alone (issues 1-3).
+   Only the 72px band changed.
+=========================================================================
+
+===== HERO CONTRACT: phase 3 -> follow-up =====
+
+### 390x844  *** FAIL ***
+  contract elements  : 46
+  geometry/typography: 81 DIFFERENCES
+    ELEMENT COUNT: 46 -> 63
+    [390x844 #4] field0: "A" -> "DIV"
+    [390x844 #4] A"" geom 23,11,24,44 -> 23,11,54,44
+    [390x844 #5] field0: "SPAN" -> "A"
+    [390x844 #5] SPAN"" geom 23,21,24,24 -> 23,11,24,44
+    [390x844 #6] field0: "SUMMARY" -> "SPAN"
+    [390x844 #6] SUMMARY"" geom 266,11,101,44 -> 23,21,24,24
+    [390x844 #7] field0: "SPAN" -> "DIV"
+    [390x844 #7] SPAN"Index" geom 283,25,43,17 -> 85,11,220,44
+    [390x844 #8] field0: "SPAN" -> "UL"
+    [390x844 #8] SPAN"" geom 335,31,15,5 -> 85,11,220,44
+    [390x844 #9] field0: "SPAN" -> "LI"
+  frozen pixels      : 3.0231% differ / 0.2324% strong  (limit 1% / 0.05%)
+    in band            :  3.0231% differ /  0.2324% strong
+    everywhere else  :  0.0000% differ /  0.0000% strong
+
+### 639x900  *** FAIL ***
+  contract elements  : 63
+  geometry/typography: 100 DIFFERENCES
+    ELEMENT COUNT: 63 -> 65
+    [639x900 #4] field0: "A" -> "DIV"
+    [639x900 #4] A"" geom 31,11,24,44 -> 31,11,166,44
+    [639x900 #5] field0: "SPAN" -> "A"
+    [639x900 #5] SPAN"" geom 31,21,24,24 -> 31,11,24,44
+    [639x900 #6] field0: "DIV" -> "SPAN"
+    [639x900 #6] DIV"" geom 67,11,427,44 -> 31,21,24,24
+    [639x900 #7] field0: "UL" -> "DIV"
+    [639x900 #7] UL"" geom 171,11,220,44 -> 210,11,220,44
+    [639x900 #8] field0: "LI" -> "UL"
+    [639x900 #8] LI"" geom 171,11,44,44 -> 210,11,220,44
+    [639x900 #9] field0: "A" -> "LI"
+  frozen pixels      : 0.9023% differ / 0.0859% strong  (limit 1% / 0.05%)
+    in band            :  0.9023% differ /  0.0859% strong
+    everywhere else  :  0.0000% differ /  0.0000% strong
+
+### 640x900  *** FAIL ***
+  contract elements  : 74
+  geometry/typography: 116 DIFFERENCES
+    ELEMENT COUNT: 74 -> 76
+    [640x900 #4] field0: "A" -> "DIV"
+    [640x900 #4] A"" geom 31,11,24,44 -> 31,11,167,44
+    [640x900 #5] field0: "SPAN" -> "A"
+    [640x900 #5] SPAN"" geom 31,21,24,24 -> 31,11,24,44
+    [640x900 #6] field0: "DIV" -> "SPAN"
+    [640x900 #6] DIV"" geom 67,11,428,44 -> 31,21,24,24
+    [640x900 #7] field0: "UL" -> "DIV"
+    [640x900 #7] UL"" geom 172,11,220,44 -> 210,11,220,44
+    [640x900 #8] field0: "LI" -> "UL"
+    [640x900 #8] LI"" geom 172,11,44,44 -> 210,11,220,44
+    [640x900 #9] field0: "A" -> "LI"
+  frozen pixels      : 1.1882% differ / 0.1061% strong  (limit 1% / 0.05%)
+    in band            :  0.9314% differ /  0.1056% strong
+    everywhere else  :  0.2568% differ /  0.0005% strong
+
+### 1440x900  *** FAIL ***
+  contract elements  : 74
+  geometry/typography: 116 DIFFERENCES
+    ELEMENT COUNT: 74 -> 76
+    [1440x900 #4] field0: "A" -> "DIV"
+    [1440x900 #4] A"" geom 159,11,24,44 -> 159,11,439,44
+    [1440x900 #5] field0: "SPAN" -> "A"
+    [1440x900 #5] SPAN"" geom 159,21,24,24 -> 159,11,24,44
+    [1440x900 #6] field0: "DIV" -> "SPAN"
+    [1440x900 #6] DIV"" geom 195,11,974,44 -> 159,21,24,24
+    [1440x900 #7] field0: "UL" -> "DIV"
+    [1440x900 #7] UL"" geom 572,11,220,44 -> 610,11,220,44
+    [1440x900 #8] field0: "LI" -> "UL"
+    [1440x900 #8] LI"" geom 572,11,44,44 -> 610,11,220,44
+    [1440x900 #9] field0: "A" -> "LI"
+  frozen pixels      : 0.4140% differ / 0.0469% strong  (limit 1% / 0.05%)
+    in band            :  0.4140% differ /  0.0469% strong
+    everywhere else  :  0.0000% differ /  0.0000% strong
+
+RESULT: 4 viewport(s) FAILED

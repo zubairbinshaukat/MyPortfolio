@@ -1,6 +1,8 @@
-import Link from "next/link";
 import PageShell from "@/components/PageShell";
+import PageHeader from "@/components/PageHeader";
+import ProjectRow from "@/components/ProjectRow";
 import { getAllProjects } from "@/lib/projects";
+import { navEntry } from "@/lib/site";
 
 export const metadata = {
   title: "Projects",
@@ -9,48 +11,35 @@ export const metadata = {
   alternates: { canonical: "/projects" },
 };
 
+const entry = navEntry("/projects");
+
 export default function ProjectsPage() {
   const projects = getAllProjects();
 
   return (
-    <PageShell trail={[{ name: "Projects", href: "/projects" }]}>
-      <h1 className="text-4xl font-bold text-white">Selected Work</h1>
-      <p className="mt-4 max-w-3xl text-lg text-white/80">
-        Systems in production, written up as case studies: what the problem
-        was, what got built, and what changed afterwards.
-      </p>
+    <PageShell
+      trail={[{ name: "Projects", href: "/projects" }]}
+      readout={`${entry.n} — ${entry.label}`}
+    >
+      <PageHeader
+        n={entry.n}
+        eyebrow={entry.label}
+        title="Selected Work"
+        lede="Systems in production, written up as case studies: what the problem was, what got built, and what changed afterwards. Ordered newest first."
+      />
 
       {projects.length === 0 ? (
-        <p className="mt-12 text-white/80">No case studies published yet.</p>
+        <p className="mt-12 text-copy text-body">No case studies published yet.</p>
       ) : (
-        <ul className="mt-12 space-y-10">
-          {projects.map((project) => (
-            <li key={project.slug} className="border-t border-white/15 pt-6">
-              <h2 className="text-2xl font-semibold text-white">
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
-                >
-                  {project.title}
-                </Link>
-              </h2>
-              <p className="mt-1 text-white/70">
-                {project.kind} · {project.client} · {project.year}
-              </p>
-              <p className="mt-3 max-w-3xl text-white/80">{project.summary}</p>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {project.stack?.map((tech) => (
-                  <li
-                    key={tech}
-                    className="rounded-full border border-white/25 px-3 py-1 text-white/80"
-                  >
-                    {tech}
-                  </li>
-                ))}
-              </ul>
-            </li>
+        <ol className="mt-12 border-t border-hairline">
+          {projects.map((project, i) => (
+            <ProjectRow
+              key={project.slug}
+              as="h2"
+              project={{ ...project, n: String(i + 1).padStart(2, "0") }}
+            />
           ))}
-        </ul>
+        </ol>
       )}
     </PageShell>
   );

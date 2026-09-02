@@ -1,0 +1,167 @@
+---
+title: "GoHighLevel two-way sync: stopping your own messages echoing back"
+slug: "gohighlevel-two-way-sync-echo"
+summary: "In a two-way GoHighLevel sync, every message you post comes back to you as a webhook. An idempotency key won't catch it, because it isn't the same event."
+topic: "Automation"
+series: "Webhook reliability"
+readingMinutes: 4
+cover: ""
+coverWidth: 0
+coverHeight: 0
+featured: false
+draft: false
+publishedAt: "2026-09-02"
+updatedAt: "2026-09-02"
+---
+
+We run a messaging platform that syncs both ways with GoHighLevel. When a reply lands in our
+inbox we post it into the matching GoHighLevel conversation, so the agency sees it in the tool
+they actually work in. Their marketplace app then webhooks every message in that account back
+to us, including the one we just wrote.
+
+So our own write returns as an event about a message we already have. Save it and the thread
+shows it twice.
+
+<figure>
+  <svg viewBox="0 0 920 386" width="100%" role="img" aria-labelledby="echo-title echo-desc">
+    <title id="echo-title">How a message echoes back from the CRM</title>
+    <desc id="echo-desc">
+      Our platform posts a message into the CRM and stores the id the CRM returns. The CRM then
+      webhooks that same message back. An echo guard matches on the stored id: a hit is dropped,
+      a miss is saved as a second copy.
+    </desc>
+
+    <defs>
+      <linearGradient id="echoRule" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stopColor="#a855f7" />
+        <stop offset="55%" stopColor="#8b5cf6" />
+        <stop offset="100%" stopColor="#ec4899" />
+      </linearGradient>
+      <marker id="echoTipOut" markerWidth="9" markerHeight="9" refX="6.6" refY="3.2" orient="auto">
+        <path d="M0,0 L7,3.2 L0,6.4 Z" fill="#a855f7" />
+      </marker>
+      <marker id="echoTipBack" markerWidth="9" markerHeight="9" refX="6.6" refY="3.2" orient="auto">
+        <path d="M0,0 L7,3.2 L0,6.4 Z" fill="#8b5cf6" />
+      </marker>
+      <marker id="echoTipEcho" markerWidth="9" markerHeight="9" refX="6.6" refY="3.2" orient="auto">
+        <path d="M0,0 L7,3.2 L0,6.4 Z" fill="#ec4899" />
+      </marker>
+    </defs>
+
+    <rect x="0" y="0" width="920" height="386" rx="14" fill="#0A0A0B" />
+    <rect x="0.5" y="0.5" width="919" height="385" rx="14" fill="none" stroke="#ffffff" strokeOpacity="0.07" />
+    <rect x="48" y="24" width="118" height="3" rx="1.5" fill="url(#echoRule)" />
+
+    <rect x="48" y="56" width="268" height="156" rx="12" fill="#131316" stroke="#ffffff" strokeOpacity="0.09" />
+    <text x="70" y="84" fill="#71717A" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="12" letterSpacing="2.4">YOUR PLATFORM</text>
+    <rect x="70" y="98" width="224" height="94" rx="8" fill="#0A0A0B" stroke="#ffffff" strokeOpacity="0.08" />
+    <text x="90" y="126" fill="#E4E4E7" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="13">message</text>
+    <text x="90" y="152" fill="#8b5cf6" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="11.5">mirror.remoteMessageId</text>
+    <text x="90" y="172" fill="#71717A" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="11.5">gh_9f2c</text>
+
+    <rect x="604" y="56" width="268" height="156" rx="12" fill="#131316" stroke="#ffffff" strokeOpacity="0.09" />
+    <text x="626" y="84" fill="#71717A" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="12" letterSpacing="2.4">THE CRM</text>
+    <rect x="626" y="98" width="224" height="94" rx="8" fill="#0A0A0B" stroke="#ffffff" strokeOpacity="0.08" />
+    <text x="646" y="126" fill="#E4E4E7" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="13">conversation</text>
+    <text x="646" y="152" fill="#a855f7" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="11.5">their id</text>
+    <text x="646" y="172" fill="#71717A" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="11.5">gh_9f2c</text>
+
+    <text x="460" y="106" textAnchor="middle" fill="#A1A1AA" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="12">1 · post message</text>
+    <line x1="322" y1="124" x2="596" y2="124" stroke="#a855f7" strokeWidth="1.6" strokeLinecap="round" markerEnd="url(#echoTipOut)" />
+
+    <line x1="596" y1="168" x2="322" y2="168" stroke="#8b5cf6" strokeWidth="1.6" strokeLinecap="round" strokeDasharray="5 6" markerEnd="url(#echoTipBack)" />
+    <text x="460" y="192" textAnchor="middle" fill="#A1A1AA" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="12">2 · response carries their id</text>
+
+    <path d="M738,212 L738,280 L548,280" fill="none" stroke="#ec4899" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" markerEnd="url(#echoTipEcho)" />
+    <text x="643" y="264" textAnchor="middle" fill="#A1A1AA" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="12">3 · their webhook</text>
+
+    <rect x="388" y="254" width="152" height="52" rx="10" fill="#131316" stroke="#ec4899" strokeOpacity="0.5" />
+    <text x="464" y="278" textAnchor="middle" fill="#E4E4E7" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="12.5">echo guard</text>
+    <text x="464" y="296" textAnchor="middle" fill="#71717A" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="11">id already stored?</text>
+
+    <path d="M388,280 L190,280 L190,216" fill="none" stroke="#ec4899" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.55" markerEnd="url(#echoTipEcho)" />
+
+    <text x="464" y="336" textAnchor="middle" fill="#ec4899" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="11.5">hit  ·  dropped as own_mirror_echo</text>
+    <text x="464" y="356" textAnchor="middle" fill="#71717A" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="11.5">miss  ·  saved, and the thread shows it twice</text>
+  </svg>
+  <figcaption>
+    One message, two identifiers. The id in the middle is the only thing that recognises the
+    echo, and it exists only because we stored it on the way out.
+  </figcaption>
+</figure>
+
+## The obvious fix doesn't fit
+
+Dedupe on the message id. Except the id we hold is ours, and the webhook carries GoHighLevel's,
+assigned when they stored the message. Two identifiers for one message, in two namespaces,
+nothing linking them.
+
+The next idea is content matching: same contact, same body, inside a minute or two. That one
+fails in a way you don't notice for weeks. People send the same short message twice on purpose.
+"ok" and then "ok" again. Match on content and you drop the second one, and a dropped customer
+reply is a far worse bug than a visible duplicate.
+
+## Store their id at the moment you write
+
+When we post into GoHighLevel, the response carries their id for our message. That gets written
+onto our own record before anything else happens. When their webhook shows up, that id is the
+join.
+
+```ts
+// Posting our message into the CRM: keep their id for it.
+const remote = await crm.postMessage(conversationId, body);
+
+await Message.updateOne(
+  { _id: message._id },
+  { $set: { "sourceMeta.mirror": { remoteMessageId: remote.messageId, postedAt: new Date() } } }
+);
+
+// Their webhook, minutes later, carrying that same id back at us.
+const ours = await Message.findOne({
+  accountId,
+  "sourceMeta.mirror.remoteMessageId": payload.messageId,
+});
+if (ours) return { status: "skipped", reason: "own_mirror_echo" };
+```
+
+Now the guard is an exact id lookup rather than a guess.
+
+Our traffic gets into their system by more than one route, so there is more than one field to
+check. A message we mirrored into a conversation, an SMS we sent through their API as a
+fallback, and a message we ingested from them earlier are three different things. Each one
+stores its own remote id, and each one logs its own named skip reason. When something looks
+wrong on a Monday morning, `own_sms_fallback_echo` tells you which loop fired. A boolean called
+`duplicate` tells you nothing.
+
+There's also a cheaper rule that catches a whole class before any database lookup. An outbound
+event stamped with our own conversation provider id was sent by us by definition, so it gets
+dropped on sight. Most of the [GoHighLevel integration work](/services/gohighlevel) I do ends up
+with a version of both rules in it.
+
+## The tradeoff
+
+This is fail-open. If the remote id never got written, because the post failed halfway or their
+webhook beat our own database write, the echo isn't recognised and gets saved as a new message.
+
+That's deliberate. The alternative is treating anything unmatched as suspect and dropping it,
+which swaps a visible duplicate for a silently missing reply. Someone reports the duplicate
+within the hour. The missing reply turns up weeks later in a support ticket, by which point it
+isn't a bug any more, it's a lost lead.
+
+## Related: response codes are retry instructions
+
+Same integration, different duplicate. Answer a GoHighLevel webhook with a 4xx and it retries.
+For a message carrying media, that retry is a second real send to a real person. So terminal
+failures, an unsupported attachment or a recipient who can't receive, answer 200 with a failed
+status in the body. Non-2xx is reserved for conditions that might genuinely succeed next time.
+
+## The takeaway
+
+An idempotency key protects you from the same event arriving twice, and it does nothing here,
+because the echo isn't the same event. It's their event about your write, carrying their id.
+The key is only half of the problem in any integration where you both read and write.
+
+If you write into a system that also notifies you about writes, the identifier you need is the
+one they assign, recorded at the moment you hand the message over. Store it in the same write
+that creates the message, not in a follow-up job, and give every echo class a name you can
+grep for.

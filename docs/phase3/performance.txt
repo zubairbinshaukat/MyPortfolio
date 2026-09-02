@@ -1,0 +1,142 @@
+performance — Phase 3 review follow-up, issue 6
+================================================
+
+WHAT IS DEPLOYED AT https://www.zubyr.dev
+-----------------------------------------
+Phase 1. Fingerprinted against the served HTML: four <h1> elements (the
+pre-Phase-3 hero), all nine top-level routes linked, FAQPage and ProfilePage
+schema present, and none of Phase 2's design markers — no `site-band`, no
+`dot-grid`, no `outline-dashed`. Phase 2 and Phase 3 are uncommitted, so they
+are not on production.
+
+That is the constraint on this whole issue. The prod reading below is a real
+re-baseline of the deployed site; it is not a measurement of the Phase 3 work,
+and issue 6b's "only against real prod findings" cannot be satisfied for Phase 3
+code until it is deployed.
+
+HOW THESE WERE MEASURED
+-----------------------
+PageSpeed Insights answers 429 for this project:
+
+  "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of
+   service 'pagespeedonline.googleapis.com'"
+
+There is no PSI API key in the repository. So these are Lighthouse 12.8.2 run
+locally — the same engine PSI runs, the same audits, the same mobile emulation
+(Moto G Power, 1.6 Mbps, 4x CPU). What they do not reproduce is PSI's network
+location and its server's CPU, so timings differ from a PSI run by a constant.
+Category scores and audit findings are the same analysis. `npm run lighthouse`
+is scripts/lighthouse.mjs; when a key is available, PSI is still the number
+PLAN §0.5 asks for.
+
+PRODUCTION — https://www.zubyr.dev (Phase 1, deployed)
+-----------------------------------------------------
+              Perf  A11y  Best   SEO         FCP      LCP      TBT      CLS       SI
+mobile          71    95   100   100       1.4 s    4.1 s   300 ms    0.178    2.9 s
+desktop         96    96   100   100       0.3 s    0.6 s     0 ms    0.125    0.9 s
+
+mobile — LCP element: <img alt="Zubair Bin Shaukat - Software Developer" width="700" height="700" decoding="async" data-nimg="1" class="w-full h-auto object-contain sm:w-[90%] max-h-[100vh] md:w-full" style="color:transparent" srcset="/_next/image?url=%2F_next%2Fstatic%2Fimmutable%2Fmedia%2Fdp.2_zk91clz7rnu.…" src="/_next/image?url=%2F_next%2Fstatic%2Fimmutable%2Fmedia%2Fdp.2_zk91clz7rnu.…">
+
+LOCAL PRODUCTION BUILD — Phase 3 + this follow-up (not deployed)
+---------------------------------------------------------------
+              Perf  A11y  Best   SEO         FCP      LCP      TBT      CLS       SI
+mobile          84   100    96   100       1.3 s    4.2 s   140 ms        0    1.6 s
+desktop         99   100    96   100       0.7 s    0.9 s    10 ms        0    0.9 s
+
+mobile — LCP element: <img alt="Zubair Bin Shaukat - Software Developer" width="2160" height="3840" decoding="async" data-nimg="1" class="w-full h-auto object-contain sm:w-[90%] max-h-[100vh] md:w-full" style="color:transparent" sizes="(max-width: 640px) 80vw, (max-width: 1024px) 45vw, 700px" srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdp.3tb7oyfw47vm1.webp&amp;w=384&amp;q…" src="http://localhost:3000/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdp.3tb7o…">
+
+  Best Practices 96 locally is one console error: a 404 on
+  /_vercel/speed-insights/script.js, a path that exists only on Vercel's edge.
+  It is the only error either run logged. Production scored 100 there.
+
+WHERE THE LCP TIME GOES
+-----------------------
+                      TTFB    Load Delay   Load Time   Render Delay
+  prod (phase 1)      981ms      1195ms      1646ms        267ms
+  local (phase 3)     451ms         0ms         0ms       3680ms
+
+Two different problems with the same number on them. On production it is image
+bytes — a 7.3 MB PNG discovered late. Phase 2 fixed that: the local build
+fetches a 35 KB WebP with zero load delay. What is left is render delay, which
+is main-thread JavaScript.
+
+THE FOUR ITEMS IN 6b, EACH DIAGNOSED
+------------------------------------
+
+1. fetchpriority="high" on the LCP image preload
+   Next 16 emits the preload without it:
+     <link rel="preload" as="image" imageSrcSet="…" imageSizes="…">
+   and the <img> carries no fetchpriority either. But Lighthouse's own
+   `prioritize-lcp-image` audit SCORES 1 on the local build, and the LCP phase
+   breakdown shows Load Delay 0ms / 0%. The preload link is already doing the
+   prioritising; there is no delay left for the attribute to remove.
+   NOT APPLIED. The attribute would also have to be added by hand as a second
+   preload, since Next generates this one, which would duplicate the request.
+
+2. Tighten the portrait's sizes so mobile gets ~330px
+   Measured: at Lighthouse's mobile emulation (412x823, DPR 1.75) the browser
+   requests w=640 and downloads 35,016 bytes of WebP. `uses-responsive-images`
+   SCORES 1. 640 is the correct pick — 80vw of 412 is 330 CSS px, and at 1.75x
+   that is 577 device px, so 640 is the first srcset entry that covers it.
+   Forcing ~330 would ship an image upscaled 1.7x on the one photograph on the
+   site, to save roughly 15 KB.
+   NOT APPLIED. The premise does not survive the measurement.
+
+3. Update browserslist to drop unneeded transpilation
+   TESTED, then reverted. Setting ["chrome 120","edge 120","firefox 120",
+   "safari 17"] in package.json changed nothing: byte totals identical to the
+   0.1 KB, and the polyfills were still present.
+
+   The audit is pointing at next/dist/build/polyfills/polyfill-module.js, which
+   Next injects into the module bundle unconditionally — browserslist governs
+   the nomodule split and CSS targets, not this. It is 1.3 KB raw and 0.5 KB
+   brotli. Lighthouse's "Est savings of 13 KiB" is its model of what those five
+   features would cost from core-js, not what is shipped:
+
+     Array.prototype.at, Array.prototype.flat, Array.prototype.flatMap,
+     Object.fromEntries, Object.hasOwn
+
+   NOT APPLIED. The fix does not work and the prize is 0.5 KB, not 13 KB.
+   Narrowing supported browsers for no measurable gain is a cost.
+
+4. Forced reflow
+   PRESENT, and now measured. Counting Element.prototype.getBoundingClientRect
+   over five settled seconds, at 412x823:
+
+     /        1221 calls in 5s   =  244 per second, permanently
+     /about      0 calls in 5s   =    0 per second
+
+   All of it from three call sites in one chunk. It is the beams' collision
+   detection in components/ui/background-beams-with-collision.js: seven
+   setInterval(50ms) timers, each reading three getBoundingClientRect()s, while
+   framer-motion animates the same elements' transforms every frame — so the
+   layout is dirty at every read and every read forces a synchronous layout.
+   Style & Layout is 1.6s of the 5.8s main-thread total.
+   NOT FIXED HERE. It is the same component that holds framer-motion, and it is
+   the one change scripts/visual-hero.mjs cannot verify — see PHASE3.md.
+
+6c. THE REAL COST OF LENIS AND tsPARTICLES
+------------------------------------------
+The dev-server report attributed CPU time to Lenis. Re-measured on a production
+build, as an A/B rather than an attribution — Lighthouse with and without
+--force-prefers-reduced-motion, which is the switch that stops Lenis being
+downloaded at all (verified: the chunk is not requested). Three runs per arm,
+medians:
+
+                  Perf     FCP      LCP      TBT    CLS      SI   scriptEval  style+layout  mainThread
+motion on           86    1203     3957     147  0.000    1563        2032          1602        5822
+reduced             86    1203     3917     144  0.000    1566        2034          1590        5951
+
+Identical. Same score, FCP to the millisecond, LCP 40ms apart, TBT 3ms, script
+evaluation 2ms, style+layout 12ms — and the main-thread total is higher in the
+arm WITHOUT the motion layer, which is the size of the noise.
+
+Lenis costs nothing measurable. The dev report's figure was wrong twice over:
+the dev bundle, and the attribution model. Lighthouse's bootup-time audit
+charges rAF-scheduled rendering work to the script that scheduled it, so any
+rAF loop running for the length of a trace accumulates the page's own rendering
+time under its name — the Lenis chunk showed "2029ms total / 386ms scripting"
+for exactly that reason.
+
+DO NOT DEFER OR REMOVE LENIS. The main-thread cost is in both arms, and it is
+the hero: framer-motion, tsParticles, and the beams' 244 forced layouts/second.

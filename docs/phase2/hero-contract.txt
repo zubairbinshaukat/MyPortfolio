@@ -1,0 +1,107 @@
+Phase 2 verification — captured 2026-09-02 07:02 UTC
+Next.js 16.3.4, React 19.2.8, Node v24.15.0
+
+================ HERO CONTRACT ================
+
+Three steps, in order. Two of them are intended changes and say so; the
+middle one is the gate that had to hold.
+
+-- 1. Phase 2 start -> fonts, assets, motion
+   Intended: the portrait swaps to WebP (PLAN §1) and Inter starts
+   rendering. The region split shows the change is confined to the
+   portrait's own box.
+
+===== HERO CONTRACT: phase 2 start -> hero assets =====
+
+### 390x844  *** FAIL ***
+  contract elements  : 53
+  geometry/typography: 58 DIFFERENCES
+  frozen pixels      : 4.7275% differ / 0.5168% strong  (limit 1% / 0.05%)
+    in portrait        :  4.4841% differ /  0.5143% strong
+    everywhere else  :  0.2433% differ /  0.0024% strong
+
+### 639x900  *** FAIL ***
+  contract elements  : 53
+  geometry/typography: 58 DIFFERENCES
+  frozen pixels      : 5.2337% differ / 0.3787% strong  (limit 1% / 0.05%)
+    in portrait        :  4.2487% differ /  0.3768% strong
+    everywhere else  :  0.9850% differ /  0.0019% strong
+
+### 640x900  *** FAIL ***
+  contract elements  : 65
+  geometry/typography: 69 DIFFERENCES
+  frozen pixels      : 1.5813% differ / 0.3054% strong  (limit 1% / 0.05%)
+    in portrait        :  1.5813% differ /  0.3054% strong
+    everywhere else  :  0.0000% differ /  0.0000% strong
+
+### 1440x900  *** FAIL ***
+  contract elements  : 92
+  geometry/typography: 96 DIFFERENCES
+  frozen pixels      : 1.6755% differ / 0.2627% strong  (limit 1% / 0.05%)
+    in portrait        :  1.6755% differ /  0.2627% strong
+    everywhere else  :  0.0000% differ /  0.0000% strong
+
+RESULT: 4 viewport(s) FAILED
+
+-- 2. fonts, assets, motion -> design port complete
+   The gate: the whole design landed on top of the hero without moving it.
+
+===== HERO CONTRACT: hero assets -> design port =====
+
+### 390x844  PASS
+  contract elements  : 53
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels      : 0.0000% differ / 0.0000% strong  (limit 1% / 0.05%)
+
+### 639x900  PASS
+  contract elements  : 53
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels      : 0.0000% differ / 0.0000% strong  (limit 1% / 0.05%)
+
+### 640x900  PASS
+  contract elements  : 65
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels      : 0.2568% differ / 0.0005% strong  (limit 1% / 0.05%)
+
+### 1440x900  PASS
+  contract elements  : 92
+  geometry/typography: IDENTICAL (within 3px)
+  frozen pixels      : 0.0000% differ / 0.0000% strong  (limit 1% / 0.05%)
+
+RESULT: ALL VIEWPORTS PASS
+
+-- 3. design port -> band moved into the hero
+   Intended, and asked for: PLAN §3.4's top-right resolution brought
+   forward. The band overlays the hero, the social dock moved below it
+   and stopped being clipped, the hero's duplicate mobile logo is gone.
+   Element counts are not comparable across this step — the probe was
+   corrected here to drop zero-area boxes and the content of a closed
+   <details>, neither of which paints. The pixel figures are.
+
+===== HERO CONTRACT: design port -> band in the hero =====
+
+### 390x844  *** FAIL ***
+  contract elements  : 53
+  geometry/typography: 91 DIFFERENCES
+    ELEMENT COUNT: 53 -> 63
+  frozen pixels      : 2.2217% differ / 0.9391% strong  (limit 1% / 0.05%)
+
+### 639x900  *** FAIL ***
+  contract elements  : 53
+  geometry/typography: 91 DIFFERENCES
+    ELEMENT COUNT: 53 -> 63
+  frozen pixels      : 1.3031% differ / 0.5199% strong  (limit 1% / 0.05%)
+
+### 640x900  *** FAIL ***
+  contract elements  : 65
+  geometry/typography: 111 DIFFERENCES
+    ELEMENT COUNT: 65 -> 74
+  frozen pixels      : 1.1880% differ / 0.4503% strong  (limit 1% / 0.05%)
+
+### 1440x900  *** FAIL ***
+  contract elements  : 92
+  geometry/typography: 152 DIFFERENCES
+    ELEMENT COUNT: 92 -> 98
+  frozen pixels      : 2.6910% differ / 0.9767% strong  (limit 1% / 0.05%)
+
+RESULT: 4 viewport(s) FAILED

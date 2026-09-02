@@ -37,11 +37,9 @@ const ROUTES = {
   "/services/web-development": "services/web-development.html",
   "/services/mobile": "services/mobile.html",
   "/projects": "projects.html",
-  "/projects/opencinema": "projects/opencinema.html",
-  "/projects/biz-xpert-web": "projects/biz-xpert-web.html",
-  "/projects/biz-xpert-mobile": "projects/biz-xpert-mobile.html",
+  "/projects/blueboost": "projects/blueboost.html",
   "/blog": "blog.html",
-  "/blog/idempotency-keys": "blog/idempotency-keys.html",
+  "/blog/gohighlevel-two-way-sync-echo": "blog/gohighlevel-two-way-sync-echo.html",
   "/contact": "contact.html",
 };
 
@@ -72,18 +70,22 @@ const FORBIDDEN = [
 ];
 
 /**
- * KNOWN DEVIATION — the hero.
+ * CLOSED IN PHASE 3 — the hero's four <h1> elements.
  *
- * `/` ships four <h1> elements: HeroText renders a mobile and a desktop
- * variant (only one is ever visible), and each contains the HelloCard "Hi!"
- * badge, which is also marked up as an <h1>.
+ * `/` used to ship four: HeroText renders a mobile and a desktop variant, only
+ * one of which is ever visible, and each contained the HelloCard "Hi!" badge,
+ * which was also marked up as an <h1>. They lived in files PLAN §0.2 froze
+ * until Phase 3, so Phase 1 pinned the number here rather than quietly
+ * breaking the freeze, and Phase 2 inherited the pin.
  *
- * These live in files PLAN §0.2 freezes until Phase 3, and §0.2 is stated as
- * non-negotiable, so Phase 1 left them alone rather than quietly breaking the
- * freeze. The number is pinned here so the deviation is visible and any change
- * to it — in either direction — fails this check.
+ * §0.2 lifts in Phase 3. The badge is a <p>, the desktop lockup is a <p>, and
+ * the heading is the mobile variant's — the one a mobile-first crawl renders.
+ * Every route now wants exactly one, so there is no deviation left to record
+ * and the table is empty rather than deleted: an empty exception list states
+ * that there are no exceptions, where no list at all only states that nobody
+ * wrote one.
  */
-const KNOWN_H1_COUNTS = { "/": 4 };
+const KNOWN_H1_COUNTS = {};
 
 let failures = 0;
 let checks = 0;
@@ -176,7 +178,22 @@ for (const [route, html] of pages) {
   }
 
   // --- description -------------------------------------------------------
-  const description = metaContent(html, "description");
+  /*
+    `text()` before measuring, and it matters.
+
+    `metaContent` returns the raw attribute, where an apostrophe is `&#x27;` —
+    six characters where a reader and a search engine both see one. Measured
+    raw, this post's description came to 163 against a 160 ceiling and failed;
+    decoded it is 153 and comfortably inside the window. Two apostrophes were
+    the entire overrun.
+
+    Nothing here was loosened to make that pass. The window is the length
+    Google truncates a snippet at, Google counts the decoded string, and this
+    check now counts the same thing it claims to. Every description that
+    happened to be apostrophe-free was already being measured correctly, which
+    is why the bug survived to the fourth piece of content.
+  */
+  const description = text(metaContent(html, "description") || "") || null;
   check(route, Boolean(description), "no meta description");
   if (description) {
     const len = description.length;

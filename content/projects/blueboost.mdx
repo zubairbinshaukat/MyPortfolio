@@ -1,0 +1,68 @@
+---
+title: "BlueBoost"
+slug: "blueboost"
+summary: "A multi-tenant SaaS platform that puts iMessage inside an agency's existing GoHighLevel conversations, with SMS and RCS fallback resolved per message."
+client: "BlueBoost"
+year: "2026"
+kind: "SaaS platform"
+stack: ["TypeScript", "Node.js", "Express", "MongoDB", "Redis", "Bull", "Next.js", "GoHighLevel", "Twilio"]
+cover: "/projects/blueboost/dashboard.webp"
+coverWidth: 1200
+coverHeight: 514
+coverAlt: >-
+  The BlueBoost client dashboard: a left rail of Dashboard, Chat, Activity,
+  Campaigns and API Keys, four counters reading Total Messages 1,824,
+  Delivered 503, Active Campaigns 0 and Pending Messages 0, and a weekly
+  message analytics chart beside a Quick Actions panel.
+coverCaption: "The client dashboard. Counters and campaign state for one tenant."
+# Supporting frames, shown behind a disclosure on the case study. `width` and
+# `height` are the real pixel dimensions of the file and are what reserve the
+# box before it loads; an entry without them is dropped rather than rendered.
+gallery:
+  - src: "/projects/blueboost/cover.webp"
+    width: 1200
+    height: 593
+    alt: >-
+      The BlueBoost inbox: a conversation with the iMessage and GoHighLevel SMS
+      channel pills above the composer, a banner reading "Not on iMessage, this
+      will send as an SMS through GoHighLevel", and the daily and per-minute
+      send counters in the sidebar. Recipient names and numbers are blurred.
+    caption: "The inbox, mid-conversation. The banner is the fallback decision, made before the send. Recipient details are blurred."
+featured: true
+draft: false
+publishedAt: "2026-09-02"
+updatedAt: "2026-09-02"
+# Confirmed, field by field, before this was published:
+#   year        the repository's own history — first commit 12 February 2026,
+#               last commit on main 20 August 2026, work continuing into
+#               September. Recorded in the export's REVIEW.md §1.3.
+#   publishedAt the date this case study went live, which is what the field
+#               means on a write-up. `year` carries when the work happened.
+#   updatedAt   the same date; this is its first publication.
+datesVerified: true
+liveUrl: "https://blueboost.ai"
+---
+
+## The problem
+
+Agencies live inside GoHighLevel. Their contacts, their automations and every conversation they've already had with a lead are in there, and the team has that tab open all day. Selling those agencies a new messaging channel means asking them to work in a second inbox, and a second inbox is where adoption dies.
+
+BlueBoost sells iMessage as that channel. Blue bubbles, not grey, sent from real Apple IDs on real Mac hardware. Underneath, iMessage was never built to be a delivery API and it fails quietly. The recipient is on Android, or the Mac went to sleep. The send looks like it worked, the message never lands, and nobody finds out until a customer says they never got a reply.
+
+## Approach
+
+The centrepiece is the [GoHighLevel marketplace app](/services/gohighlevel). An agency installs it on a subaccount through OAuth, and that registers BlueBoost as a conversation provider inside their GoHighLevel. After that, sending an iMessage is just a message sent from the conversations view their team already uses. GoHighLevel posts the outbound message to us, we resolve the tenant from its location id, and it leaves through the same send path as everything else.
+
+It runs both ways, which is what makes it stick. Inbound iMessages are mirrored back into the GoHighLevel thread. Their existing GoHighLevel SMS travels back and lands in the BlueBoost inbox, creating the conversation on the fly when there isn't one yet. Whichever window someone opens, the whole conversation is in it. The hard part was echo. Our own mirror posts and SMS fallback arrive back at us as webhooks, and each loop has to be recognised and dropped rather than ingested as a new message.
+
+The delivery engine underneath makes that promise safe to make. Every outbound message resolves to exactly one transport before anything is sent: iMessage, then SMS through the tenant's own GoHighLevel number, then RCS through a Twilio service the platform owns centrally. Resolving up front rather than sending and retrying means a message can never exist on two channels at once. What I gave up is silent recovery: a later failure surfaces with a retry verdict attached instead of quietly trying the next channel.
+
+Duplicates were the hard requirement, because the integration invites them. A 4xx makes GoHighLevel retry, and a retried media message is a second real send, so terminal failures answer 200 with a failed status instead. Sends carry an external event id and dedupe against it, time-bounded because workflow events are identified by a hash of their content. The mirror writes a pending record before it posts, and any record at all blocks a second attempt.
+
+The daily send cap is keyed to the Apple ID rather than the tenant, because Apple sees the account and only our billing sees the tenant. Over the cap, sends queue for the next day rather than getting rejected. A rejected message is gone, a queued one is late.
+
+## Outcome
+
+It's live. The client is running it against their own GoHighLevel subaccounts first, with outside agencies onboarding after that, so the traffic so far is theirs and I have no delivery figures to quote yet.
+
+An agency installs one app, keeps working in the tool they already have open, and iMessage, SMS and RCS resolve behind that single thread.
