@@ -7,6 +7,7 @@ import JsonLd from "@/components/JsonLd";
 import { getService, getRelatedServices, serviceSlugs } from "@/lib/services";
 import { serviceGraph } from "@/lib/schema";
 import { navEntry, site } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 
 /**
  * The four service pages.
@@ -27,11 +28,14 @@ export async function generateMetadata({ params }) {
   const service = getService(slug);
   if (!service) return {};
 
-  return {
-    title: service.title,
+  // `metaTitle`, not `title`: the title tag names the technology and the
+  // brand, where the page's own label stays short for the nav and the cards.
+  return pageMetadata({
+    title: service.metaTitle,
     description: service.description,
-    alternates: { canonical: `/services/${service.slug}` },
-  };
+    path: `/services/${service.slug}`,
+    absolute: true,
+  });
 }
 
 export default async function ServicePage({ params }) {

@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "check:content": "node scripts/check-content.mjs",
     "check:meta": "node scripts/check-meta.mjs",
+    "check:notfound": "node scripts/check-notfound.mjs",
     "check:commitments": "node scripts/check-commitments.mjs",
     "check:nojs": "node scripts/check-nojs.mjs",
     "check:js": "node scripts/check-js.mjs",
@@ -21,8 +22,7 @@
     "check:preloader": "node scripts/check-preloader.mjs",
     "lighthouse": "node scripts/lighthouse.mjs",
     "check:vitals": "node scripts/measure-vitals.mjs",
-    "check:hero": "node scripts/visual-hero.mjs capture docs/phase3/current && node scripts/visual-hero.mjs compare docs/phase3/after docs/phase3/current",
-    "check": "npm run check:content && npm run lint && npm run build && npm run check:meta && npm run check:commitments && npm run check:nojs && npm run check:classes && npm run check:js",
+    "check": "npm run check:content && npm run lint && npm run build && npm run check:meta && npm run check:notfound && npm run check:commitments && npm run check:nojs && npm run check:classes && npm run check:js",
     "check:classes": "node scripts/check-classes.mjs"
   },
   "dependencies": {

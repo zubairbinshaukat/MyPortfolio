@@ -9,6 +9,7 @@ import { getPost, getPostSlugs, getPublishedPosts } from "@/lib/blog";
 import { articleGraph } from "@/lib/schema";
 import { formatDate } from "@/lib/mdx";
 import { navEntry, site } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 import { vtName } from "@/lib/view-transitions";
 
 export function generateStaticParams() {
@@ -22,19 +23,31 @@ export async function generateMetadata({ params }) {
   const post = getPost(slug);
   if (!post) return {};
 
+  /*
+    A post title is written as prose and is already descriptive, so the brand
+    is only worth appending when the title alone would read as a short one in
+    a result. 45 characters is the line: below it the template adds
+    " - Zubair Bin Shaukat" and the result clears the 30-character floor;
+    above it, appending 21 characters would push past what Google renders, so
+    the title stands on its own. Either way the ceiling is 70 — the window
+    check-meta enforces for /blog/*.
+  */
+  const brandIt = post.title.length < 45;
+
   return {
-    title: post.title,
-    description: post.summary,
-    alternates: { canonical: `/blog/${post.slug}` },
-    ...(post.draft ? { robots: { index: false, follow: true } } : {}),
-    openGraph: {
-      type: "article",
+    ...pageMetadata({
       title: post.title,
       description: post.summary,
-      publishedTime: post.publishedAt,
-      modifiedTime: post.updatedAt || post.publishedAt,
-      authors: [site.name],
-    },
+      path: `/blog/${post.slug}`,
+      absolute: !brandIt,
+      openGraph: {
+        type: "article",
+        publishedTime: post.publishedAt,
+        modifiedTime: post.updatedAt || post.publishedAt,
+        authors: [site.name],
+      },
+    }),
+    ...(post.draft ? { robots: { index: false, follow: true } } : {}),
   };
 }
 

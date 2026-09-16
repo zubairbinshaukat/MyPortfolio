@@ -2,14 +2,18 @@ import PageShell from "@/components/PageShell";
 import PageHeader from "@/components/PageHeader";
 import ProjectRow from "@/components/ProjectRow";
 import { getAllProjects } from "@/lib/projects";
-import { navEntry } from "@/lib/site";
+import { navEntry, site } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata = {
-  title: "Projects",
+// Absolute: the brand is inside the title already. "Projects — Zubair Bin
+// Shaukat" was 28 characters and said nothing about what is on the page.
+export const metadata = pageMetadata({
+  title: `Projects - Case Studies by ${site.name}`,
   description:
     "Selected work by Zubair Bin Shaukat: automation pipelines, GoHighLevel dashboards and marketplace apps, web applications and cross-platform mobile apps.",
-  alternates: { canonical: "/projects" },
-};
+  path: "/projects",
+  absolute: true,
+});
 
 const entry = navEntry("/projects");
 

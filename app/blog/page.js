@@ -5,14 +5,18 @@ import PageHeader from "@/components/PageHeader";
 import { getPublishedPosts } from "@/lib/blog";
 import { formatDate } from "@/lib/mdx";
 import { navEntry, site } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 import { vtName } from "@/lib/view-transitions";
 
-export const metadata = {
-  title: "Blog",
+// Absolute, and named after what the <h1> calls it. "Blog — Zubair Bin
+// Shaukat" was 25 characters, the shortest title on the site.
+export const metadata = pageMetadata({
+  title: `Blog - Engineering Notes by ${site.name}`,
   description:
     "Engineering notes by Zubair Bin Shaukat on workflow automation, the GoHighLevel API, offline-first mobile apps and the failures worth designing for.",
-  alternates: { canonical: "/blog" },
-};
+  path: "/blog",
+  absolute: true,
+});
 
 const entry = navEntry("/blog");
 

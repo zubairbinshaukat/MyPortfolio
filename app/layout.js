@@ -17,13 +17,27 @@ import { site, SITE_URL } from "@/lib/site";
  * Every string is read from lib/site.js so the description in a search result,
  * the description in an OG card and the description in JSON-LD are the same
  * sentence rather than three that drifted apart.
+ *
+ * WHAT THIS OBJECT DELIBERATELY NO LONGER SETS
+ *
+ * `openGraph.title`, `openGraph.description`, `openGraph.url` and the three
+ * matching `twitter` fields are gone. Next shallow-merges `openGraph`, so a
+ * page that set no `openGraph` of its own inherited this whole object — and
+ * every inner page was shipping the homepage's og:title, og:description and
+ * og:url alongside its own `<title>` and canonical. What remains here is only
+ * what is true of every route: the type, the site name and the locale. Next's
+ * `inheritFromMetadata` then fills og:title and og:description from each
+ * page's own resolved title and description, and lib/metadata.js writes
+ * og:url per page, since that one has no fallback to the canonical.
  */
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${site.name} — ${site.tagline}`,
-    // Inner pages set a short title; this appends the brand.
-    template: `%s — ${site.name}`,
+    default: site.title,
+    // Inner pages that set a short title get the brand appended. Pages whose
+    // title already ends with the brand pass `absolute` instead — see
+    // lib/metadata.js — so the name is never printed twice.
+    template: `%s${site.titleSeparator}${site.name}`,
   },
   description: site.description,
   applicationName: site.name,
@@ -42,18 +56,14 @@ export const metadata = {
     "software engineer Lahore",
   ],
   alternates: { canonical: "/" },
+  /* Site-wide facts only. Anything page-specific belongs in lib/metadata.js. */
   openGraph: {
     type: "website",
-    url: SITE_URL,
     siteName: site.name,
-    title: `${site.name} — ${site.tagline}`,
-    description: site.shortDescription,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — ${site.tagline}`,
-    description: site.shortDescription,
     creator: site.twitterHandle,
   },
   robots: {

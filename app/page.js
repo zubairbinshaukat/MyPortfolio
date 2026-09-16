@@ -11,6 +11,8 @@ import Testimonials from "@/components/sections/Testimonials";
 import Faq from "@/components/sections/Faq";
 import ContactCta from "@/components/sections/ContactCta";
 import { faqGraph } from "@/lib/schema";
+import { pageMetadata } from "@/lib/metadata";
+import { site } from "@/lib/site";
 
 /**
  * The homepage.
@@ -45,14 +47,15 @@ import { faqGraph } from "@/lib/schema";
  *   sections no longer exist under those names. It was not a control that had
  *   lost its handler; it was a diagram of a site that is not this one.
  */
-export const metadata = {
-  // The layout's `default` title already carries the full lockup, so the
-  // template must not append the name a second time.
-  title: {
-    absolute: "Zubair Bin Shaukat — Software Engineer & Problem Solver",
-  },
-  alternates: { canonical: "/" },
-};
+// The lockup already carries the name, so the title is absolute and the
+// template must not append it a second time. The description is the root
+// one — this route and the entity it describes are the same thing.
+export const metadata = pageMetadata({
+  title: site.title,
+  description: site.description,
+  path: "/",
+  absolute: true,
+});
 
 /**
  * The homepage's own ledger. One array, three consumers: the section ids the

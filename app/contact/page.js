@@ -4,18 +4,22 @@ import PageHeader from "@/components/PageHeader";
 import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "@/components/ContactForm";
 import { navEntry, site, replyTime } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 import { services } from "@/lib/services";
 
-export const metadata = {
-  title: "Contact",
+export const metadata = pageMetadata({
+  // Absolute — the string ends on the page's own promise, with the brand
+  // already in it, so the template must not append the name again.
+  title: `Contact ${site.name} - Start a Project`,
   // The old description promised a reply within one business day. That is a
   // guarantee, gated as `contact-reply-time` in lib/commitments.mjs, so it is
   // out of the description too — a meta description is where a claim gets
   // quoted back at you.
   description:
     "Send a message to Zubair Bin Shaukat about automation systems, GoHighLevel development, web or mobile work, or email thedevzubair@gmail.com directly.",
-  alternates: { canonical: "/contact" },
-};
+  path: "/contact",
+  absolute: true,
+});
 
 const entry = navEntry("/contact");
 

@@ -5,13 +5,17 @@ import SectionHeading from "@/components/SectionHeading";
 import { facts, stackGroups, intro, timeline } from "@/lib/about";
 import { services } from "@/lib/services";
 import { navEntry, site } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata = {
-  title: "About",
+// Absolute: the title already names the brand, and Bing flagged the old
+// 25-character "About — Zubair Bin Shaukat" as too short to describe the page.
+export const metadata = pageMetadata({
+  title: `About ${site.name} - Software Engineer in Lahore`,
   description:
     "Zubair Bin Shaukat is a software engineer in Lahore, Pakistan, building n8n automation, GoHighLevel dashboards, Next.js web apps and React Native apps.",
-  alternates: { canonical: "/about" },
-};
+  path: "/about",
+  absolute: true,
+});
 
 const entry = navEntry("/about");
 

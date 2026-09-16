@@ -12,6 +12,7 @@ import { getProject, getProjectSlugs } from "@/lib/projects";
 import { projectGraph } from "@/lib/schema";
 import { formatDate } from "@/lib/mdx";
 import { navEntry, site } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 import { vtName } from "@/lib/view-transitions";
 
 export function generateStaticParams() {
@@ -26,18 +27,20 @@ export async function generateMetadata({ params }) {
   if (!project) return {};
 
   return {
-    title: `${project.title} — Case Study`,
-    description: project.summary,
-    alternates: { canonical: `/projects/${project.slug}` },
+    ...pageMetadata({
+      // Absolute: the brand is the tail of the string already.
+      title: `${project.title} Case Study - ${site.name}`,
+      description: project.summary,
+      path: `/projects/${project.slug}`,
+      absolute: true,
+      openGraph: {
+        type: "article",
+        publishedTime: project.publishedAt,
+        modifiedTime: project.updatedAt || project.publishedAt,
+      },
+    }),
     // A skeleton with the outcome section unwritten does not go in the index.
     ...(project.draft ? { robots: { index: false, follow: true } } : {}),
-    openGraph: {
-      type: "article",
-      title: `${project.title} — Case Study`,
-      description: project.summary,
-      publishedTime: project.publishedAt,
-      modifiedTime: project.updatedAt || project.publishedAt,
-    },
   };
 }
 

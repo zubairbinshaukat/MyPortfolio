@@ -26,6 +26,23 @@ const DESC_MIN = 140;
 const DESC_MAX = 160;
 
 /**
+ * Title length window, measured decoded, the same way `text()` measures a
+ * description and the same way a search engine counts one.
+ *
+ * The floor is 30 because Bing's site scan flagged three of these as "title
+ * too short" at 25–29 characters — "Blog — Zubair Bin Shaukat" described the
+ * brand and nothing about the page. The ceiling is 60, which is roughly where
+ * Google stops rendering and starts rewriting.
+ *
+ * A post title is prose written by a human and gets 70: its words are the
+ * page, and truncating one to fit a template would be the wrong trade.
+ */
+const TITLE_MIN = 30;
+const TITLE_MAX = 60;
+const POST_TITLE_MAX = 70;
+
+
+/**
  * Route -> prerendered file. Every route the site claims to have must be here,
  * so deleting a page fails the check instead of silently shrinking the site.
  */
@@ -131,6 +148,18 @@ function metaContent(html, name) {
   return tag ? attr(tag[0], "content") : null;
 }
 
+/**
+ * Open Graph tags carry `property`, not `name`. They were never read here
+ * before, which is how every inner page came to ship the homepage's og:title,
+ * og:description and og:url for as long as it did — nothing was looking.
+ */
+function ogContent(html, property) {
+  const tag = html.match(
+    new RegExp(`<meta[^>]*property="${property}"[^>]*>`, "i")
+  );
+  return tag ? attr(tag[0], "content") : null;
+}
+
 function jsonLdBlocks(html) {
   const blocks = [];
   const re = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
@@ -164,6 +193,21 @@ for (const [route, file] of Object.entries(ROUTES)) {
 
 for (const [route, html] of pages) {
   // --- title -------------------------------------------------------------
+  /*
+    Exactly one. Two <title>s is not a style problem: Bing reported this site
+    as having "2 identical titles", and the second one came from a page that
+    rendered its own <head> content inside the layout's. Whichever a crawler
+    picks, it picked without being told which was meant.
+
+    <svg> is cut out first. An inline diagram's <title> is the SVG element of
+    that name — the accessible name a screen reader announces for the graphic,
+    nothing to do with the document's — and this post's echo diagram carries
+    one. Counting it would have failed a correct page.
+  */
+  const withoutSvg = html.replace(/<svg[\s\S]*?<\/svg>/gi, "");
+  const titleTags = withoutSvg.match(/<title[^>]*>[\s\S]*?<\/title>/gi) || [];
+  check(route, titleTags.length === 1, `${titleTags.length} <title> elements, want exactly 1`);
+
   const titleTag = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
   const title = titleTag ? text(titleTag[1]) : null;
 
@@ -175,7 +219,35 @@ for (const [route, html] of pages) {
       titles.set(title, route);
       pass();
     }
+
+    // Decoded, for the same reason the description is. See the note below.
+    const max = route.startsWith("/blog/") ? POST_TITLE_MAX : TITLE_MAX;
+    check(
+      route,
+      title.length >= TITLE_MIN && title.length <= max,
+      `title is ${title.length} chars, want ${TITLE_MIN}-${max}: "${title}"`
+    );
+
+    /*
+      The brand must appear once, not twice. A page that sets a title already
+      ending in the name and forgets `absolute` gets the layout's template
+      appended on top of it, and the failure is invisible in the source.
+    */
+    const brandHits = title.split("Zubair Bin Shaukat").length - 1;
+    check(route, brandHits <= 1, `title names the brand ${brandHits} times: "${title}"`);
   }
+
+  // --- robots ------------------------------------------------------------
+  /*
+    Exactly one. Bing's scan found a page emitting both `index,follow` and
+    `noindex` — two directives, opposite meanings, one crawler having to guess.
+  */
+  const robotsTags = html.match(/<meta[^>]*name="robots"[^>]*>/gi) || [];
+  check(
+    route,
+    robotsTags.length === 1,
+    `${robotsTags.length} <meta name="robots"> tags, want exactly 1`
+  );
 
   // --- description -------------------------------------------------------
   /*
@@ -207,14 +279,48 @@ for (const [route, html] of pages) {
   // --- canonical ---------------------------------------------------------
   const canonicals = html.match(/<link[^>]*rel="canonical"[^>]*>/gi) || [];
   check(route, canonicals.length === 1, `${canonicals.length} canonical links, want exactly 1`);
+  let canonicalHref = null;
   if (canonicals.length === 1) {
-    const href = attr(canonicals[0], "href");
+    canonicalHref = attr(canonicals[0], "href");
     const want = route === "/" ? `${SITE_URL}/` : `${SITE_URL}${route}`;
     check(
       route,
-      href === want || href === want.replace(/\/$/, ""),
-      `canonical is ${href}, want ${want}`
+      canonicalHref === want || canonicalHref === want.replace(/\/$/, ""),
+      `canonical is ${canonicalHref}, want ${want}`
     );
+  }
+
+  // --- Open Graph must describe THIS page --------------------------------
+  /*
+    The regression this exists to catch: Next shallow-merges `openGraph`, so a
+    page that sets none inherits the layout's entire object. Every inner page
+    was shipping the homepage's og:title, og:description and og:url next to its
+    own <title> and canonical — /about told every share card and every AI
+    crawler that it was the homepage. Three equalities close it, and og:url is
+    the one with no fallback of its own: Next does not derive it from the
+    canonical, so a page that forgets it inherits the root's instead.
+  */
+  const ogTitle = text(ogContent(html, "og:title") || "") || null;
+  check(route, Boolean(ogTitle), "no og:title");
+  if (ogTitle && title) {
+    check(route, ogTitle === title, `og:title "${ogTitle}" !== <title> "${title}"`);
+  }
+
+  const ogDescription = text(ogContent(html, "og:description") || "") || null;
+  check(route, Boolean(ogDescription), "no og:description");
+  if (ogDescription && description) {
+    check(
+      route,
+      ogDescription === description,
+      `og:description differs from meta description: "${ogDescription.slice(0, 60)}…"`
+    );
+  }
+
+  const ogUrl = ogContent(html, "og:url");
+  check(route, Boolean(ogUrl), "no og:url");
+  if (ogUrl && canonicalHref) {
+    const same = ogUrl.replace(/\/$/, "") === canonicalHref.replace(/\/$/, "");
+    check(route, same, `og:url is ${ogUrl}, canonical is ${canonicalHref}`);
   }
 
   // --- headings ----------------------------------------------------------
@@ -322,6 +428,84 @@ for (const [route, html] of pages) {
       check("sitemap.xml", xml.includes(`<loc>${url}</loc>`), `missing <loc> for ${url}`);
     }
     check("sitemap.xml", !xml.includes("vercel.app"), "still lists a vercel.app URL");
+
+    /*
+      Every <lastmod> is a real, written-down date.
+
+      `lastModified: new Date()` stamped the build time on all eleven URLs, and
+      Google printed one of them — "01-Sept-2026" — on the Contact snippet.
+
+      What actually separates a written date from a build clock is precision,
+      not age. A date written in lib/site.js or in frontmatter is `2026-09-16`;
+      `new Date()` serialises to `2026-09-16T14:22:07.314Z`. So the test is two
+      parts: the value must parse, and it must carry no time of day.
+
+      A plain "within 24 hours of now" window was the first attempt and it is
+      wrong by construction — the day a route's date is bumped is the day it
+      equals today, and the check would fail the correct change and pass
+      tomorrow for no reason anybody could act on. Requiring midnight-precision
+      says the same thing without the false positive: a build clock cannot
+      produce it, and the start-of-day bound below still rejects a future date.
+    */
+    const startOfToday = Date.parse(new Date().toISOString().slice(0, 10));
+    const entries = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => ({
+      loc: (m[1].match(/<loc>([^<]*)<\/loc>/) || [])[1],
+      lastmod: (m[1].match(/<lastmod>([^<]*)<\/lastmod>/) || [])[1],
+    }));
+
+    check("sitemap.xml", entries.length > 0, "no <url> entries");
+
+    for (const entry of entries) {
+      const parsed = entry.lastmod ? Date.parse(entry.lastmod) : NaN;
+      check(
+        "sitemap.xml",
+        Number.isFinite(parsed),
+        `${entry.loc} has no valid <lastmod> (got "${entry.lastmod}")`
+      );
+      if (Number.isFinite(parsed)) {
+        check(
+          "sitemap.xml",
+          /^\d{4}-\d{2}-\d{2}$/.test(entry.lastmod),
+          `${entry.loc} lastmod ${entry.lastmod} carries a time of day — build-clock date?`
+        );
+        check(
+          "sitemap.xml",
+          parsed <= startOfToday,
+          `${entry.loc} lastmod ${entry.lastmod} is in the future`
+        );
+      }
+    }
+
+    /*
+      And for the two content routes it is the frontmatter's date, not some
+      other real-looking one. Read straight out of the MDX rather than through
+      lib/, which is written for the bundler's "@/" alias and not for node.
+    */
+    for (const [collection, prefix] of [
+      ["projects", "/projects/"],
+      ["blog", "/blog/"],
+    ]) {
+      const dir = path.join(process.cwd(), "content", collection);
+      if (!fs.existsSync(dir)) continue;
+
+      for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"))) {
+        const slug = file.replace(/\.mdx$/, "");
+        const entry = entries.find((e) => e.loc === `${SITE_URL}${prefix}${slug}`);
+        if (!entry) continue; // a draft, correctly absent from the sitemap
+
+        const source = fs.readFileSync(path.join(dir, file), "utf8");
+        const frontmatter = (source.match(/^---\r?\n([\s\S]*?)\r?\n---/) || [])[1] || "";
+        const field = (name) =>
+          (frontmatter.match(new RegExp(`^${name}:\\s*"?([0-9-]+)"?`, "m")) || [])[1];
+        const want = field("updatedAt") || field("publishedAt");
+
+        check(
+          "sitemap.xml",
+          Boolean(want) && entry.lastmod.slice(0, 10) === want,
+          `${entry.loc} lastmod ${entry.lastmod} does not match frontmatter ${want}`
+        );
+      }
+    }
   } else {
     fail("sitemap.xml", "not found in the build output");
   }
