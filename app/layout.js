@@ -97,9 +97,24 @@ export const viewport = {
 /** Umami Cloud. PLAN §1 locks the site ID; §2.5 locks the loading strategy. */
 const UMAMI_SITE_ID = "f5f90ae1-bb5f-4e48-a52c-d9dc17c0ab0d";
 
+/*
+ * `suppressHydrationWarning` on <html> and nowhere else.
+ *
+ * The homepage's intro curtain sets `data-intro` on this element from an
+ * inline script during parse — it has to be before the first paint, which is
+ * before React exists, so the attribute is on the client and not in the server
+ * HTML by design. React reports that as a mismatch and, in its own words,
+ * "won't be patched up", which is the correct outcome here: the value is not
+ * React's to own. Without this the homepage logs a hydration error on every
+ * first visit in development.
+ *
+ * It applies to this element's own attributes and does not reach into the
+ * tree, so a genuine mismatch inside the page is still reported. See
+ * components/IntroCurtain.js.
+ */
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       {/*
         `inter.className` sets the family directly on <body>. The variable form
         alone was not enough before: Tailwind's `font-sans` utility was also on

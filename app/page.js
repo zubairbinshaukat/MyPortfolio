@@ -1,7 +1,7 @@
 import { Hero } from "./Components/Hero";
 import SiteNav from "@/components/SiteNav";
 import SectionReadout from "@/components/SectionReadout";
-import Preloader from "@/components/Preloader";
+import IntroCurtain from "@/components/IntroCurtain";
 import SchemaOrg from "@/components/SchemaOrg";
 import JsonLd from "@/components/JsonLd";
 import ServicesGrid from "@/components/sections/ServicesGrid";
@@ -75,6 +75,27 @@ const SECTIONS = [
 export default function Home() {
   return (
     <>
+      {/*
+        The intro overlay (PLAN §3.3). Homepage only, and FIRST in the tree.
+
+        Not in the root layout, because a first visit that lands on a blog post
+        from a search result came for the post: an overlay reciting the site's
+        name over it would be theatre charged to a reader who did not ask for
+        the brand. The homepage is where the name is the content.
+
+        First rather than last, which is the change: it carries an inline
+        script that has to run before the parser reaches the hero, and the
+        curtain has to be a painted box by the time the hero is one. It used to
+        sit after <Hero /> as a client component that mounted post-hydration,
+        and the measured result was up to 945ms of finished, uncovered page
+        before the curtain dropped over it. The numbers are in
+        components/IntroCurtain.js.
+
+        It still adds nothing a reader without JavaScript can see: the markup
+        ships, and it is `display: none` until the script sets `data-intro`.
+      */}
+      <IntroCurtain />
+
       <SchemaOrg />
       <JsonLd graph={faqGraph()} />
 
@@ -88,21 +109,6 @@ export default function Home() {
       />
 
       <Hero />
-
-      {/*
-        The intro overlay (PLAN §3.3). Homepage only, and last in the tree.
-
-        Not in the root layout, because a first visit that lands on a blog post
-        from a search result came for the post: an overlay reciting the site's
-        name over it would be theatre charged to a reader who did not ask for
-        the brand. The homepage is where the name is the content.
-
-        It renders nothing until after hydration and nothing at all on a
-        repeat visit in the same session — see components/Preloader.js — so
-        this line adds no markup to the server HTML of any page including this
-        one, which is the §3.3 condition the whole design turns on.
-      */}
-      <Preloader />
 
       {/*
         `data-snap-root` opts the document scroller into PLAN §3.1's

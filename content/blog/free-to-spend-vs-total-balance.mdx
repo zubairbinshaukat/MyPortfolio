@@ -1,0 +1,128 @@
+---
+title: "Free to spend, not total balance: the money math in an offline budget app"
+slug: "free-to-spend-vs-total-balance"
+summary: "Adding up account balances gives you a number that lies to you twice a month. Here is the single pass over a ledger that produces the number you can actually spend, and the double-counting bug I hit getting there."
+topic: "Mobile"
+series: "Batwa"
+readingMinutes: 5
+cover: ""
+coverWidth: 0
+coverHeight: 0
+featured: false
+draft: false
+publishedAt: "2026-09-18"
+updatedAt: "2026-09-18"
+---
+
+For years my budgeting was three apps and some arithmetic. Open JazzCash, note the balance.
+Open Easypaisa, note it. Open the bank app, note it. Add them up in my head, subtract the rent
+that hadn't gone out yet, and whatever was left was my spending money for the next two weeks.
+
+By the 25th the number was always wrong. Not a little wrong. Wrong enough that I'd stop
+spending and wonder where it went.
+
+So I built [Batwa](/services/mobile), a small offline budget tracker that keeps everything on
+the phone. It's live at [batwa.zubyr.dev](https://batwa.zubyr.dev) and the code is at
+[github.com/zubairbinshaukat/batwa](https://github.com/zubairbinshaukat/batwa), so everything
+below can be checked rather than taken on trust.
+
+The obvious thing to put in large type on its home screen is the sum of every account balance.
+It feels like the honest number. It's the number every bank app shows you.
+
+It's the wrong one.
+
+## Why the sum of balances lies
+
+Rent is due on the 5th. I know the amount on the 1st. The money is sitting in the account until
+the transfer clears, so a balance total counts it as mine for four days. Same with the
+electricity bill on the counter, same with the internet, same with anything I've committed to
+but not yet moved.
+
+Add those up in a normal month and it's a meaningful fraction of the balance. Early in the
+month the total is inflated by everything I owe; late in the month it collapses, and the
+collapse reads as overspending when it's really just bills landing.
+
+The fix is not a second screen. It's admitting that a ledger has two kinds of money in it.
+
+## One pass, two totals
+
+Every row in the ledger is one of a handful of kinds, and each kind has exactly one rule. A
+single pass produces both figures:
+
+```js
+function balances(entries) {
+  let income = 0, paidOut = 0, committed = 0, lentCash = 0;
+  for (const e of entries) {
+    if (e.kind === "transfer") continue;           // nets to zero, ledger-wide
+    if (e.kind === "income") {
+      if (e.status === "paid") income += e.amount;
+    } else if (e.kind === "lent") {
+      lentCash += e.amount;                        // gone, and not spending
+    } else if (e.kind === "expense") {
+      if (e.status === "paid") paidOut += e.amount;
+      else {                                       // part-paid is both at once
+        paidOut += partOf(e);
+        committed += stillOwed(e);
+      }
+    }
+  }
+  const total = income - paidOut - lentCash;
+  return { total, committed, free: total - committed };
+}
+```
+
+`total` is money that has actually moved. `committed` is money that has been promised and
+hasn't. `free` is the only one I put in large type.
+
+Two details in there earned their keep. Transfers skip entirely, because a transfer between my
+own accounts nets to zero over the whole ledger and adding it to either side double-counts it.
+And a part-paid bill contributes to both totals at once: settle Rs 400 of a Rs 1,000 share and
+Rs 400 has genuinely left an account while Rs 600 is still a promise. Treating it as fully
+pending overstates what's free. Treating it as paid understates it.
+
+## Where I had it wrong on paper
+
+Money I front for other people gets its own kind, `lent`. Cash gone, a receivable created. The
+design I'd written down netted it off by its outstanding half, so the balance would drift back
+up as people paid me. On paper that reads fine.
+
+It falls over as soon as a repayment also writes a settlement row, and it has to. Only the
+person receiving the money knows which account it landed in, so without that row the money
+arrives in the app without arriving anywhere in particular.
+
+Then the same rupees come back twice. Once through the outstanding figure shrinking, once
+through the settlement as incoming money. A Rs 5,000 repayment would leave me Rs 5,000 richer
+than before I lent it.
+
+So `lent` became cash gone, in full, permanently, and repayments come back only as settlements.
+The outstanding figure still exists. It lives in reports as a receivable and never touches the
+balance math.
+
+One quantity, one route in. That's the whole rule, and I only found it by writing the two
+functions and noticing they disagreed.
+
+## The tradeoff
+
+`free` is pessimistic on purpose, and pessimism has a cost. A bill you entered and will never
+actually pay sits in `committed` forever, quietly holding the headline number down. There's no
+automatic cleanup, because an app that decides on your behalf that a debt has expired is worse
+than one that makes you delete it.
+
+Written-off debt is the same shape and needed its own answer. When I give up on money someone
+owes me, that closes the receivable without any cash arriving, so it gets a row that counts in
+neither direction. Counting it as money received would hand me back the rupees I just decided
+to lose.
+
+## The takeaway
+
+If you're building anything that shows somebody a balance, work out what they're going to do
+with the number before you pick which number to show. Mine was answering "can I spend this?",
+and for that question the sum of the accounts isn't imprecise. It's the wrong quantity.
+
+Then write each row kind's rule down in one place, in one pass, with a comment saying why. My
+double-count came from the rule for `lent` living in two functions that were each individually
+correct. The version that survived is in
+[`js/ledger.js`](https://github.com/zubairbinshaukat/batwa/blob/main/js/ledger.js) if you want
+the unabridged one, settlements and write-offs included.
+
+There's more on how the rest of it works in the [Batwa case study](/projects/batwa).

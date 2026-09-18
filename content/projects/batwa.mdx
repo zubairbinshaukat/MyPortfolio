@@ -1,0 +1,93 @@
+---
+title: "Batwa"
+slug: "batwa"
+summary: "An offline-first budget tracker that shows one number, what's actually free to spend, with no account, no server and the whole ledger encrypted on the phone."
+client: "Personal project"
+year: "2026"
+kind: "Offline-first PWA"
+stack: ["Vanilla JavaScript", "ES modules", "IndexedDB", "Web Crypto", "WebAuthn PRF", "Service Worker", "Cloudflare Workers", "Durable Objects", "Web Push"]
+cover: "/projects/batwa/cover.webp"
+coverWidth: 1200
+coverHeight: 800
+coverAlt: >-
+  Three Batwa screens on a dark ground: a history list of dated entries with
+  pending monthly bills, the home screen reading "Free to spend Rs 3.36 lacs"
+  above a total balance and committed split with Meezan Bank, JazzCash and
+  Easypaisa account cards, and a reports screen with a spending donut and a
+  category breakdown against monthly limits.
+coverCaption: "The three screens the app really is. Home leads with free to spend, not total balance."
+# Supporting frames, shown behind a disclosure on the case study. `width` and
+# `height` are the real pixel dimensions of the file and are what reserve the
+# box before it loads; an entry without them is dropped rather than rendered.
+gallery:
+  - src: "/projects/batwa/home.webp"
+    width: 576
+    height: 1020
+    alt: >-
+      The Batwa home screen: "Free to spend Rs 3.36 lacs" over a bar splitting
+      a Rs 3.89 lac total balance from Rs 53.1k committed, account cards for
+      Meezan Bank, JazzCash and Easypaisa, and an Upcoming card showing an
+      electricity bill overdue by three days with Mark paid and Edit.
+    caption: "Free to spend is balance minus the bills already committed. The overdue bill sits on the same screen as the number it is eating."
+  - src: "/projects/batwa/reports.webp"
+    width: 576
+    height: 1020
+    alt: >-
+      The Batwa reports screen: a donut reading 53.5k spent, a category list of
+      Food, Education, Transport, Shopping, Health and Bills with percentages
+      and progress against monthly limits, and a weekday bar chart under the
+      heading Spending patterns.
+    caption: "Reports. Category limits and weekday patterns, computed on the phone from the decrypted ledger."
+  - src: "/projects/batwa/add-sheet.webp"
+    width: 576
+    height: 1020
+    alt: >-
+      The Batwa add sheet: Expense, Income and Transfer tabs, an amount field
+      showing Rs 2450, a title field reading Groceries with a Recent chip, a
+      One-time, Weekly and Monthly type switch, a due date, account chips and a
+      category dropdown.
+    caption: "The add sheet. The amount field takes arithmetic, so 1500/3 settles itself."
+featured: true
+draft: false
+publishedAt: "2026-09-18"
+updatedAt: "2026-09-18"
+# Confirmed, field by field, before this was published:
+#   year        the repository's own history — first commit 7 August 2026,
+#               last commit 18 September 2026, 24 commits, work continuing.
+#               Recorded in the export's REVIEW.md §1.
+#   publishedAt the date this case study went live, which is what the field
+#               means on a write-up. `year` carries when the work happened.
+#   updatedAt   the same date; this is its first publication.
+datesVerified: true
+liveUrl: "https://batwa.zubyr.dev"
+---
+
+## The problem
+
+Every couple of days I ran the same errand on my own phone. Open JazzCash, look at the balance. Open Easypaisa, look. Open the bank app, look. Add the three in my head, then take off the rent that hadn't left the account yet, the unpaid electricity bill, the internet due next week. Whatever was left was what I could spend.
+
+That number was always wrong. Bills already promised still counted as money, so the middle of the month felt comfortable and the end of it did not.
+
+The apps that fix this want an account and a link to your bank, and most have never heard of Easypaisa. Handing over a full picture of a salary so an app can tell you that you spend too much on food is a poor trade, and it is the only one on offer.
+
+## Approach
+
+Batwa is Urdu for wallet. It leads with one figure, free to spend, which is total balance minus everything already committed. A bill you have entered but not paid is not money, so it comes off on the day you log it, not the day it leaves. [The arithmetic is a post of its own](/blog/free-to-spend-vs-total-balance), including the double-count I had to take out of it.
+
+There is no account, because the PIN is the key. Four digits go through PBKDF2 at 150k iterations into an AES-256-GCM key, and the ledger sits in IndexedDB as ciphertext. Nothing is stored that could rebuild the PIN. That cost is real. Forget it and the data is gone, which is why Settings has an export and the home screen keeps asking you to take one.
+
+A claim like that is worth nothing if you have to take my word for it, so every line that touches the data is in the open at [github.com/zubairbinshaukat/batwa](https://github.com/zubairbinshaukat/batwa). Install it from the browser at [batwa.zubyr.dev](https://batwa.zubyr.dev).
+
+Fingerprint unlock had to not weaken that. It uses the WebAuthn PRF extension: the authenticator hands back a secret that unwraps the PIN-derived key, and where there is no PRF, enrolment is refused rather than downgraded. A fingerprint that only gates a screen is worse than none, because it looks like protection.
+
+Splitting money with family is where the thinking went. Shared spaces run through a relay I wrote on Cloudflare Workers, one Durable Object per space, holding an opaque ciphertext string under a random 22-character id and a hashed write token. It never learns a name, an amount, or who is in a space.
+
+A relay that understands nothing cannot resolve conflicts either, so the merge has to be right on the phones. Last-writer-wins on the whole document throws away an edit every time two people are offline at once. So every piece of the blob carries its own revision: the space fields, each entry's shared fields, and each member's own row, which only that member ever writes. `merge(a, b)` and `merge(b, a)` come out byte-identical, so three phones converge in whatever order they sync.
+
+No build step anywhere. Vanilla ES modules, plain CSS, zero runtime dependencies, so on a [mobile-shaped product](/services/mobile) what I deploy is what I wrote.
+
+## Outcome
+
+It is what I use. The three-app ritual is gone, and I trust the number on the home screen because the bills come off it before I see it.
+
+Usage is me and the people I split expenses with, so there are no adoption figures here and I am not going to invent any. What I will say is that the privacy claim holds up when you go looking, and you can go looking. The relay has twenty tests, and none of them can make it hand back anything it could read.

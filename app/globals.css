@@ -252,11 +252,17 @@ html.lenis:has([data-snap-root]) {
 /**
  * §3.3 — THE INTRO OVERLAY
  *
- * Every movement in components/Preloader.js is one of the three keyframes
- * below plus a per-element `animation-delay` written in the JSX, which is
- * where the timeline lives. Nothing here runs unless that component has
- * mounted, and it only mounts on a first visit in a session with reduced
- * motion off — so on every other page view these rules match nothing.
+ * Every movement in components/IntroCurtain.js is one of the keyframes below
+ * plus an `animation-delay`. Most of the per-element delays are written in the
+ * JSX, because they are that element's own offset within the entrance; the
+ * timeline that matters — when the sequence ends — is the `html[data-intro]`
+ * block further down, because that one must not depend on JavaScript.
+ *
+ * The curtain is in the prerendered HTML and is `display: none` until the
+ * inline script in IntroCurtain.js puts `data-intro` on <html>, which it does
+ * before the first paint. So on a page view that does not get the overlay —
+ * no JavaScript, a crawler, reduced motion, a second view in the same session
+ * — every rule here matches an element with no boxes and nothing runs.
  */
 @keyframes intro-line {
   from {
@@ -311,48 +317,219 @@ html.lenis:has([data-snap-root]) {
 }
 
 /**
- * THE HANDOFF
+ * THE COUNTER
  *
- * §3.3: "the hero's own text settles y: 20 -> 0 timed to the last panel, so
- * reveal and hero intro read as one continuous move." This is that, and it is
- * two rules because it has to be safe in the failure case.
+ * It was fifteen lines of requestAnimationFrame writing to a text node, and
+ * the note beside it said that was the one thing CSS could not express. That
+ * was true of the curve and false of the mechanism, and once the curtain moved
+ * into the prerendered HTML it became the sequence's only remaining dependency
+ * on the main thread being free — which, during hydration, it is not.
  *
- * `playing` holds the lockup down and invisible while the overlay is up. It is
- * set by the same effect that mounts the overlay and removed by that effect's
- * cleanup, so a component that unmounts for any reason — an error, a fast
- * navigation, React remounting it in development — takes the attribute with
- * it. There is no path that leaves the hero hidden.
+ * Measured, sampled every 100ms on a production build through a `setTimeout`
+ * chain so a starved frame could not hide the value:
  *
- * `settling` is set at the moment the panels start to leave and carries the
- * transition. The 60ms delay is one panel stagger: the first panel is already
- * moving when the lockup starts to rise, so the two read as one gesture rather
- * than as a curtain followed by an entrance.
+ *   177  230  442  533  633  729  831  931 | 1047  1235  1334 ms
+ *   000  000  000  000  000  000  000  000 |  087   098   100
  *
- * Transform and opacity only. Neither contributes to Cumulative Layout Shift —
- * a transformed element has not moved as far as layout is concerned — which is
- * what lets §3.3's "PageSpeed identical with it on and off" be a structural
- * property here rather than a hope.
+ * requestAnimationFrame did not run between about 30ms and 1040ms, so the
+ * climb and the hesitation — the entire point of the thing — happened in one
+ * frame at the end. The reader saw 000, then 087.
+ *
+ * A CSS animation cannot be starved in that way. It is time-based and the
+ * browser owns the clock, so whatever frames do get painted carry the right
+ * value for the moment they are painted in. Same reasoning as the exit.
+ *
+ * Three features do the work. `@property` registers `--intro-n` as an integer
+ * so it interpolates instead of swapping at the halfway point; `@counter-style`
+ * pads it to three digits, which is what the old `padStart(3, "0")` was for;
+ * and `counter-reset` reads the animated value each time style is resolved.
+ *
+ * The plateau is the whole point and it survives the move intact: a number
+ * that climbs smoothly to 100 is a progress bar with no progress behind it and
+ * everyone knows it, while a number that stalls at 87 and then catches up
+ * looks like it is waiting for something. The keyframes below say that
+ * outright — 55% of the time to reach 87, a quarter of it standing still,
+ * then the last thirteen in the remaining fifth.
  */
-html[data-intro="playing"] [data-hero-lockup] {
-  opacity: 0;
-  transform: translateY(20px);
+@property --intro-n {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+@counter-style intro-pad3 {
+  system: extends decimal;
+  pad: 3 "0";
+}
+
+@keyframes intro-count {
+  0% {
+    --intro-n: 0;
+  }
+  55% {
+    --intro-n: 87;
+  }
+  80% {
+    --intro-n: 87;
+  }
+  100% {
+    --intro-n: 100;
+  }
+}
+
+/*
+  The digits live in `::before` rather than in a text node, because a text node
+  would have to be written to by something and there is nothing left to write
+  it. The element itself carries no text at all.
+*/
+[data-intro-counter]::before {
+  content: counter(intro-n, intro-pad3);
+}
+
+/*
+ * The exit, and the hero's settle into the space it leaves.
+ *
+ * THE ARITHMETIC, ONCE
+ *
+ * Four numbers, all of them also in components/IntroCurtain.js:
+ *
+ *   EXIT_AT        1120ms   the counter has reached 100 and held for 120ms
+ *   stagger          60ms   per panel
+ *   panel           340ms
+ *   EXIT_DURATION   460ms   = 2 x 60 + 340, the last panel's finish
+ *   TOTAL          1580ms   = 1120 + 460
+ *
+ * So panel `i` leaves at 1120 + 60i and the third one lands on 1580. The
+ * lockup starts 20ms after the first panel begins moving and runs 440ms,
+ * which also finishes on 1580: §3.3 asks for the settle to be "timed to the
+ * last panel", and the two ending on the same millisecond is that, rather
+ * than a number that looked about right.
+ *
+ * WHY THESE ARE ANIMATIONS AND NOT TRANSITIONS
+ *
+ * The old implementation transitioned on a class React swapped at 1120ms. If
+ * that timer never fired — a failed hydration, a thrown effect, a bundle that
+ * never arrived — the curtain stayed over the page and there was no way out of
+ * it. A keyframe with a delay cannot fail that way: the browser owns the
+ * clock, and the exit happens whether or not any of our JavaScript is still
+ * running. The inline script's own `setTimeout` at 1580ms is a tidy-up, not
+ * the mechanism; deleting it would leave the sequence visually identical.
+ *
+ * Transform and opacity only. Neither contributes to Cumulative Layout Shift,
+ * because a transformed element has not moved as far as layout is concerned.
+ */
+[data-intro-overlay] {
+  display: none;
+}
+
+html[data-intro="playing"] [data-intro-overlay],
+html[data-intro="settling"] [data-intro-overlay] {
+  display: block;
+  /*
+    A zero-duration keyframe at 1580ms, which is what takes the finished layer
+    out of hit-testing. It is `visibility` rather than `display` because
+    `display` is not interpolable in a keyframe, and `visibility: hidden` plus
+    `pointer-events: none` is the same thing for every purpose that matters
+    here. The inline script then sets `data-intro="done"`, which drops the
+    element with the rule above; that is belt and braces, and the page is
+    already usable without it.
+  */
+  animation: intro-layer-out 0s linear 1580ms forwards;
+}
+
+html[data-intro="playing"] [data-intro-panel],
+html[data-intro="settling"] [data-intro-panel] {
+  animation: intro-panel-out 340ms var(--ease) calc(1120ms + var(--i) * 60ms)
+    forwards;
+}
+
+html[data-intro="playing"] [data-intro-content],
+html[data-intro="settling"] [data-intro-content] {
+  animation: intro-content-out 160ms var(--ease) 1120ms forwards;
+}
+
+/*
+  Two animations on one element, declared together because they have to be: a
+  second `animation` shorthand in another rule replaces the first outright
+  rather than adding to it. `intro-line` is the counter's own entrance, which
+  is why it is here and not on the `.animate-intro-line` class the other
+  elements use.
+*/
+html[data-intro="playing"] [data-intro-counter],
+html[data-intro="settling"] [data-intro-counter] {
+  counter-reset: intro-n var(--intro-n);
+  animation:
+    intro-line 320ms var(--ease) 60ms both,
+    intro-count 940ms var(--ease) 60ms both;
+}
+
+html[data-intro="playing"] [data-hero-lockup],
+html[data-intro="settling"] [data-hero-lockup] {
+  /*
+    `both`, so the `from` state applies during the 1140ms delay. That is what
+    holds the lockup down and invisible behind the curtain, and it replaces the
+    pair of rules this used to be: there is no window in which the attribute is
+    set and the hold has not been applied, because they are the same
+    declaration.
+  */
+  animation: intro-lockup-in 440ms var(--ease) 1140ms both;
+}
+
+/*
+ * The skip. §3.3 requires the sequence be interruptible, and an overlay that
+ * ignores a click is worse than no overlay.
+ *
+ * It re-times rather than cuts: the same animations keep their names and
+ * durations and only lose their delays, so the panels still take their 460ms
+ * to leave and the page is still handed over deliberately instead of blinking.
+ * Changing `animation-delay` on a running animation re-resolves its position
+ * in the timeline, which for a delay that has not elapsed yet means it starts
+ * now. That is exactly the intent.
+ */
+html[data-intro="settling"] [data-intro-panel] {
+  animation-delay: calc(var(--i) * 60ms);
+}
+
+html[data-intro="settling"] [data-intro-content] {
+  animation-delay: 0ms;
 }
 
 html[data-intro="settling"] [data-hero-lockup] {
-  opacity: 1;
-  transform: none;
-  /*
-    20ms + 440ms = 460ms, which is exactly when the third panel finishes: the
-    stagger is 60ms and each panel takes 340ms, so the last one leaves at
-    2 x 60 + 340. §3.3 asks for the settle to be "timed to the last panel", and
-    this is that arithmetic rather than a number that looked about right. The
-    two ending together is also what lets the overlay unmount and the
-    `data-intro` attribute be removed in the same beat, with no transition left
-    running for the removal to cut short.
-  */
-  transition:
-    opacity 440ms var(--ease) 20ms,
-    transform 440ms var(--ease) 20ms;
+  animation-delay: 20ms;
+}
+
+html[data-intro="settling"] [data-intro-overlay] {
+  animation-delay: 460ms;
+}
+
+@keyframes intro-panel-out {
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes intro-content-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes intro-layer-out {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@keyframes intro-lockup-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /**

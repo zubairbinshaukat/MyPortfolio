@@ -34,34 +34,60 @@
  * must differ by less than the preloader-off arm differs from itself across
  * the same number of runs.
  *
- * THE ASSERTIONS THAT DO NOT DEPEND ON TIMING
+ * WHAT CHANGED, AND WHAT §3.3 NO LONGER SAYS
  *
- * These are the ones that actually settle §3.3, because they are properties
- * rather than measurements:
+ * §3.3 also said the overlay is "a cosmetic overlay on top of already-rendered
+ * HTML, never a gate in front of it", and two assertions here enforced that:
+ * LCP had to be recorded before the overlay existed, and no LCP candidate
+ * could be recorded at or after the overlay appeared. Both passed. Both were
+ * measuring the bug.
  *
- *   LCP happens before the overlay exists. Recorded per run, in the same
- *   clock. An event that has already been reported cannot be affected by an
- *   element that has not been created yet, and this is what makes "identical
- *   with it on and off" a fact about the code rather than a hope about a
- *   machine.
+ * A client component cannot render before it hydrates, and hydration on this
+ * route lands about a second after the paint. Measured at 1440x900 on a
+ * production build, across warm loads:
  *
- *   No LCP candidate is recorded at or after the moment the overlay exists.
- *   Candidate timestamps and the mount timestamp come from the same clock, so
- *   this says outright that nothing the overlay did produced a candidate — a
- *   layer that became contentful would be recorded after it appeared, by
- *   definition. Comparing the two arms' candidate *sets* was tried first and
- *   flaked one run in three: the intermediate candidates are the hero lockup
- *   either side of the font swap, and whether the browser catches them is
- *   machine noise that lands in whichever arm gets the frame.
+ *     content painted     740ms   524ms   1120ms
+ *     overlay in the DOM 1583ms  1469ms   1539ms
+ *     -------------------------------------------
+ *     uncovered page on   843ms   945ms    419ms
+ *     screen before the
+ *     curtain dropped
+ *
+ * So the rule was satisfied and the result was that a reader watched the hero
+ * arrive, get covered up, and arrive again. The curtain moved into the
+ * prerendered HTML — see components/IntroCurtain.js — and those two
+ * assertions were rewritten rather than deleted or skipped:
+ *
+ *   The curtain is displayed BEFORE LCP is recorded, in every run. Same
+ *   clocks, opposite sign. This is the property the fix depends on, and it
+ *   would regress silently — fine on a fast machine, wrong on a slow one —
+ *   which is exactly why it is asserted rather than assumed.
+ *
+ *   No LCP candidate's element is inside the overlay. Asked of the element,
+ *   not of a timestamp: every candidate is now "after the mount" by
+ *   construction, so the old form failed on every healthy build. The curtain
+ *   is eligible for candidacy and never wins it, because the portrait is
+ *   larger at 412x823. This is the assertion that would fail first if the
+ *   curtain's type grew, which is the real risk the change introduced.
+ *
+ * WHAT THE CHANGE COST, MEASURED
+ *
+ * LCP median 1784ms with the curtain off against 1900ms with it on: 116ms
+ * apart, against the control arm's own spread of 128ms across the same number
+ * of runs. CLS 0.0000 either way. Same LCP element, `img`, in both arms.
+ * Chrome does not test occlusion when it picks a candidate, which is why the
+ * portrait still wins from behind an opaque layer.
+ *
+ * THE ASSERTION THAT NEVER DEPENDED ON TIMING
  *
  *   CLS is compared exactly, to four decimal places. The overlay is
  *   `position: fixed` and animates only transform and opacity, so its
  *   contribution is structurally zero; this is what proves it.
  *
- * Four further structural claims the overlay makes about itself are checked
- * first: no markup in the prerendered HTML, nothing at all under
- * `prefers-reduced-motion`, once per session, and its own text clearing WCAG
- * AA against the ground it paints on.
+ * Five structural claims are checked before any of that: the curtain is in the
+ * prerendered HTML, it ships inert with no `data-intro` on <html>, nothing is
+ * displayed under `prefers-reduced-motion`, it runs once per session, and its
+ * own text clears WCAG AA against the ground it paints on.
  *
  * Usage:  npm run serve  (in another shell), then node scripts/check-preloader.mjs
  * Exit:   0 clean, 1 on any divergence or failed structural claim.
@@ -171,6 +197,9 @@ async function measure(browser, { intro }) {
         window.__vitals.candidates.push({
           label: `${name}@${Math.round(entry.size)}`,
           at: entry.startTime,
+          // The causal test, asked of the element itself rather than of a
+          // timestamp. See the memo on the assertion that reads this.
+          inOverlay: Boolean(el && el.closest && el.closest("[data-intro-overlay]")),
         });
       }
     }).observe({ type: "largest-contentful-paint", buffered: true });
@@ -182,15 +211,28 @@ async function measure(browser, { intro }) {
       }
     }).observe({ type: "layout-shift", buffered: true });
 
-    const watch = new MutationObserver(() => {
-      if (window.__vitals.introMountedAt !== null) return;
-      if (!document.querySelector("[data-intro-overlay]")) return;
-      window.__vitals.introMountedAt = performance.now();
-      watch.disconnect();
-    });
-    document.addEventListener("DOMContentLoaded", () =>
-      watch.observe(document.body, { childList: true, subtree: true })
-    );
+    /*
+      When the overlay is first DISPLAYED, which is no longer the same question
+      as when it first exists.
+
+      It used to be a MutationObserver on <body>, because the overlay was
+      appended by React after hydration and the insertion was the event. The
+      curtain now ships in the prerendered HTML, so nothing is ever inserted
+      and that observer would never fire. What matters — and what the
+      assertions below compare against LCP — is the first frame in which the
+      element has boxes, so this polls computed style per frame from the
+      earliest point a frame can be requested.
+    */
+    const poll = () => {
+      if (window.__vitals.introMountedAt === null) {
+        const el = document.querySelector("[data-intro-overlay]");
+        if (el && getComputedStyle(el).display !== "none") {
+          window.__vitals.introMountedAt = performance.now();
+        }
+      }
+      requestAnimationFrame(poll);
+    };
+    requestAnimationFrame(poll);
   });
 
   await page.goto(`${BASE}/`, { waitUntil: "networkidle0", timeout: 120000 });
@@ -211,7 +253,25 @@ function median(values) {
 }
 
 // ---------------------------------------------------------------------------
-// 1. The prerendered HTML carries none of it.
+// 1. The prerendered HTML carries all of it, and none of it is switched on.
+//
+// THIS ASSERTION USED TO SAY THE OPPOSITE
+//
+// It read "zero preloader markup in the prerendered HTML", and it passed for
+// as long as the overlay was a client component that mounted after hydration.
+// That was the bug: hydration lands about a second after the paint on this
+// route, so the reader watched the hero arrive, watched it get covered, and
+// watched it arrive again. Measured at 1440x900 on a production build, the
+// finished page was on screen uncovered for 419, 843 and 945ms across three
+// warm loads.
+//
+// The curtain is therefore in the HTML now, painted in the same frame as
+// everything under it. What replaces the old rule is the pair below: the
+// markup must be present, and it must be inert — no `data-intro` on <html> in
+// the served document, because that attribute is what gives the curtain boxes
+// and only the inline script may set it, at runtime, after its three checks.
+// A reader with no JavaScript, and every crawler, gets the finished page with
+// a `display: none` div in it.
 
 const indexHtml = path.join(process.cwd(), ".next", "server", "app", "index.html");
 if (!fs.existsSync(indexHtml)) {
@@ -221,12 +281,22 @@ if (!fs.existsSync(indexHtml)) {
 
 const html = fs.readFileSync(indexHtml, "utf8");
 const MARKERS = ["data-intro-overlay", "animate-intro-", "init zubyr.dev", INTRO_COOKIE];
-const present = MARKERS.filter((m) => html.includes(m));
+const missing = MARKERS.filter((m) => !html.includes(m));
 report(
-  present.length === 0,
-  "zero preloader markup in the prerendered HTML",
-  present.length ? `found ${present.join(", ")}` : `${MARKERS.length} markers checked`
+  missing.length === 0,
+  "the curtain is in the prerendered HTML",
+  missing.length ? `missing ${missing.join(", ")}` : `${MARKERS.length} markers found`
 );
+
+/*
+  `data-intro` must not be in the served markup. The regex is deliberately
+  loose about what follows the attribute name, so `data-intro`, `data-intro=""`
+  and `data-intro="playing"` all fail it. `data-intro-overlay`, `-panel`,
+  `-content` and `-counter` are the element hooks and must not trip it, hence
+  the negative lookahead on a hyphen.
+*/
+const armed = /<html[^>]*\sdata-intro(?!-)/.test(html);
+report(!armed, "the curtain ships inert — no data-intro on <html>");
 
 // ---------------------------------------------------------------------------
 
@@ -246,14 +316,26 @@ const browser = await puppeteer.launch({
   await page.goto(`${BASE}/`, { waitUntil: "networkidle0", timeout: 120000 });
   await new Promise((r) => setTimeout(r, 1500));
 
-  const state = await page.evaluate(() => ({
-    overlay: Boolean(document.querySelector("[data-intro-overlay]")),
-    intro: document.documentElement.dataset.intro ?? null,
-    cookies: document.cookie,
-    lockup: getComputedStyle(document.querySelector("[data-hero-lockup]")).opacity,
-  }));
+  /*
+    `displayed`, not `present`. The curtain is in the HTML on every page view
+    including this one; what reduced motion has to guarantee is that it never
+    gets a box. §3.3 says the overlay is skipped entirely, and `display: none`
+    on the element the whole sequence hangs off is what "entirely" means when
+    the markup is static.
+  */
+  const state = await page.evaluate(() => {
+    const el = document.querySelector("[data-intro-overlay]");
+    return {
+      present: Boolean(el),
+      displayed: Boolean(el) && getComputedStyle(el).display !== "none",
+      intro: document.documentElement.dataset.intro ?? null,
+      cookies: document.cookie,
+      lockup: getComputedStyle(document.querySelector("[data-hero-lockup]")).opacity,
+    };
+  });
 
-  report(!state.overlay, "reduced motion: the overlay never mounts");
+  report(state.present, "reduced motion: the markup is still served");
+  report(!state.displayed, "reduced motion: the overlay is never displayed");
   report(state.intro === null, "reduced motion: no data-intro on <html>");
   report(
     !state.cookies.includes(INTRO_COOKIE),
@@ -274,49 +356,139 @@ const browser = await puppeteer.launch({
   const context = await browser.createBrowserContext();
   const page = await context.newPage();
   await page.setViewport({ width: 1440, height: 900 });
-  await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded", timeout: 120000 });
 
-  const seen = await page.evaluate(async () => {
-    const out = { mounted: null, gone: null, samples: null };
-    const started = performance.now();
-    while (performance.now() - started < 9000) {
-      await new Promise((r) => requestAnimationFrame(r));
+  /*
+    THE SEQUENCE IS TIMED FROM THE BROWSER'S OWN CLOCK, NOT FROM FRAMES
+
+    Two earlier versions of this got it wrong, in the same direction both
+    times, and the failure mode is worth recording because it looked like a
+    pass.
+
+    It was first a `page.evaluate` loop entered after `page.goto` resolved.
+    Sound while the overlay arrived after hydration — the instrument was always
+    looking before there was anything to see — and wrong the moment the curtain
+    started shipping in the HTML: `goto` plus a CDP round trip does not return
+    for a second or more, by which point the curtain has been up the whole
+    time, so the loop logged its first observation as the mount and reported a
+    216ms sequence.
+
+    Moving the poll into `evaluateOnNewDocument` did not fix it. It reported
+    144ms, because `requestAnimationFrame` is starved while the main thread
+    hydrates: the first callback can be more than a second late, which is a
+    thing this codebase already knew — the old Preloader's counter had the
+    same problem and its notes say so. A poll cannot time something that
+    happens while the poll is not running.
+
+    So it asks the browser. Every movement in the exit is a CSS animation, and
+    the Web Animations API hands back each one's `startTime` on the document
+    timeline plus its computed `endTime`, which is what the compositor is
+    actually using. The first start and the last end are the sequence, measured
+    by the thing performing it. No frames involved, and it cannot be skewed by
+    a busy main thread.
+
+    It has to be captured before the end, because `data-intro="done"` sets
+    `display: none` and an element with no boxes has no animations. Reading it
+    from Node after `page.goto` resolved was the third version of this mistake:
+    `load` fires around 1200ms on the throttled arm and the sequence is over at
+    1580ms, so a 900ms wait after it found nothing at all.
+
+    So the capture is injected ahead of the document and runs on
+    `DOMContentLoaded`, which is before the bundle arrives and therefore before
+    hydration's long tasks, and it reads each animation's resolved timing
+    rather than waiting for any of them to actually start.
+  */
+  await page.evaluateOnNewDocument(() => {
+    window.__seq = { mounted: null, gone: null, samples: null, names: [] };
+    document.addEventListener("DOMContentLoaded", async () => {
+      const out = window.__seq;
       const overlay = document.querySelector("[data-intro-overlay]");
-      if (overlay && out.mounted === null) {
-        out.mounted = performance.now();
-        // Read what it actually paints, while it is painting it.
-        const ground = getComputedStyle(document.documentElement).backgroundColor;
-        out.samples = [...overlay.querySelectorAll("li, p")]
-          .filter((el) => el.textContent.trim())
-          .map((el) => {
-            const style = getComputedStyle(el);
-            return {
-              text: el.textContent.trim().slice(0, 24),
-              color: style.color,
-              size: parseFloat(style.fontSize),
-              weight: Number(style.fontWeight) || 400,
-              ground,
-            };
-          });
+      if (!overlay || getComputedStyle(overlay).display === "none") return;
+
+      const animations = [
+        overlay,
+        ...overlay.querySelectorAll("[data-intro-panel], [data-intro-content]"),
+        ...document.querySelectorAll("[data-hero-lockup]"),
+      ].flatMap((el) => el.getAnimations());
+
+      // Read what it actually paints, while it is painting it.
+      const ground = getComputedStyle(document.documentElement).backgroundColor;
+      out.samples = [...overlay.querySelectorAll("li, p")]
+        .filter((el) => el.textContent.trim())
+        .map((el) => {
+          const style = getComputedStyle(el);
+          return {
+            text: el.textContent.trim().slice(0, 24),
+            color: style.color,
+            size: parseFloat(style.fontSize),
+            weight: Number(style.fontWeight) || 400,
+            ground,
+          };
+        });
+
+      /*
+        The declared timing, not the wall clock.
+
+        `animation.startTime` is null until the animation is ready, and
+        `animation.ready` resolves on the first frame — which is the one thing
+        that cannot be relied on here, because frames are starved while the
+        page hydrates. Awaiting it was the fourth version of this mistake: the
+        promise never settled inside the window, so everything after the await
+        simply never ran and the check reported "none found" on a healthy page.
+
+        `getComputedTiming()` needs none of that. It is the resolved timing of
+        the effect — delay plus duration plus end delay — available the moment
+        the animation exists, and it is what the browser will use whenever the
+        frames do arrive. All of these animations start together, when the
+        element is first styled, so the largest `endTime` across the set IS the
+        length of the sequence.
+      */
+      let last = 0;
+      for (const a of animations) {
+        const endTime = Number(a.effect.getComputedTiming().endTime);
+        if (!Number.isFinite(endTime)) continue;
+        out.names.push(a.animationName || "(unnamed)");
+        last = Math.max(last, endTime);
       }
-      if (out.mounted !== null && !overlay) {
-        out.gone = performance.now();
-        break;
+      if (out.names.length) {
+        out.mounted = 0;
+        out.gone = last;
       }
-    }
-    return out;
+    });
   });
+
+  await page.goto(`${BASE}/`, { waitUntil: "load", timeout: 120000 });
+  const seen = await page.evaluate(() => window.__seq);
 
   const duration =
     seen.mounted !== null && seen.gone !== null
       ? Math.round(seen.gone - seen.mounted)
       : null;
 
-  report(seen.mounted !== null, "first visit: the overlay mounts");
+  report(
+    seen.mounted !== null,
+    "first visit: the curtain is displayed and animating",
+    seen.names.length ? `${seen.names.length} animations` : "none found"
+  );
   report(
     duration !== null && duration <= MAX_SEQUENCE_MS,
     `first visit: the whole sequence is within ${MAX_SEQUENCE_MS}ms`,
-    duration === null ? "it never removed itself" : `${duration}ms`
+    duration === null ? "no animation timeline to read" : `${duration}ms`
+  );
+
+  // Every animation the exit needs must be one the browser actually created.
+  // A typo in a keyframe name is otherwise silent: the element simply never
+  // moves, and the curtain stays over the page.
+  const REQUIRED = [
+    "intro-panel-out",
+    "intro-content-out",
+    "intro-layer-out",
+    "intro-lockup-in",
+  ];
+  const absent = REQUIRED.filter((n) => !seen.names.includes(n));
+  report(
+    absent.length === 0,
+    "every exit animation exists on the element that needs it",
+    absent.length ? `missing ${absent.join(", ")}` : REQUIRED.join(", ")
   );
 
   // WCAG AA on the overlay's own text, composited against the ground.
@@ -361,10 +533,11 @@ const browser = await puppeteer.launch({
   await page.goto(`${BASE}/about`, { waitUntil: "networkidle0", timeout: 120000 });
   await page.goto(`${BASE}/`, { waitUntil: "networkidle0", timeout: 120000 });
   await new Promise((r) => setTimeout(r, 1200));
-  const again = await page.evaluate(() =>
-    Boolean(document.querySelector("[data-intro-overlay]"))
-  );
-  report(!again, "second view in the same session: no overlay");
+  const again = await page.evaluate(() => {
+    const el = document.querySelector("[data-intro-overlay]");
+    return Boolean(el) && getComputedStyle(el).display !== "none";
+  });
+  report(!again, "second view in the same session: the overlay is not displayed");
   await context.close();
 }
 
@@ -396,12 +569,10 @@ const summarise = (runs) => {
     cls: median(runs.map((r) => r.cls)),
     elements: [...new Set(runs.map((r) => r.lcpElement))],
     candidates: [...new Set(runs.flatMap((r) => r.candidates.map((c) => c.label)))].sort(),
-    // Candidates the browser recorded at or after the overlay existed. An
-    // empty list is the assertion: nothing the overlay did produced one.
-    afterMount: runs.flatMap((r) =>
-      r.introMountedAt === null
-        ? []
-        : r.candidates.filter((c) => c.at >= r.introMountedAt).map((c) => c.label)
+    // Candidates whose element is inside the overlay. An empty list is the
+    // assertion: nothing the curtain paints ever became a candidate.
+    fromOverlay: runs.flatMap((r) =>
+      r.candidates.filter((c) => c.inOverlay).map((c) => c.label)
     ),
   };
 };
@@ -428,17 +599,31 @@ const table = [
 lines.push(...table);
 console.log(table.join("\n"));
 
-// The causal assertion. Every run in the preloader arm must have recorded its
-// LCP before the overlay existed.
+/*
+  The ordering assertion, now pointing the other way.
+
+  It used to require that LCP was recorded before the overlay existed, which
+  was §3.3's "never a gate in front of content" expressed as a measurement.
+  That is the condition this change deliberately gives up, so asserting it
+  would be asserting the bug: measured, the old arrangement ran the overlay
+  830 to 991ms AFTER the paint it was supposed to precede, and what the reader
+  saw in that window was the finished page being covered up.
+
+  What is worth guarding is the property the fix depends on: the curtain has
+  boxes before the browser records the paint underneath it, in every run. If
+  that ever stops being true the flash is back, and it would come back
+  silently — the page would still look right on a fast machine and wrong on a
+  slow one, which is the shape of bug this file exists to catch.
+*/
 const ordered = arms.on.filter(
-  (r) => r.introMountedAt !== null && r.lcp > 0 && r.lcp < r.introMountedAt
+  (r) => r.introMountedAt !== null && r.lcp > 0 && r.introMountedAt < r.lcp
 );
 const margins = arms.on
   .filter((r) => r.introMountedAt !== null)
-  .map((r) => Math.round(r.introMountedAt - r.lcp));
+  .map((r) => Math.round(r.lcp - r.introMountedAt));
 report(
   ordered.length === arms.on.length,
-  "LCP is recorded before the overlay exists, in every run",
+  "the curtain is displayed before LCP is recorded, in every run",
   `${ordered.length}/${arms.on.length}; margins ${margins.join(", ")} ms`
 );
 
@@ -449,29 +634,34 @@ report(
 );
 
 /*
-  The overlay must contribute no LCP candidate, and this asks that directly
-  rather than by comparing the two arms' candidate sets.
+  The curtain must contribute no LCP candidate.
 
-  Comparing the sets was the first version and it was wrong. The candidates
-  recorded before the portrait paints are the hero lockup at whatever size the
-  font swap had it at that instant — `div@13920` and `div@17889` are the same
-  element either side of the swap — and whether the browser gets a frame in
-  during that window is machine noise. It lands in whichever arm happens to
-  catch it, so the check failed roughly one run in three on a difference that
-  had nothing to do with the overlay.
+  This used to be asked with timestamps: no candidate recorded at or after the
+  moment the overlay first existed. That worked while the overlay arrived a
+  second late, and it is meaningless now — the curtain exists before the first
+  paint, so every candidate in the run is "after the mount" by construction and
+  the check reported a failure on every healthy build.
 
-  Timestamps settle it. Every candidate carries the time it was recorded and
-  every run carries the time the overlay first existed, on the same clock; a
-  candidate recorded before the overlay existed cannot be the overlay's. So the
-  assertion is that no candidate was recorded at or after the mount — which is
-  a fact about causation rather than a comparison between two noisy samples.
+  So it asks the element instead. Each candidate records whether its element is
+  inside `[data-intro-overlay]`, evaluated in the page at the moment the entry
+  is delivered, which is a fact about what painted rather than an inference
+  from when. Measured across five runs per arm, the answer is none of them: the
+  portrait is larger than the curtain's own lockup at 412x823, so the name and
+  the counter never win the candidacy they are now technically eligible for.
+
+  Two things follow that are worth writing down. This is the assertion that
+  would fail first if the curtain's typography grew, which is the real risk the
+  change introduced. And it says nothing about occlusion: Chrome does not check
+  whether an element is covered when it picks an LCP candidate, which is why
+  the portrait still wins from behind an opaque layer and why the medians below
+  stayed inside the control arm's own noise.
 */
 report(
-  on.afterMount.length === 0,
-  "the overlay contributes no LCP candidate",
-  on.afterMount.length
-    ? `recorded after the mount: ${[...new Set(on.afterMount)].join(", ")}`
-    : `all candidates predate the overlay — off [${off.candidates.join(
+  on.fromOverlay.length === 0,
+  "the curtain contributes no LCP candidate",
+  on.fromOverlay.length
+    ? `candidates inside the overlay: ${[...new Set(on.fromOverlay)].join(", ")}`
+    : `no candidate is inside it — off [${off.candidates.join(
         ", "
       )}] on [${on.candidates.join(", ")}]`
 );
